@@ -1,0 +1,551 @@
+import type {
+  CityEvent,
+  CityPlace,
+  CmsState,
+  ConciergePick,
+  GuestPrefs,
+  HotelService,
+  Special,
+  Venue,
+} from './types'
+
+export const venues: Venue[] = [
+  {
+    slug: 'amara',
+    name: 'Amara',
+    kicker: 'All-day dining',
+    tagline: 'Breakfast · Lunch · Dinner',
+    hours: '7:00 a.m. – 11:00 p.m.',
+    openFrom: 7,
+    openTo: 23,
+    description:
+      'International all-day dining in a light, unhurried room. Begin slowly with breakfast, return for a composed business lunch, or linger through dinner without changing the rhythm of your day.',
+    quote: 'Start slow. Stay a little longer.',
+    image:
+      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80',
+    moods: ['light', 'breakfast', 'steak', 'sweet'],
+    cuisine: ['Continental', 'Asian', 'Indian'],
+    floor: 'Lobby level',
+    reservation: true,
+  },
+  {
+    slug: 'kanak',
+    name: 'Kanak',
+    kicker: 'The flavours of the Nizams',
+    tagline: 'Hyderabadi cuisine · Indian specialties · Wine · Chai',
+    hours: '12:30 p.m. – 3:00 p.m. / 7:00 p.m. – 11:00 p.m.',
+    openFrom: 12.5,
+    openTo: 23,
+    description:
+      'Kanak draws from recipes associated with the Nizams’ kitchens — Hyderabadi depth, Indian specialties, and considered pairings of wine and chai. Five minutes from your room; a century of flavour on the table.',
+    quote: 'The city, on a plate.',
+    image:
+      'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1600&q=80',
+    moods: ['spicy', 'indian'],
+    cuisine: ['Hyderabadi', 'Indian'],
+    floor: 'Lobby level',
+    reservation: true,
+  },
+  {
+    slug: 'tuscany',
+    name: 'Tuscany',
+    kicker: 'A taste of Italy',
+    tagline: 'Italian cuisine · Wine · Dinner',
+    hours: '7:00 p.m. – 11:00 p.m.',
+    openFrom: 19,
+    openTo: 23,
+    description:
+      'An evening room for pasta, wine and unhurried conversation. Tuscany is the hotel’s Italian table — candlelight, a serious cellar, and a kitchen that prefers restraint to spectacle.',
+    quote: 'Come for dinner. Stay for the last glass.',
+    image:
+      'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80',
+    moods: ['italian', 'steak', 'light'],
+    cuisine: ['Italian'],
+    floor: 'Lobby level',
+    reservation: true,
+  },
+  {
+    slug: 'ninety-six',
+    name: 'Ninety Six',
+    kicker: 'After dark',
+    tagline: 'Cocktails · Spirits · Conversations',
+    hours: '12:00 p.m. – 4:00 a.m.',
+    openFrom: 12,
+    openTo: 4,
+    overnight: true,
+    description:
+      'The hotel’s signature bar. Cocktails, a considered spirits list, and a late-evening atmosphere that holds from the first drink through a proper nightcap.',
+    quote: 'The night does not end at eleven.',
+    image:
+      'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1600&q=80',
+    moods: ['cocktail', 'nightcap', 'coffee'],
+    cuisine: ['Bar'],
+    floor: 'Lobby level',
+    reservation: true,
+  },
+  {
+    slug: 'in-room',
+    name: 'In-Room Dining',
+    kicker: 'Whenever you wish',
+    tagline: 'The kitchen, at your door',
+    hours: '24 hours',
+    openFrom: 0,
+    openTo: 24,
+    overnight: true,
+    description:
+      'Breakfast in bed, a quiet supper after a late landing, or chai at an hour that belongs only to you. In-room dining follows the same kitchens as the restaurants below.',
+    quote: 'Your table is already set.',
+    image:
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1600&q=80',
+    moods: ['breakfast', 'light', 'sweet', 'coffee'],
+    cuisine: ['All-day'],
+    floor: 'Your suite',
+    reservation: false,
+  },
+]
+
+export const services: HotelService[] = [
+  {
+    slug: 'rooms',
+    prompt: 'Looking for a quieter room?',
+    detail:
+      '323 rooms and suites: Deluxe, Premier, Trident Club, Executive Suites, Premier Suites, Trident Club Suites, and the Presidential Suite. City or park views, depending on how you like to wake.',
+    location: 'Throughout the house',
+    hours: 'Always',
+    cta: 'See rooms & suites →',
+  },
+  {
+    slug: 'club',
+    prompt: 'Travelling on business?',
+    detail:
+      'Trident Club includes express check-in, a dedicated Club Reception, and the Club Lounge for guests aged 21 and above.',
+    location: 'Club Lounge',
+    hours: 'Lounge hours posted at reception',
+    cta: 'Ask about Club access →',
+  },
+  {
+    slug: 'check-in',
+    prompt: 'Need an early arrival?',
+    detail:
+      'Standard check-in is at 2:00 p.m.; check-out at noon. We will try to have your room ready earlier whenever the house allows.',
+    location: 'Lobby',
+    hours: '24 hours',
+    cta: 'Request early check-in →',
+  },
+  {
+    slug: 'housekeeping',
+    prompt: 'Would you like the room turned down?',
+    detail:
+      'Housekeeping, extra linen, a quieter hour, or a later service — tell us how you keep the room.',
+    location: 'Your room',
+    hours: '24 hours',
+    cta: 'Request housekeeping →',
+  },
+  {
+    slug: 'laundry',
+    prompt: 'Clothes for tomorrow?',
+    detail: 'Express and overnight laundry and pressing. Leave the bag on the handle; we will take care of the rest.',
+    location: 'Collected from your room',
+    hours: 'Collection until 9:00 a.m. for same-day',
+    cta: 'Arrange laundry →',
+  },
+  {
+    slug: 'wifi',
+    prompt: 'Need the network?',
+    detail: 'Complimentary high-speed Wi-Fi throughout the hotel, including rooms, restaurants and the business centre.',
+    location: 'Everywhere',
+    hours: 'Always',
+    cta: 'View connection details →',
+  },
+  {
+    slug: 'transport',
+    prompt: 'Going somewhere?',
+    detail:
+      'Airport transfers, a car for the evening, or a driver who knows the old city after dark. HITEC City is at the door; the airport is about 40 minutes, traffic permitting.',
+    location: 'Lobby porte-cochère',
+    hours: '24 hours',
+    cta: 'Arrange a car →',
+  },
+  {
+    slug: 'concierge',
+    prompt: 'Shall we plan the evening?',
+    detail:
+      'Reservations, tickets, flowers, a table in the old city, or a quiet hour by the pool. The concierge is the shortest path between a wish and an arrangement.',
+    location: 'Lobby',
+    hours: '24 hours',
+    cta: 'Ask the concierge →',
+  },
+  {
+    slug: 'fitness',
+    prompt: 'Want to work out?',
+    detail: 'Your fitness centre is on the 10th floor — 24 hours, reserved for resident guests.',
+    location: '10th floor',
+    hours: 'Open 24 hours',
+    cta: 'Open now →',
+  },
+  {
+    slug: 'pool',
+    prompt: 'In the mood for water and sky?',
+    detail:
+      'A temperature-controlled infinity pool on the 10th floor, with the city laid out beneath you. Resident guests only.',
+    location: '10th floor',
+    hours: '6:00 a.m. – 10:00 p.m.',
+    cta: 'See pool hours →',
+  },
+  {
+    slug: 'spa',
+    prompt: 'Need an hour back?',
+    detail:
+      'Trident Spa offers Ayurvedic and Western-inspired therapies, with city views. For resident guests aged 16 and over.',
+    location: 'Spa, 10th floor',
+    hours: 'By appointment',
+    cta: 'Reserve a treatment →',
+  },
+  {
+    slug: 'business',
+    prompt: 'A meeting after the meeting?',
+    detail: 'Eight meeting rooms and a 24-hour business centre in the heart of HITEC City.',
+    location: 'Conference floor',
+    hours: 'Business centre: 24 hours',
+    cta: 'Book a room →',
+  },
+  {
+    slug: 'emergency',
+    prompt: 'Need help immediately?',
+    detail:
+      'Dial 0 from your room for the operator. For medical assistance, security, or any urgent matter, the desk will stay with you until it is resolved.',
+    location: 'Operator · Lobby',
+    hours: '24 hours',
+    cta: 'Call the operator →',
+  },
+]
+
+export const places: CityPlace[] = [
+  {
+    id: 'charminar',
+    name: 'Charminar',
+    area: 'The Old City',
+    category: 'old-city',
+    minutes: 45,
+    why: 'The city’s compass. Go at blue hour, when the limestone still holds the day’s heat.',
+    atmosphere: 'local',
+    image:
+      'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'laad',
+    name: 'Laad Bazaar',
+    area: 'The Old City',
+    category: 'shopping',
+    minutes: 45,
+    why: 'Bangles, pearls and the particular noise of a market that has never hurried for anyone.',
+    atmosphere: 'local',
+    image:
+      'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'chowmahalla',
+    name: 'Chowmahalla Palace',
+    area: 'The Old City',
+    category: 'art',
+    minutes: 50,
+    why: 'The Nizams’ ceremonial palaces — courtyards, chandeliers, and a quieter kind of grandeur.',
+    atmosphere: 'elegant',
+    image:
+      'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'hitec',
+    name: 'HITEC City',
+    area: 'The Modern City',
+    category: 'modern',
+    minutes: 5,
+    why: 'You are already here. Glass, gardens, and the city’s newer appetite for late dinners.',
+    atmosphere: 'lively',
+    image:
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'jubilee',
+    name: 'Jubilee Hills',
+    area: 'The Modern City',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'Hyderabad’s preferred evening — restaurants that stay open, rooms that know how to light a table.',
+    atmosphere: 'elegant',
+    image:
+      'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'banjara',
+    name: 'Banjara Hills',
+    area: 'The Modern City',
+    category: 'nightlife',
+    minutes: 22,
+    why: 'Bars, galleries and long dinners. The city’s social map still runs through these streets.',
+    atmosphere: 'lively',
+    image:
+      'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'salar',
+    name: 'Salar Jung Museum',
+    area: 'Art & Culture',
+    category: 'art',
+    minutes: 40,
+    why: 'One collector’s impossible appetite — ivory, clocks, manuscripts, and a famous veiled Rebecca.',
+    atmosphere: 'elegant',
+    image:
+      'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'biryani',
+    name: 'A proper Hyderabadi biryani',
+    area: 'Food',
+    category: 'food',
+    minutes: 25,
+    why: 'We will not send you to a tourist queue. Ask the concierge for tonight’s house recommendation — dum, saffron, and patience.',
+    atmosphere: 'local',
+    image:
+      'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'chai',
+    name: 'Irani chai & Osmania biscuits',
+    area: 'Food',
+    category: 'food',
+    minutes: 35,
+    why: 'The city’s unofficial breakfast. Strong tea, sweet biscuits, newspapers, and no performance.',
+    atmosphere: 'local',
+    image:
+      'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'pearls',
+    name: 'Pearls of Hyderabad',
+    area: 'Shopping',
+    category: 'shopping',
+    minutes: 40,
+    why: 'The city still knows pearls. We will send you to a dealer we use — not a stall that found you first.',
+    atmosphere: 'elegant',
+    image:
+      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'necklace',
+    name: 'Necklace Road at sunset',
+    area: 'Family',
+    category: 'family',
+    minutes: 30,
+    why: 'Hussain Sagar turns gold, then violet. Walk it, or take a car and simply watch.',
+    atmosphere: 'elegant',
+    image:
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+  },
+  {
+    id: 'golconda',
+    name: 'Golconda Fort',
+    area: 'Art & Culture',
+    category: 'art',
+    minutes: 40,
+    why: 'Acoustic architecture and a hill that still commands the Deccan. Go before the heat rises.',
+    atmosphere: 'local',
+    image:
+      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+  },
+]
+
+export const defaultEvents: CityEvent[] = [
+  {
+    id: 'e1',
+    title: 'Live ghazals at the Club',
+    category: 'live-music',
+    time: '21:00',
+    venue: 'A private room, Jubilee Hills',
+    description: 'An intimate evening of Urdu verse and slow percussion.',
+    editorial: 'We recommend this when you want Hyderabad without a crowd.',
+    featured: true,
+  },
+  {
+    id: 'e2',
+    title: 'New tasting menu, Banjara Hills',
+    category: 'opening',
+    time: '19:30',
+    venue: 'A recently opened dining room',
+    description: 'A chef who trained in the south of France, cooking for this city.',
+    editorial: 'Book through us; the walk-in list is already long.',
+    featured: true,
+  },
+  {
+    id: 'e3',
+    title: 'Contemporary Deccan at the gallery',
+    category: 'art',
+    time: '11:00 – 19:00',
+    venue: 'Banjara Hills',
+    description: 'Works on paper, textiles, and a quiet courtyard.',
+    editorial: 'A cultured afternoon if meetings end early.',
+    featured: false,
+  },
+  {
+    id: 'e4',
+    title: 'Sunday market, Shilparamam',
+    category: 'shopping',
+    time: '10:00 – 20:00',
+    venue: 'Madhapur',
+    description: 'Crafts, textiles and the easier kind of souvenir.',
+    editorial: 'Ten minutes from the hotel. Pleasant with children.',
+    featured: false,
+  },
+  {
+    id: 'e5',
+    title: 'Hyderabad vs. the evening',
+    category: 'sports',
+    time: '19:30',
+    venue: 'Uppal',
+    description: 'A home fixture. The city will be loud.',
+    editorial: 'We can arrange a car and a box, or a quieter screen at Ninety Six.',
+    featured: true,
+  },
+  {
+    id: 'e6',
+    title: 'Theatre: a new Telugu play',
+    category: 'theatre',
+    time: '19:00',
+    venue: 'Ravindra Bharathi',
+    description: 'Contemporary writing, classical discipline.',
+    editorial: 'Ask us for an English synopsis before you go.',
+    featured: false,
+  },
+]
+
+export const defaultPicks: ConciergePick[] = [
+  {
+    id: 'p1',
+    rank: 1,
+    title: 'Best new restaurant',
+    category: 'Dine',
+    place: 'A kitchen in Jubilee Hills',
+    why: 'The room is still finding its voice, which is precisely when a kitchen is most interesting. We have a table held on Friday.',
+  },
+  {
+    id: 'p2',
+    rank: 2,
+    title: 'Best cocktail',
+    category: 'Drink',
+    place: 'Ninety Six',
+    why: 'Stay in the house. The signature list is sharper after ten, and you will not lose the night to traffic.',
+  },
+  {
+    id: 'p3',
+    rank: 3,
+    title: 'Best sunset',
+    category: 'City',
+    place: '10th-floor pool, or Necklace Road',
+    why: 'If you have 40 minutes, the pool. If you have an hour and a car, Hussain Sagar. Both are honest.',
+  },
+  {
+    id: 'p4',
+    rank: 4,
+    title: 'Best cultural experience',
+    category: 'Culture',
+    place: 'Chowmahalla Palace',
+    why: 'Not the busiest monument, and all the better for it. Go mid-morning, then chai in the old city.',
+  },
+  {
+    id: 'p5',
+    rank: 5,
+    title: 'Best thing to do tonight',
+    category: 'Tonight',
+    place: 'Kanak, then Ninety Six',
+    why: 'Nizami cooking at 19:30, a last cocktail at 22:00. Hyderabad, without leaving the hotel — unless you ask us to take you further.',
+  },
+]
+
+export const defaultSpecials: Special[] = [
+  {
+    id: 's1',
+    venue: 'kanak',
+    kind: 'chef',
+    title: 'Tonight’s haleem',
+    detail: 'Slow-cooked, only while it lasts. Ask for the chef’s portion.',
+  },
+  {
+    id: 's2',
+    venue: 'ninety-six',
+    kind: 'happy-hour',
+    title: 'Early evening at the bar',
+    detail: 'Selected cocktails, 5:00 – 7:00 p.m.',
+  },
+  {
+    id: 's3',
+    venue: 'tuscany',
+    kind: 'wine',
+    title: 'Tuscan reds by the glass',
+    detail: 'A short flight of Chianti Classico and Brunello, this week only.',
+  },
+]
+
+export const defaultPrefs: GuestPrefs = {
+  name: 'Singh',
+  title: 'Mr.',
+  cuisines: ['Indian', 'Italian'],
+  drinks: ['Cocktails', 'Wine'],
+  experiences: ['Romantic', 'Culture'],
+  budget: '₹₹₹',
+  distance: '20',
+}
+
+export const defaultCms: CmsState = {
+  weather: { temp: 28, condition: 'Partly cloudy' },
+  traffic: 'HITEC City is moving. Old City, allow 50 minutes this evening.',
+  events: defaultEvents,
+  picks: defaultPicks,
+  specials: defaultSpecials,
+  availability: {
+    amara: 'open',
+    kanak: 'limited',
+    tuscany: 'open',
+    'ninety-six': 'open',
+    'in-room': 'open',
+  },
+  requests: [],
+  notes: 'Kanak is the stronger recommendation for first-time guests this week.',
+}
+
+export const cravings: { id: import('./types').Mood; label: string; hint: string }[] = [
+  { id: 'spicy', label: 'Something spicy', hint: '🌶️' },
+  { id: 'light', label: 'Something light', hint: '🥗' },
+  { id: 'steak', label: 'A great steak', hint: '🥩' },
+  { id: 'indian', label: 'Indian food', hint: '🇮🇳' },
+  { id: 'italian', label: 'Italian', hint: '🇮🇹' },
+  { id: 'sweet', label: 'Something sweet', hint: '🍰' },
+  { id: 'cocktail', label: 'A cocktail', hint: '🍸' },
+  { id: 'nightcap', label: 'A nightcap', hint: '🥃' },
+  { id: 'coffee', label: 'Coffee & conversation', hint: '☕' },
+  { id: 'breakfast', label: 'Breakfast in bed', hint: '🛏️' },
+]
+
+export const exploreGroups = [
+  { id: 'old-city', title: 'The Old City', subtitle: 'Charminar · Laad Bazaar · Chowmahalla Palace' },
+  { id: 'modern', title: 'The Modern City', subtitle: 'HITEC City · Jubilee Hills · Banjara Hills' },
+  { id: 'art', title: 'Art & Culture', subtitle: 'Museums · Galleries · Heritage' },
+  { id: 'food', title: 'Food', subtitle: 'Biryani · Irani chai · Haleem · Bakeries' },
+  { id: 'nightlife', title: 'Nightlife', subtitle: 'Bars · Clubs · Live music' },
+  { id: 'shopping', title: 'Shopping', subtitle: 'Luxury · Local · Souvenirs' },
+  { id: 'family', title: 'Family', subtitle: 'Activities · Parks · Experiences' },
+] as const
+
+export const eventFilters: { id: CityEvent['category'] | 'all'; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'live-music', label: 'Live music' },
+  { id: 'theatre', label: 'Theatre' },
+  { id: 'comedy', label: 'Comedy' },
+  { id: 'sports', label: 'Sports' },
+  { id: 'art', label: 'Art' },
+  { id: 'food', label: 'Food pop-ups' },
+  { id: 'opening', label: 'New openings' },
+  { id: 'party', label: 'Parties' },
+  { id: 'shopping', label: 'Shopping' },
+  { id: 'culture', label: 'Culture' },
+  { id: 'business', label: 'Business' },
+]
