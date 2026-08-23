@@ -48,7 +48,7 @@ export function Home() {
               <p className="now-kicker">Inside the hotel</p>
               {hotelSpecial ? (
                 <>
-                  <div>
+                  <div className="now-card-body">
                     <h2>{hotelSpecial.title}</h2>
                     <p>{hotelSpecial.detail}</p>
                     {hotelVenue && (
@@ -60,19 +60,13 @@ export function Home() {
                       </p>
                     )}
                   </div>
-                  <p className="now-foot">
-                    {nextSpecial
-                      ? `${nextSpecial.title} — ${nextSpecial.detail}`
-                      : 'Dining, the bar, and the house, as they stand today.'}
-                  </p>
                 </>
               ) : (
                 <>
-                  <div>
+                  <div className="now-card-body">
                     <h2>A quiet house</h2>
                     <p>No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.</p>
                   </div>
-                  <p className="now-foot">See dining</p>
                 </>
               )}
             </Link>
@@ -80,22 +74,20 @@ export function Home() {
               <p className="now-kicker">Nearby in the city</p>
               {cityNow ? (
                 <>
-                  <div>
+                  <div className="now-card-body">
                     <h2>{cityNow.title}</h2>
                     <p>{cityNow.editorial || cityNow.description}</p>
                     <p className="now-meta">
                       {cityNow.time} · {cityNow.venue}
                     </p>
                   </div>
-                  <p className="now-foot">{cityNext ? `${cityNext.time} — ${cityNext.title}` : cms.traffic}</p>
                 </>
               ) : (
                 <>
-                  <div>
+                  <div className="now-card-body">
                     <h2>Nothing we would send you to</h2>
                     <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
                   </div>
-                  <p className="now-foot">Tonight in Hyderabad</p>
                 </>
               )}
             </Link>

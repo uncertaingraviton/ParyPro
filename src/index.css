@@ -17,7 +17,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: 0;/*  */
 }
 
 html {
@@ -73,22 +73,8 @@ button {
   width: min(1180px, calc(100vw - 28px));
   padding: 14px 36px;
   box-sizing: border-box;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.14) 100%),
-    linear-gradient(115deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 36%, rgba(255, 255, 255, 0.18) 72%, rgba(255, 255, 255, 0.08) 100%),
-    rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
-  -webkit-backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.72),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
-    0 14px 28px rgba(16, 22, 28, 0.22);
-}
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .topbar {
-    background: rgba(250, 246, 240, 0.88);
-  }
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .topbar-inner {
@@ -198,7 +184,7 @@ button {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: flex-start;
   text-align: left;
   padding: 44px 42px 40px;
   color: var(--ink);
@@ -220,6 +206,14 @@ button {
 .now-card > * {
   position: relative;
   z-index: 2;
+}
+
+.now-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 .stamp-clip-defs {
