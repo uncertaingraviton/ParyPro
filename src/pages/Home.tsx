@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom'
-import { cravings } from '../data'
-import { longDate } from '../lib/time'
+import { useState, type MouseEvent } from 'react'
+import { Link, useOutletContext } from 'react-router-dom'
+import type { LayoutOutlet } from '../components/Layout'
+import { menuSnippets, venues } from '../data'
+import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 
 const moods = [
@@ -14,24 +16,97 @@ const moods = [
 
 export function Home() {
   const { cms } = useStore()
+  const { openAsk } = useOutletContext<LayoutOutlet>()
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
+  const hotelSpecial = cms.specials[0]
+  const nextSpecial = cms.specials[1]
+  const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
+  const menuLines = hotelVenue ? menuSnippets[hotelVenue.slug] : menuSnippets.kanak
+  const cityNow = featured[0] ?? cms.events[0]
+  const cityNext = featured[1] ?? cms.events[1]
+  const [menuCursor, setMenuCursor] = useState<{ x: number; y: number } | null>(null)
+  const snippet = menuLines.slice(0, 3)
+
+  function moveMenuCursor(e: MouseEvent<HTMLAnchorElement>) {
+    setMenuCursor({
+      x: e.clientX + 14,
+      y: e.clientY + 14,
+    })
+  }
 
   return (
     <>
       <section className="hero">
         <div className="hero-inner">
-          <p className="kicker">Welcome to Hyderabad</p>
-          <h1 className="display">The city is yours.</h1>
-          <p className="lede">Your city. Your hotel. Your evening.</p>
-          <div className="meta-row">
-            <span>{cms.weather.temp}°</span>
-            <span>Hyderabad</span>
-            <span>{longDate()}</span>
+          <div className="now-grid">
+            <Link
+              to={hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine'}
+              className={`now-card now-card-hotel${menuCursor ? ' is-tracking' : ''}`}
+              onMouseMove={moveMenuCursor}
+              onMouseLeave={() => setMenuCursor(null)}
+            >
+              <p className="now-kicker">Inside the hotel</p>
+              {hotelSpecial ? (
+                <>
+                  <div>
+                    <h2>{hotelSpecial.title}</h2>
+                    <p>{hotelSpecial.detail}</p>
+                    {hotelVenue && (
+                      <p className="now-meta">
+                        {hotelVenue.name}
+                        {isOpen(hotelVenue.openFrom, hotelVenue.openTo, hotelVenue.overnight)
+                          ? ' · Open now'
+                          : ` · ${hotelVenue.hours}`}
+                      </p>
+                    )}
+                  </div>
+                  <p className="now-foot">
+                    {nextSpecial
+                      ? `${nextSpecial.title} — ${nextSpecial.detail}`
+                      : 'Dining, the bar, and the house, as they stand today.'}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <h2>A quiet house</h2>
+                    <p>No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.</p>
+                  </div>
+                  <p className="now-foot">See dining</p>
+                </>
+              )}
+            </Link>
+            <Link to="/tonight" className="now-card">
+              <p className="now-kicker">Nearby in the city</p>
+              {cityNow ? (
+                <>
+                  <div>
+                    <h2>{cityNow.title}</h2>
+                    <p>{cityNow.editorial || cityNow.description}</p>
+                    <p className="now-meta">
+                      {cityNow.time} · {cityNow.venue}
+                    </p>
+                  </div>
+                  <p className="now-foot">{cityNext ? `${cityNext.time} — ${cityNext.title}` : cms.traffic}</p>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <h2>Nothing we would send you to</h2>
+                    <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
+                  </div>
+                  <p className="now-foot">Tonight in Hyderabad</p>
+                </>
+              )}
+            </Link>
           </div>
+          <button className="hero-ask" type="button" onClick={openAsk}>
+            Ask the Concierge
+          </button>
         </div>
       </section>
 
-      <section className="section">
+      <section className="section mood-section">
         <div className="section-head">
           <p className="eyebrow">01 — Begin</p>
           <h2>What are you in the mood for?</h2>
@@ -42,20 +117,6 @@ export function Home() {
             <Link key={m.label} to={m.to} className="mood-card" style={{ backgroundImage: `url(${m.img})` }}>
               <span>{m.icon}</span>
               <strong>{m.label}</strong>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="section-head">
-          <p className="eyebrow">Craving</p>
-          <h2>What are you craving?</h2>
-        </div>
-        <div className="chip-row" style={{ justifyContent: 'center' }}>
-          {cravings.map((c) => (
-            <Link key={c.id} className="chip" to={`/dine/cravings?mood=${c.id}`}>
-              {c.hint} {c.label}
             </Link>
           ))}
         </div>
@@ -83,32 +144,23 @@ export function Home() {
           </Link>
         </div>
       </section>
-
-      <section className="section">
-        <div className="section-head">
-          <p className="eyebrow">Curated by Trident</p>
-          <h2>The Concierge’s Picks</h2>
-          <p>This week’s five — and why we recommend them.</p>
-        </div>
-        <div className="pick-list">
-          {cms.picks.map((p) => (
-            <article key={p.id} className="pick-item">
-              <p className="eyebrow">0{p.rank} · {p.category}</p>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: 36, margin: '8px 0' }}>{p.title}</h3>
-              <p>{p.place}</p>
-              <p className="quote">{p.why}</p>
-            </article>
-          ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: 40, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link className="btn" to="/evening">
-            Build my evening
-          </Link>
-          <Link className="btn ghost" to="/today">
-            Today’s dashboard
-          </Link>
-        </div>
-      </section>
+      {menuCursor && (
+        <aside
+          className="menu-cursor"
+          aria-hidden="true"
+          style={{ left: menuCursor.x, top: menuCursor.y }}
+        >
+          <p>Menu · {hotelVenue?.name}</p>
+          <ul>
+            {snippet.map((line) => (
+              <li key={line.name}>
+                <strong>{line.name}</strong>
+                <span>{line.note}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
     </>
   )
 }

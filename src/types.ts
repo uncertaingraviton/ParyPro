@@ -43,6 +43,8 @@ export type Venue = {
   reservation: boolean
 }
 
+export type MenuLine = { name: string; note: string }
+
 export type HotelService = {
   slug: string
   prompt: string

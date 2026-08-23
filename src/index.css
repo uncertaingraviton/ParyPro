@@ -5,6 +5,7 @@
   --cream: #faf6f0;
   --gold: #c4a574;
   --gold-deep: #9a7848;
+  --trident-red: #be1e2d;
   --muted: #8b7d6c;
   --line: rgba(22, 17, 12, 0.12);
   --line-light: rgba(250, 246, 240, 0.18);
@@ -59,39 +60,78 @@ button {
   min-height: 100vh;
 }
 
+.site:not(.is-home) {
+  padding-top: 108px;
+}
+
 .topbar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: min(1180px, calc(100vw - 28px));
+  padding: 14px 36px;
+  box-sizing: border-box;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.14) 100%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 36%, rgba(255, 255, 255, 0.18) 72%, rgba(255, 255, 255, 0.08) 100%),
+    rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
+  -webkit-backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    0 14px 28px rgba(16, 22, 28, 0.22);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar {
+    background: rgba(250, 246, 240, 0.88);
+  }
+}
+
+.topbar-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 18px 40px;
-  background: rgba(250, 246, 240, 0.86);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
+  width: 100%;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .now-card {
+    background: rgba(250, 246, 240, 0.88);
+  }
 }
 
 .brand {
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  align-items: center;
+  text-align: center;
+  line-height: 1.05;
+  margin-left: auto;
+  width: max-content;
+}
+
+.brand-trident {
+  display: block;
+  width: 172px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 .brand small {
-  font-size: 9px;
-  letter-spacing: 0.42em;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  padding-left: 0.18em;
   text-transform: uppercase;
   color: var(--gold-deep);
-}
-
-.brand strong {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  margin-top: 5px;
+  margin-top: 7px;
+  white-space: nowrap;
 }
 
 .nav {
@@ -112,32 +152,193 @@ button {
   color: var(--ink);
 }
 
-.ask-link {
-  border: 1px solid var(--ink);
-  padding: 8px 16px;
-  font-size: 10px;
-  letter-spacing: 0.32em;
-}
-
 .hero {
-  min-height: 92vh;
-  display: grid;
-  place-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   text-align: center;
   color: var(--cream);
   position: relative;
   overflow: hidden;
+  padding-top: 128px;
   background:
-    linear-gradient(180deg, rgba(22, 17, 12, 0.35) 0%, rgba(22, 17, 12, 0.72) 100%),
-    url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80')
-      center/cover;
+    linear-gradient(180deg, rgba(18, 32, 48, 0.18) 0%, rgba(16, 22, 18, 0.22) 42%, rgba(16, 18, 14, 0.55) 100%),
+    url('/trident-hyderabad.png') center 28% / cover no-repeat;
 }
 
 .hero-inner {
   position: relative;
   z-index: 1;
-  padding: 80px 24px 100px;
-  max-width: 920px;
+  padding: 12px 32px 56px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.now-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 420px));
+  justify-content: center;
+  justify-items: center;
+  gap: 36px;
+  width: 100%;
+}
+
+.now-card {
+  position: relative;
+  isolation: isolate;
+  width: min(420px, 100%);
+  aspect-ratio: 1;
+  max-height: 420px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 44px 42px 40px;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.14) 100%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 36%, rgba(255, 255, 255, 0.18) 72%, rgba(255, 255, 255, 0.08) 100%),
+    rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
+  -webkit-backdrop-filter: blur(48px) saturate(1.85) brightness(1.08);
+  border: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+  filter: drop-shadow(0 14px 28px rgba(16, 22, 28, 0.22));
+  -webkit-clip-path: url(#stamp-perforation);
+  clip-path: url(#stamp-perforation);
+}
+
+.now-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.stamp-clip-defs {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.now-card::after {
+  content: '';
+  position: absolute;
+  inset: 25px;
+  z-index: 1;
+  border: 1.5px solid var(--trident-red);
+  pointer-events: none;
+}
+
+.now-card-hotel.is-tracking {
+  cursor: none;
+  overflow: visible;
+  z-index: 3;
+}
+
+.menu-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  width: 196px;
+  padding: 12px 14px 10px;
+  pointer-events: none;
+  background: rgba(250, 246, 240, 0.94);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 28px rgba(16, 22, 28, 0.16);
+  text-align: left;
+}
+
+.menu-cursor p {
+  font-size: 9px !important;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-deep) !important;
+  margin-bottom: 8px;
+}
+
+.menu-cursor ul {
+  list-style: none;
+  display: grid;
+  gap: 7px;
+}
+
+.menu-cursor li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.menu-cursor li strong {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.menu-cursor li span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.now-kicker {
+  font-size: 9px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.now-card h2 {
+  font-size: clamp(18px, 2.1vw, 24px);
+  margin: 12px 0 8px;
+  color: var(--ink);
+}
+
+.now-card p {
+  color: rgba(22, 17, 12, 0.78);
+  font-size: 25px;
+  line-height: 1.45;
+}
+
+.now-meta {
+  margin-top: 10px;
+  font-size: 10px !important;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep) !important;
+}
+
+.now-foot {
+  margin-top: 14px;
+  font-size: 11px !important;
+  color: rgba(22, 17, 12, 0.62) !important;
+}
+
+.hero-ask {
+  display: block;
+  width: fit-content;
+  margin: 32px auto 0;
+  border: 1px solid rgba(250, 246, 240, 0.78);
+  background: transparent;
+  color: var(--cream);
+  padding: 14px 28px;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }
 
 .kicker {
@@ -180,6 +381,11 @@ h3,
   color: var(--gold);
 }
 
+.hero-ask:hover {
+  background: var(--cream);
+  color: var(--ink);
+}
+
 .section {
   padding: 88px 40px;
   max-width: 1280px;
@@ -205,10 +411,25 @@ h3,
   color: var(--muted);
 }
 
+.mood-section {
+  position: relative;
+  z-index: 1;
+  max-width: none;
+  background: var(--cream);
+}
+
 .mood-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.mood-section .section-head {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mood-card {
@@ -566,7 +787,23 @@ h3,
 
 @media (max-width: 980px) {
   .topbar {
-    padding: 16px 20px;
+    padding: 14px 20px;
+  }
+
+  .brand {
+    max-width: none;
+  }
+
+  .brand-trident {
+    width: 132px;
+  }
+
+  .brand small {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    padding-left: 0.12em;
+    white-space: normal;
+    max-width: 46vw;
   }
 
   .nav {
@@ -609,6 +846,16 @@ h3,
   .qr-grid,
   .concierge-layout {
     grid-template-columns: 1fr;
+  }
+
+  .now-grid {
+    grid-template-columns: minmax(0, 420px);
+    justify-content: center;
+  }
+
+  .now-card {
+    aspect-ratio: 5 / 4;
+    max-height: none;
   }
 
   .timeline-item {

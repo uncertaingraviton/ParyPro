@@ -5,8 +5,10 @@ import type {
   ConciergePick,
   GuestPrefs,
   HotelService,
+  MenuLine,
   Special,
   Venue,
+  VenueSlug,
 } from './types'
 
 export const venues: Venue[] = [
@@ -103,6 +105,39 @@ export const venues: Venue[] = [
     reservation: false,
   },
 ]
+
+export const menuSnippets: Record<VenueSlug, MenuLine[]> = {
+  kanak: [
+    { name: 'Haleem', note: 'Slow-cooked, while it lasts' },
+    { name: 'Hyderabadi dum biryani', note: 'Saffron, patience' },
+    { name: 'Nizami kebabs', note: 'From the tandoor' },
+    { name: 'Qubani ka meetha', note: 'Apricots, cream' },
+  ],
+  tuscany: [
+    { name: 'Burrata', note: 'Olive oil, sea salt' },
+    { name: 'Handmade pappardelle', note: 'The kitchen’s pride' },
+    { name: 'Branzino', note: 'Simply grilled' },
+    { name: 'Tiramisu', note: 'To finish' },
+  ],
+  amara: [
+    { name: 'Breakfast, unhurried', note: 'From 7:00 a.m.' },
+    { name: 'Catch of the day', note: 'Ask the captain' },
+    { name: 'A proper steak', note: 'Lunch or dinner' },
+    { name: 'Something light', note: 'Salads, broths' },
+  ],
+  'ninety-six': [
+    { name: 'House signature', note: 'Ask the bartender' },
+    { name: 'Old fashioned', note: 'Stirred, not hurried' },
+    { name: 'A glass of wine', note: 'The short list' },
+    { name: 'Bar snacks', note: 'Enough to stay' },
+  ],
+  'in-room': [
+    { name: 'Breakfast in bed', note: 'Whenever you ring' },
+    { name: 'Club sandwich', note: 'The classic' },
+    { name: 'A pot of chai', note: 'Any hour' },
+    { name: 'A last whisky', note: 'Sent upstairs' },
+  ],
+}
 
 export const services: HotelService[] = [
   {
