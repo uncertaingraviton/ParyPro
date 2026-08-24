@@ -2,6 +2,7 @@ import { useState, type MouseEvent } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import type { LayoutOutlet } from '../components/Layout'
 import { menuSnippets, venues } from '../data'
+import { useLiveFeeds } from '../lib/feed'
 import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 
@@ -17,13 +18,14 @@ const moods = [
 export function Home() {
   const { cms } = useStore()
   const { openAsk } = useOutletContext<LayoutOutlet>()
+  const { hotelPromo, cityEvents } = useLiveFeeds()
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
   const hotelSpecial = cms.specials[0]
-  const nextSpecial = cms.specials[1]
   const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
   const menuLines = hotelVenue ? menuSnippets[hotelVenue.slug] : menuSnippets.kanak
-  const cityNow = featured[0] ?? cms.events[0]
-  const cityNext = featured[1] ?? cms.events[1]
+  // Live scraped data wins; fall back to desk-curated defaults.
+  const liveCity = cityEvents?.[0]
+  const cityNow = liveCity ?? featured[0] ?? cms.events[0]
   const [menuCursor, setMenuCursor] = useState<{ x: number; y: number } | null>(null)
   const snippet = menuLines.slice(0, 3)
 
@@ -46,7 +48,20 @@ export function Home() {
               onMouseLeave={() => setMenuCursor(null)}
             >
               <p className="now-kicker">Inside the hotel</p>
-              {hotelSpecial ? (
+              {hotelPromo ? (
+                <div className="now-card-body">
+                  <h2>{hotelPromo.title}</h2>
+                  <p>{hotelPromo.detail}</p>
+                  <p className="now-meta">
+                    From @tridenthyderabad
+                    {hotelPromo.postedAt &&
+                      ` · ${new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                      })}`}
+                  </p>
+                </div>
+              ) : hotelSpecial ? (
                 <>
                   <div className="now-card-body">
                     <h2>{hotelSpecial.title}</h2>
@@ -70,7 +85,7 @@ export function Home() {
                 </>
               )}
             </Link>
-            <Link to="/tonight" className="now-card">
+            <Link to={liveCity ? cityNow.url || '/tonight' : '/tonight'} className="now-card">
               <p className="now-kicker">Nearby in the city</p>
               {cityNow ? (
                 <>

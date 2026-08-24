@@ -1,3 +1,7 @@
+import amaraImg from './amara1.png'
+import kanakImg from './kanak1.png'
+import tuscanyImg from './tuscany1.png'
+import ninetySixImg from './96a.png'
 import type {
   CityEvent,
   CityPlace,
@@ -23,8 +27,7 @@ export const venues: Venue[] = [
     description:
       'International all-day dining in a light, unhurried room. Begin slowly with breakfast, return for a composed business lunch, or linger through dinner without changing the rhythm of your day.',
     quote: 'Start slow. Stay a little longer.',
-    image:
-      'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80',
+    image: amaraImg,
     moods: ['light', 'breakfast', 'steak', 'sweet'],
     cuisine: ['Continental', 'Asian', 'Indian'],
     floor: 'Lobby level',
@@ -41,8 +44,7 @@ export const venues: Venue[] = [
     description:
       'Kanak draws from recipes associated with the Nizams’ kitchens — Hyderabadi depth, Indian specialties, and considered pairings of wine and chai. Five minutes from your room; a century of flavour on the table.',
     quote: 'The city, on a plate.',
-    image:
-      'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1600&q=80',
+    image: kanakImg,
     moods: ['spicy', 'indian'],
     cuisine: ['Hyderabadi', 'Indian'],
     floor: 'Lobby level',
@@ -59,8 +61,7 @@ export const venues: Venue[] = [
     description:
       'An evening room for pasta, wine and unhurried conversation. Tuscany is the hotel’s Italian table — candlelight, a serious cellar, and a kitchen that prefers restraint to spectacle.',
     quote: 'Come for dinner. Stay for the last glass.',
-    image:
-      'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=1600&q=80',
+    image: tuscanyImg,
     moods: ['italian', 'steak', 'light'],
     cuisine: ['Italian'],
     floor: 'Lobby level',
@@ -78,8 +79,7 @@ export const venues: Venue[] = [
     description:
       'The hotel’s signature bar. Cocktails, a considered spirits list, and a late-evening atmosphere that holds from the first drink through a proper nightcap.',
     quote: 'The night does not end at eleven.',
-    image:
-      'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1600&q=80',
+    image: ninetySixImg,
     moods: ['cocktail', 'nightcap', 'coffee'],
     cuisine: ['Bar'],
     floor: 'Lobby level',

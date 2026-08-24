@@ -69,12 +69,14 @@ export type CityPlace = {
 export type CityEvent = {
   id: string
   title: string
-  category: EventCategory
+  category: string
   time: string
   venue: string
   description: string
   editorial: string
-  featured: boolean
+  image?: string
+  url?: string
+  featured?: boolean
 }
 
 export type ConciergePick = {

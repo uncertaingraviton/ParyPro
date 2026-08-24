@@ -5,6 +5,8 @@ import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 import type { Mood, VenueSlug } from '../types'
 
+const diningVenues = venues.filter((v) => v.slug !== 'in-room')
+
 export function Dine() {
   return (
     <>
@@ -15,7 +17,7 @@ export function Dine() {
       </header>
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="venue-grid">
-          {venues.map((v) => (
+          {diningVenues.map((v) => (
             <Link key={v.slug} to={`/dine/${v.slug}`} className="venue-card">
               <img src={v.image} alt="" />
               <div className="copy">
