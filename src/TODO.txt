@@ -1,7 +1,12 @@
-BMS and hotel events algo - ONG
+DONE - BMS and hotel events algo 
+    make desc text better - not copy paste from post
+    request res button goes to paresh
+    verify and test every 6 hour check and set up fallback options
+    Hover Menu change
+    Set up itinerary algo for whats happening today section, homepage
 
 change all rest. rez form addy to paresh singh
-change info text for all outlets
+change info text for all outlets 
 remove tonight from homepage 
 add link/snippet of menu for outlets 
 - make 96 page more interactive (add other bars/cafes)

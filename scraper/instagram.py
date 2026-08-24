@@ -79,8 +79,10 @@ def _score_caption(text: str) -> int:
 
 def _clean_caption(caption: str) -> str:
     """Strip hashtags/mentions/urls and collapse whitespace."""
-    text = re.sub(r"#\w+", "", caption or "")
-    text = re.sub(r"@\w+", "", text)
+    text = re.sub(r"\s*\[[^\]]*\]\s*[\".]*\s*$", "", (caption or "").strip())
+    text = re.sub(r"#\w+", "", text)
+    # Mentions only - leave email addresses like reservations@… intact.
+    text = re.sub(r"(?<![\w.@-])@\w+", "", text)
     text = re.sub(r"https?://\S+", "", text)
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     return " ".join(lines).strip()
@@ -359,22 +361,218 @@ def fetch_via_apify(timeout: int = 180) -> list[dict]:
     return posts
 
 
-def _detail_from_caption(caption: str) -> str:
-    """Body copy: the caption's hook plus its schedule line ('26 August | Lunch')."""
-    clean = _clean_caption(caption)
-    sentences = re.split(r"(?<=[.!?])\s+", clean)
-    hook = " ".join(sentences[:2]).strip()
-    m = re.search(r"[0-3]?\d\s+[A-Z][a-z]+(?:\s*\|\s*[A-Za-z ]+)?", clean)
-    when = m.group(0).strip() if m else ""
-    if when and when not in hook:
-        hook = f"{hook.rstrip('. ')} — {when}."
-    return hook[:240].rstrip()
+VENUE_DISPLAY = {
+    "kanak": "Kanak",
+    "amara": "Amara",
+    "tuscany": "Tuscany",
+    "ninety six": "Ninety Six",
+    "ninety-six": "Ninety Six",
+    "sadhya": "",
+    "thali": "",
+    "trident hyderabad": "Trident Hyderabad",
+}
+
+PROMO_DISPLAY = [
+    ("onam sadhya", "Onam Sadhya"),
+    ("high tea", "High Tea"),
+    ("afternoon tea", "Afternoon Tea"),
+    ("brunch", "Brunch"),
+    ("buffet", "Buffet"),
+    ("cocktail", "Cocktails"),
+    ("dinner", "Dinner"),
+    ("lunch", "Lunch"),
+    ("feast", "Feast"),
+    ("onam", "Onam"),
+]
+
+MEAL_SLOTS = {
+    "breakfast": ["07:00", "08:00", "09:00"],
+    "brunch": ["12:00", "12:30", "13:30"],
+    "lunch": ["12:30", "13:30", "14:30"],
+    "high tea": ["16:00", "16:30", "17:30"],
+    "afternoon tea": ["16:00", "16:30", "17:30"],
+    "dinner": ["19:00", "19:30", "20:30"],
+}
+
+
+def _fit_sentences(text: str, budget: int = 170) -> str:
+    """Keep only whole sentences that fit the budget - never cut mid-sentence."""
+    out = ""
+    for sentence in re.split(r"(?<=[.!?])\s+", text.strip()):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        candidate = f"{out} {sentence}".strip()
+        if candidate and len(candidate) > budget:
+            break
+        out = candidate
+    return out
+
+
+def _short_title(caption: str, clean: str) -> str:
+    """A true sub-heading: 'Onam Sadhya at Kanak', not a whole sentence."""
+    low = re.sub(r"[^a-z0-9 ]+", " ", clean.lower())
+    promo = next((label for term, label in PROMO_DISPLAY if term in low), "")
+    venue = next(
+        (disp for term, disp in VENUE_DISPLAY.items()
+         if disp and disp.lower() != "trident hyderabad" and term in low),
+        "",
+    )
+    if promo and venue:
+        return f"{promo} at {venue}"
+    if promo:
+        return promo
+    if venue:
+        return venue
+    # Fallback: first few words of the first sentence, cut at a word boundary.
+    first = re.split(r"(?<=[.!?])\s+", clean)[0]
+    words = first.split()
+    return " ".join(words[:7]).rstrip(",.;:!")
+
+
+def _short_body(sentences: list[str], budget: int = 110) -> str:
+    """One short, grammatical line for the card body."""
+    if not sentences:
+        return ""
+    s = sentences[0].rstrip(".")
+    if len(s) <= budget:
+        return f"{s}."
+    # Cut at the last comma inside the budget - a complete clause, then a period.
+    cut = s.rfind(",", 0, budget)
+    if cut > 40:
+        clause = s[:cut].rstrip(" ,;:and")
+        return f"{clause}."
+    words = s[:budget].split()
+    return " ".join(words[:-1]).rstrip(",") + "."
+
+
+def _parse_schedule(caption: str) -> dict:
+    """Extract event dates and meal/time from the caption, with correct years.
+
+    Handles '26 August | Lunch', ranges like '20-25 August' / 'till 30 August',
+    and explicit times like '7 pm'. A date that has already passed this year
+    is assumed to be next year's occurrence.
+    """
+    today = datetime.now().date()
+    start: str = ""
+    end: str = ""
+    time_label: str = ""
+
+    month_names = [
+        "january", "february", "march", "april", "may", "june", "july",
+        "august", "september", "october", "november", "december",
+    ]
+    # Keyed by 3-letter prefix so 'august' and 'aug' both resolve.
+    month_map = {name[:3]: i for i, name in enumerate(month_names, start=1)}
+
+    def make_date(day: int, month: int) -> str:
+        year = today.year
+        try:
+            d = datetime(year, month, day).date()
+        except ValueError:
+            return ""
+        if d < today:  # already passed - it must mean next year
+            d = datetime(year + 1, month, day).date()
+        return d.isoformat()
+
+    def day_month(day: int, month_name: str) -> str:
+        month = month_map.get(month_name.lower()[:3])
+        if not month:
+            return ""
+        return make_date(day, month) if 1 <= day <= 31 else ""
+
+    text = caption or ""
+    low = text.lower()
+
+    # Range first: '20-25 August', '20 to 25 August', '20–25 August'.
+    m = re.search(
+        r"(\d{1,2})\s*(?:-|–|to)\s*(\d{1,2})\s+([a-z]+)", low
+    )
+    if m and month_map.get(m.group(3)[:3]):
+        start = day_month(int(m.group(1)), m.group(3))
+        end = day_month(int(m.group(2)), m.group(3))
+
+    # 'till/until 30 August' or 'through 30 August'.
+    if not end:
+        m = re.search(r"(?:till|until|through)\s+(\d{1,2})\s+([a-z]+)", low)
+        if m and month_map.get(m.group(2)[:3]):
+            end = day_month(int(m.group(1)), m.group(2))
+
+    # Single date: '26 August' (also covers 'August 26').
+    if not start:
+        m = re.search(r"(\d{1,2})\s+([a-z]+)", low)
+        if m and month_map.get(m.group(2)[:3]):
+            start = day_month(int(m.group(1)), m.group(2))
+        else:
+            m = re.search(r"([a-z]+)\s+(\d{1,2})", low)
+            if m and month_map.get(m.group(1)[:3]):
+                start = day_month(int(m.group(2)), m.group(1))
+
+    # Meal or explicit time.
+    for meal in MEAL_SLOTS:
+        if re.search(rf"\b{meal}\b", low):
+            time_label = meal.title()
+            break
+    if not time_label:
+        m = re.search(r"\b(\d{1,2})(:\d{2})?\s*(am|pm)\b", low)
+        if m:
+            time_label = f"{m.group(1)}{m.group(2) or ''} {m.group(3).upper()}".replace("  ", " ")
+
+    return {"startDate": start, "endDate": end, "timeLabel": time_label}
+
+
+def _build_promo_copy(caption: str) -> dict:
+    """Split a caption into card copy: title hook, body, and schedule line.
+
+    The title is the caption's first sentence; the body is built from the
+    following sentences so the card never repeats itself. The schedule line
+    ('26 August | Lunch') becomes the `when` field for the meta row.
+    """
+    # Pull the schedule line ('26 August | Lunch') out by line, before the
+    # text is collapsed - it only reads as its own line in the caption.
+    when = ""
+    body_lines = []
+    for line in (caption or "").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if not when and re.fullmatch(r"[0-3]?\d\s+[A-Z][a-z]+\s*\|\s*[A-Za-z ]+", line):
+            when = line
+        else:
+            body_lines.append(line)
+
+    clean = _clean_caption(" ".join(body_lines))
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", clean) if s.strip()]
+
+    # Card copy is a true sub-heading + one short line, summarised from the
+    # caption's own keywords - never a cut-off sentence.
+    title = _short_title(caption, clean)
+    body = _short_body(sentences)
+    if not body and sentences:
+        body = sentences[0][:110].rstrip() 
+    return {"title": title, "detail": body, "when": when}
+
+
+def _venue_name(caption: str) -> str:
+    low = re.sub(r"[^a-z0-9 ]+", " ", (caption or "").lower())
+    for term, disp in VENUE_DISPLAY.items():
+        if disp and term in low:
+            return disp
+    return "Trident Hyderabad"
 
 
 def _to_promotion(post: dict) -> dict:
+    copy = _build_promo_copy(post["caption"])
+    schedule = _parse_schedule(post["caption"])
     return {
-        "title": _title_from_caption(post["caption"]),
-        "detail": _detail_from_caption(post["caption"]),
+        "title": copy["title"],
+        "detail": copy["detail"],
+        "when": copy["when"],
+        "startDate": schedule["startDate"],
+        "endDate": schedule["endDate"],
+        "timeLabel": schedule["timeLabel"],
+        "venueName": _venue_name(post["caption"]),
+        "full": _clean_caption(post["caption"])[:600],
         "image": post["image"],
         "url": post["url"],
         "postedAt": post["postedAt"],

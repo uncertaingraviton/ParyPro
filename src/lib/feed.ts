@@ -4,6 +4,18 @@ import type { CityEvent } from '../types'
 export type HotelPromotion = {
   title: string
   detail: string
+  /** Schedule line from the caption, e.g. '26 August | Lunch'. */
+  when?: string
+  /** Event start date (ISO), parsed from the caption. */
+  startDate?: string
+  /** Event end date (ISO) when the event spans multiple days. */
+  endDate?: string
+  /** Meal or time from the caption, e.g. 'Lunch' or '7 PM'. */
+  timeLabel?: string
+  /** Outlet the promotion runs at, e.g. 'Kanak'. */
+  venueName?: string
+  /** Full caption text for the detail view. */
+  full?: string
   image: string
   url: string
   postedAt: string

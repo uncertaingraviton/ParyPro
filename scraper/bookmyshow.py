@@ -184,12 +184,27 @@ def _enrich(event: dict, timeout: int = 15) -> dict:
     return event
 
 
+def _fit_sentences(text: str, budget: int = 170) -> str:
+    """Keep only whole sentences that fit the budget - never cut mid-sentence."""
+    out = ""
+    for sentence in re.split(r"(?<=[.!?])\s+", text.strip()):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        candidate = f"{out} {sentence}".strip()
+        if candidate and len(candidate) > budget:
+            break
+        out = candidate
+    return out
+
+
 def _editorialise(event: dict) -> str:
     """Write the card's body copy in the concierge's voice, not BMS's.
 
     Drops the 'Book online tickets for X in Hyderabad on BookMyShow which is
     a workshops event' boilerplate and keeps any real description; otherwise
-    composes a short recommendation from what we know.
+    composes a short recommendation from what we know. Only whole sentences
+    are kept so the card never shows a cut-off line.
     """
     description = re.sub(
         r"Book online tickets for .*? on BookMyShow[^.]*\.?\s*",
@@ -198,7 +213,7 @@ def _editorialise(event: dict) -> str:
     ).strip()
     description = re.sub(r"#+\s*", "", description).strip()
     if len(description) >= 40:
-        return description
+        return _fit_sentences(description) or description
 
     venue = (event.get("venue") or "").split(":")[0].strip()
     title = (event.get("title") or "This one").strip()

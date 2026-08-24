@@ -15,10 +15,44 @@ const moods = [
   { to: '/tonight', label: 'Tonight', icon: '🌙', img: 'https://images.unsplash.com/photo-1514565131-fce0801d3f73?auto=format&fit=crop&w=900&q=70' },
 ]
 
+type NowModal = {
+  kicker: string
+  title: string
+  body: string
+  meta: string
+  ctaTo: string
+  ctaLabel: string
+  external?: boolean
+  reservation?: {
+    venue: string
+    startDate: string
+    endDate?: string
+    timeLabel?: string
+  }
+}
+
+const MEAL_SLOTS: Record<string, string[]> = {
+  Breakfast: ['07:00', '08:00', '09:00'],
+  Brunch: ['12:00', '12:30', '13:30'],
+  Lunch: ['12:30', '13:30', '14:30'],
+  'High Tea': ['16:00', '16:30', '17:30'],
+  'Afternoon Tea': ['16:00', '16:30', '17:30'],
+  Dinner: ['19:00', '19:30', '20:30'],
+}
+
+function slotsFor(timeLabel?: string): string[] {
+  if (timeLabel && MEAL_SLOTS[timeLabel]) return MEAL_SLOTS[timeLabel]
+  if (timeLabel && /\d/.test(timeLabel)) return [timeLabel]
+  return ['12:30', '13:30', '19:00', '19:30', '20:30']
+}
+
 export function Home() {
-  const { cms } = useStore()
+  const { cms, setCms } = useStore()
   const { openAsk } = useOutletContext<LayoutOutlet>()
   const { hotelPromo, cityEvents } = useLiveFeeds()
+  const [nowModal, setNowModal] = useState<NowModal | null>(null)
+  const [resv, setResv] = useState<{ date: string; time: string } | null>(null)
+  const [resvDone, setResvDone] = useState(false)
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
   const hotelSpecial = cms.specials[0]
   const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
@@ -46,6 +80,50 @@ export function Home() {
               className={`now-card now-card-hotel${menuCursor ? ' is-tracking' : ''}`}
               onMouseMove={moveMenuCursor}
               onMouseLeave={() => setMenuCursor(null)}
+              onClick={(e) => {
+                e.preventDefault()
+                setResv(null)
+                setResvDone(false)
+                setNowModal(
+                  hotelPromo
+                    ? {
+                        kicker: 'Inside the hotel',
+                        title: hotelPromo.title,
+                        body: hotelPromo.full || hotelPromo.detail,
+                        meta: [
+                          hotelPromo.when,
+                          hotelPromo.postedAt &&
+                            new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
+                              day: 'numeric',
+                              month: 'short',
+                            }),
+                        ]
+                          .filter(Boolean)
+                          .join(' · '),
+                        ctaTo: hotelPromo.url,
+                        ctaLabel: 'See the post on Instagram',
+                        external: true,
+                        reservation: hotelPromo.startDate
+                          ? {
+                              venue: hotelPromo.venueName ?? 'Trident Hyderabad',
+                              startDate: hotelPromo.startDate,
+                              endDate: hotelPromo.endDate,
+                              timeLabel: hotelPromo.timeLabel,
+                            }
+                          : undefined,
+                      }
+                    : {
+                        kicker: 'Inside the hotel',
+                        title: hotelSpecial?.title ?? 'A quiet house',
+                        body:
+                          hotelSpecial?.detail ??
+                          'No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.',
+                        meta: hotelVenue?.hours ?? '',
+                        ctaTo: hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine',
+                        ctaLabel: hotelVenue ? `Explore ${hotelVenue.name}` : 'Explore dining',
+                      },
+                )
+              }}
             >
               <p className="now-kicker">Inside the hotel</p>
               {hotelPromo ? (
@@ -53,6 +131,7 @@ export function Home() {
                   <h2>{hotelPromo.title}</h2>
                   <p>{hotelPromo.detail}</p>
                   <p className="now-meta">
+                    {hotelPromo.when && `${hotelPromo.when} · `}
                     From @tridenthyderabad
                     {hotelPromo.postedAt &&
                       ` · ${new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
@@ -85,7 +164,22 @@ export function Home() {
                 </>
               )}
             </Link>
-            <Link to={liveCity ? cityNow.url || '/tonight' : '/tonight'} className="now-card">
+            <Link
+              to={liveCity ? cityNow.url || '/tonight' : '/tonight'}
+              className="now-card"
+              onClick={(e) => {
+                e.preventDefault()
+                setNowModal({
+                  kicker: 'Nearby in the city',
+                  title: cityNow.title,
+                  body: cityNow.editorial || cityNow.description,
+                  meta: [cityNow.time, cityNow.venue].filter(Boolean).join(' · '),
+                  ctaTo: cityNow.url || '/tonight',
+                  ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Tonight in Hyderabad',
+                  external: Boolean(cityNow.url),
+                })
+              }}
+            >
               <p className="now-kicker">Nearby in the city</p>
               {cityNow ? (
                 <>
@@ -151,6 +245,110 @@ export function Home() {
           </Link>
         </div>
       </section>
+      {nowModal && (
+        <div className="now-modal" role="dialog" aria-modal="true" onClick={() => setNowModal(null)}>
+          <div className="now-modal-panel" onClick={(e) => e.stopPropagation()}>
+            <p className="now-kicker">{nowModal.kicker}</p>
+            <h3>{nowModal.title}</h3>
+            <p className="now-modal-body">{nowModal.body}</p>
+            {nowModal.meta && <p className="now-meta">{nowModal.meta}</p>}
+            {nowModal.reservation && !resvDone && (
+              <form
+                className="resv-form"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const r = nowModal.reservation
+                  if (!r) return
+                  const date = resv?.date || r.startDate
+                  const time = resv?.time || slotsFor(r.timeLabel)[0]
+                  setCms({
+                    ...cms,
+                    requests: [
+                      {
+                        id: `req-${Date.now()}`,
+                        createdAt: new Date().toISOString(),
+                        kind: 'reservation',
+                        name: 'Guest — digital concierge',
+                        detail: `Reservation request: ${nowModal.title} at ${r.venue} on ${date}, ${time}. Confirm by phone.`,
+                        status: 'new',
+                      },
+                      ...cms.requests,
+                    ],
+                  })
+                  setResvDone(true)
+                }}
+              >
+                <p className="resv-title">Reserve at {nowModal.reservation.venue}</p>
+                <div className="resv-row">
+                  <label>
+                    Date
+                    <input
+                      type="date"
+                      required
+                      value={resv?.date ?? nowModal.reservation.startDate}
+                      min={nowModal.reservation.startDate}
+                      max={nowModal.reservation.endDate ?? nowModal.reservation.startDate}
+                      onChange={(e) =>
+                        setResv({ date: e.target.value, time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0] })
+                      }
+                    />
+                  </label>
+                  <label>
+                    Time
+                    <select
+                      value={resv?.time ?? slotsFor(nowModal.reservation.timeLabel)[0]}
+                      onChange={(e) =>
+                        setResv({ date: resv?.date ?? nowModal.reservation?.startDate ?? '', time: e.target.value })
+                      }
+                    >
+                      {slotsFor(nowModal.reservation.timeLabel).map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                {nowModal.reservation.endDate && (
+                  <p className="resv-note">
+                    Runs {nowModal.reservation.startDate} to {nowModal.reservation.endDate} — pick your date.
+                  </p>
+                )}
+                <div className="now-modal-actions">
+                  <button className="btn gold" type="submit">
+                    Request reservation
+                  </button>
+                  {nowModal.external && (
+                    <a className="btn ghost" href={nowModal.ctaTo} target="_blank" rel="noreferrer">
+                      {nowModal.ctaLabel}
+                    </a>
+                  )}
+                  <button className="btn ghost" type="button" onClick={() => setNowModal(null)}>
+                    Close
+                  </button>
+                </div>
+              </form>
+            )}
+            {(!nowModal.reservation || resvDone) && (
+              <div className="now-modal-actions">
+                {resvDone && <p className="resv-note">Noted — the desk will call to confirm your table.</p>}
+                {nowModal.external ? (
+                  <a className="btn gold" href={nowModal.ctaTo} target="_blank" rel="noreferrer">
+                    {nowModal.ctaLabel}
+                  </a>
+                ) : (
+                  <Link className="btn gold" to={nowModal.ctaTo}>
+                    {nowModal.ctaLabel}
+                  </Link>
+                )}
+                <button className="btn ghost" type="button" onClick={() => setNowModal(null)}>
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       {menuCursor && (
         <aside
           className="menu-cursor"
