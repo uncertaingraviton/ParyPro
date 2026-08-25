@@ -64,6 +64,10 @@ export type CityPlace = {
   why: string
   atmosphere: 'elegant' | 'lively' | 'local'
   image: string
+  /** How to reach it from Trident, Hyderabad. */
+  directions: string
+  /** Query used for the embedded Google Maps snippet. */
+  mapQuery: string
 }
 
 export type CityEvent = {

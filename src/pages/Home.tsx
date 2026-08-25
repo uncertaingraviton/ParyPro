@@ -2,17 +2,22 @@ import { useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import type { LayoutOutlet } from '../components/Layout'
 import { venues } from '../data'
+import moodDine from '../assets/place-biryani.jpg'
+import moodDrink from '../assets/place-chai.jpg'
+import moodExperience from '../assets/place-golconda.jpg'
+import moodExplore from '../assets/place-charminar.jpg'
+import moodShop from '../assets/place-laad.jpg'
 import { useLiveFeeds } from '../lib/feed'
 import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 
 const moods = [
-  { to: '/dine', label: 'Dine', icon: '🍽', img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=70' },
-  { to: '/drink', label: 'Drink', icon: '🍸', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=900&q=70' },
-  { to: '/explore', label: 'Experience', icon: '🎵', img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=70' },
-  { to: '/explore', label: 'Explore', icon: '🏙', img: 'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=900&q=70' },
-  { to: '/explore?group=shopping', label: 'Shop', icon: '🛍', img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=70' },
+  { to: '/dine', label: 'Dine', icon: '🍽', img: moodDine },
+  { to: '/drink', label: 'Drink', icon: '🍵', img: moodDrink },
+  { to: '/explore', label: 'Experience', icon: '🏰', img: moodExperience },
+  { to: '/explore', label: 'Explore', icon: '🕌', img: moodExplore },
+  { to: '/explore?group=shopping', label: 'Shop', icon: '🛍', img: moodShop },
 ]
 
 type NowModal = {

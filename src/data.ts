@@ -2,6 +2,25 @@ import amaraImg from './amara1.png'
 import kanakImg from './kanak1.png'
 import tuscanyImg from './tuscany1.png'
 import ninetySixImg from './96a.png'
+import placeCharminar from './assets/place-charminar.jpg'
+import placeMecca from './assets/place-mecca.jpg'
+import placeLaad from './assets/place-laad.jpg'
+import placeChowmahalla from './assets/place-chowmahalla.jpg'
+import placeSalar from './assets/place-salar.jpg'
+import placeGolconda from './assets/place-golconda.jpg'
+import placeQutb from './assets/place-qutb.jpg'
+import placePaigah from './assets/place-paigah.jpg'
+import placeBirla from './assets/place-birla.png'
+import placeHitec from './assets/place-hitec.jpg'
+import placeJubilee from './assets/place-jubilee.jpg'
+import placeBanjara from './assets/place-banjara.jpg'
+import placeBiryani from './assets/place-biryani.jpg'
+import placeChai from './assets/place-chai.jpg'
+import placeHaleem from './assets/place-haleem.jpg'
+import placeShilparamam from './assets/place-shilparamam.jpg'
+import placeNecklace from './assets/place-necklace.jpg'
+import placeRamoji from './assets/place-ramoji.jpg'
+import placeZoo from './assets/place-zoo.jpg'
 import type {
   CityEvent,
   CityPlace,
@@ -264,63 +283,49 @@ export const places: CityPlace[] = [
     minutes: 45,
     why: 'The city’s compass. Go at blue hour, when the limestone still holds the day’s heat.',
     atmosphere: 'local',
-    image:
-      'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=1200&q=80',
+    image: placeCharminar,
+    directions:
+      'About 45 minutes by car via the PVNR Elevated Expressway. Ask the concierge for a car after 5 p.m., when the old city comes alive.',
+    mapQuery: 'Charminar, Hyderabad',
+  },
+  {
+    id: 'mecca',
+    name: 'Mecca Masjid',
+    area: 'The Old City',
+    category: 'old-city',
+    minutes: 45,
+    why: 'One of India’s largest mosques, four centuries old, with granite arches and bricks said to hold Meccan soil.',
+    atmosphere: 'local',
+    image: placeMecca,
+    directions:
+      'Right beside Charminar — the same 45-minute drive. Combine the two in one evening; modest dress required.',
+    mapQuery: 'Mecca Masjid, Hyderabad',
   },
   {
     id: 'laad',
     name: 'Laad Bazaar',
     area: 'The Old City',
-    category: 'shopping',
+    category: 'old-city',
     minutes: 45,
     why: 'Bangles, pearls and the particular noise of a market that has never hurried for anyone.',
     atmosphere: 'local',
-    image:
-      'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80',
+    image: placeLaad,
+    directions:
+      'The lane runs beside Charminar — same 45-minute drive. Best at dusk, when the bangle stalls are lit.',
+    mapQuery: 'Laad Bazaar, Hyderabad',
   },
   {
     id: 'chowmahalla',
     name: 'Chowmahalla Palace',
     area: 'The Old City',
-    category: 'art',
+    category: 'old-city',
     minutes: 50,
     why: 'The Nizams’ ceremonial palaces — courtyards, chandeliers, and a quieter kind of grandeur.',
     atmosphere: 'elegant',
-    image:
-      'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'hitec',
-    name: 'HITEC City',
-    area: 'The Modern City',
-    category: 'modern',
-    minutes: 5,
-    why: 'You are already here. Glass, gardens, and the city’s newer appetite for late dinners.',
-    atmosphere: 'lively',
-    image:
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'jubilee',
-    name: 'Jubilee Hills',
-    area: 'The Modern City',
-    category: 'nightlife',
-    minutes: 20,
-    why: 'Hyderabad’s preferred evening — restaurants that stay open, rooms that know how to light a table.',
-    atmosphere: 'elegant',
-    image:
-      'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'banjara',
-    name: 'Banjara Hills',
-    area: 'The Modern City',
-    category: 'nightlife',
-    minutes: 22,
-    why: 'Bars, galleries and long dinners. The city’s social map still runs through these streets.',
-    atmosphere: 'lively',
-    image:
-      'https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80',
+    image: placeChowmahalla,
+    directions:
+      '45 minutes by car; a five-minute walk from Charminar once you are there. Closed on Fridays.',
+    mapQuery: 'Chowmahalla Palace, Hyderabad',
   },
   {
     id: 'salar',
@@ -330,52 +335,10 @@ export const places: CityPlace[] = [
     minutes: 40,
     why: 'One collector’s impossible appetite — ivory, clocks, manuscripts, and a famous veiled Rebecca.',
     atmosphere: 'elegant',
-    image:
-      'https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'biryani',
-    name: 'A proper Hyderabadi biryani',
-    area: 'Food',
-    category: 'food',
-    minutes: 25,
-    why: 'We will not send you to a tourist queue. Ask the concierge for tonight’s house recommendation — dum, saffron, and patience.',
-    atmosphere: 'local',
-    image:
-      'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'chai',
-    name: 'Irani chai & Osmania biscuits',
-    area: 'Food',
-    category: 'food',
-    minutes: 35,
-    why: 'The city’s unofficial breakfast. Strong tea, sweet biscuits, newspapers, and no performance.',
-    atmosphere: 'local',
-    image:
-      'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'pearls',
-    name: 'Pearls of Hyderabad',
-    area: 'Shopping',
-    category: 'shopping',
-    minutes: 40,
-    why: 'The city still knows pearls. We will send you to a dealer we use — not a stall that found you first.',
-    atmosphere: 'elegant',
-    image:
-      'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'necklace',
-    name: 'Necklace Road at sunset',
-    area: 'Family',
-    category: 'family',
-    minutes: 30,
-    why: 'Hussain Sagar turns gold, then violet. Walk it, or take a car and simply watch.',
-    atmosphere: 'elegant',
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    image: placeSalar,
+    directions:
+      'About 40 minutes by car across the Musi river. Closed on Fridays; go mid-morning before the school groups.',
+    mapQuery: 'Salar Jung Museum, Hyderabad',
   },
   {
     id: 'golconda',
@@ -385,8 +348,192 @@ export const places: CityPlace[] = [
     minutes: 40,
     why: 'Acoustic architecture and a hill that still commands the Deccan. Go before the heat rises.',
     atmosphere: 'local',
-    image:
-      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80',
+    image: placeGolconda,
+    directions:
+      '40 minutes by car via Mehdipatnam. Start the climb by 8 a.m.; the light-and-sound show runs most evenings.',
+    mapQuery: 'Golconda Fort, Hyderabad',
+  },
+  {
+    id: 'qutb',
+    name: 'Qutb Shahi Tombs',
+    area: 'Art & Culture',
+    category: 'art',
+    minutes: 35,
+    why: 'The dynasty buried itself beautifully — domed tombs in a garden at the foot of Golconda.',
+    atmosphere: 'elegant',
+    image: placeQutb,
+    directions:
+      'Just below Golconda Fort — the same 40-minute drive. Quiet even on weekends; pair it with the fort.',
+    mapQuery: 'Qutb Shahi Tombs, Hyderabad',
+  },
+  {
+    id: 'paigah',
+    name: 'Paigah Tombs',
+    area: 'Art & Culture',
+    category: 'art',
+    minutes: 30,
+    why: 'Nobility at rest — latticework so fine the tombs seem embroidered rather than built.',
+    atmosphere: 'elegant',
+    image: placePaigah,
+    directions:
+      '30 minutes by car, off the old city road near Charminar. Often you will have the complex to yourself.',
+    mapQuery: 'Paigah Tombs, Hyderabad',
+  },
+  {
+    id: 'birla',
+    name: 'Birla Mandir',
+    area: 'Art & Culture',
+    category: 'art',
+    minutes: 25,
+    why: 'A marble temple on a hill above the lake — the city’s calmest view at sunset.',
+    atmosphere: 'elegant',
+    image: placeBirla,
+    directions:
+      '25 minutes by car towards Khairatabad. Climb the steps an hour before sunset; phones are not allowed inside.',
+    mapQuery: 'Birla Mandir, Hyderabad',
+  },
+  {
+    id: 'hitec',
+    name: 'HITEC City',
+    area: 'The Modern City',
+    category: 'modern',
+    minutes: 5,
+    why: 'You are already here. Glass, gardens, and the city’s newer appetite for late dinners.',
+    atmosphere: 'lively',
+    image: placeHitec,
+    directions:
+      'A five-minute walk from the lobby into the Cyber Towers grid. Shilpa Layout for after-work evenings.',
+    mapQuery: 'HITEC City, Hyderabad',
+  },
+  {
+    id: 'jubilee',
+    name: 'Jubilee Hills',
+    area: 'The Modern City',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'Hyderabad’s preferred evening — restaurants that stay open, rooms that know how to light a table.',
+    atmosphere: 'elegant',
+    image: placeJubilee,
+    directions:
+      '20 minutes by car past KBR National Park. The tables you want cluster around Road No. 36 and 45.',
+    mapQuery: 'Jubilee Hills, Hyderabad',
+  },
+  {
+    id: 'banjara',
+    name: 'Banjara Hills',
+    area: 'The Modern City',
+    category: 'nightlife',
+    minutes: 22,
+    why: 'Bars, galleries and long dinners. The city’s social map still runs through these streets.',
+    atmosphere: 'lively',
+    image: placeBanjara,
+    directions:
+      '22 minutes by car through Jubilee Hills. Road Nos. 1 to 12 hold most of the rooms worth booking.',
+    mapQuery: 'Banjara Hills, Hyderabad',
+  },
+  {
+    id: 'biryani',
+    name: 'A proper Hyderabadi biryani',
+    area: 'Food',
+    category: 'food',
+    minutes: 25,
+    why: 'We will not send you to a tourist queue. Ask the concierge for tonight’s house recommendation — dum, saffron, and patience.',
+    atmosphere: 'local',
+    image: placeBiryani,
+    directions:
+      'Our current favourite sits about 25 minutes away by car. Tell the desk your tolerance for chilli; we will call ahead.',
+    mapQuery: 'best biryani restaurant near HITEC City, Hyderabad',
+  },
+  {
+    id: 'chai',
+    name: 'Irani chai & Osmania biscuits',
+    area: 'Food',
+    category: 'food',
+    minutes: 15,
+    why: 'The city’s unofficial breakfast. Strong tea, sweet biscuits, newspapers, and no performance.',
+    atmosphere: 'local',
+    image: placeChai,
+    directions:
+      'Café Niloufer is the house recommendation — about 15 minutes by car towards Raidurg, famous for its bun maska and Irani chai. For the old-city ritual, Nimrah Café beside Charminar pours with a view.',
+    mapQuery: 'Cafe Niloufer, Hyderabad',
+  },
+  {
+    id: 'haleem',
+    name: 'Hyderabadi haleem',
+    area: 'Food',
+    category: 'food',
+    minutes: 40,
+    why: 'Slow-cooked wheat, meat and ghee — a season-defining dish when it appears.',
+    atmosphere: 'local',
+    image: placeHaleem,
+    directions:
+      'The famous houses are in the old city, about 40 minutes by car. In season we can have a portion sent up to the room.',
+    mapQuery: 'haleem restaurant Hyderabad',
+  },
+  {
+    id: 'pearls',
+    name: 'Pearls of Hyderabad',
+    area: 'Shopping',
+    category: 'shopping',
+    minutes: 40,
+    why: 'The city still knows pearls. We will send you to a dealer we use — not a stall that found you first.',
+    atmosphere: 'elegant',
+    image: placeLaad,
+    directions:
+      'Reputed dealers cluster around Charminar and Pot Market — 40 minutes by car. The concierge will phone ahead so you are expected.',
+    mapQuery: 'pearl shop near Charminar, Hyderabad',
+  },
+  {
+    id: 'shilparamam',
+    name: 'Shilparamam',
+    area: 'Shopping',
+    category: 'shopping',
+    minutes: 10,
+    why: 'A crafts village ten minutes away — weavers, potters and the easier kind of souvenir.',
+    atmosphere: 'local',
+    image: placeShilparamam,
+    directions:
+      'Ten minutes by car, next door in Madhapur. Livelier on weekends, when folk performances fill the amphitheatre.',
+    mapQuery: 'Shilparamam, Madhapur, Hyderabad',
+  },
+  {
+    id: 'necklace',
+    name: 'Necklace Road at sunset',
+    area: 'Family',
+    category: 'family',
+    minutes: 30,
+    why: 'Hussain Sagar turns gold, then violet. Walk it, or take a car and simply watch.',
+    atmosphere: 'elegant',
+    image: placeNecklace,
+    directions:
+      '30 minutes by car via Khairatabad. Time it for the last hour of light; the boat to the Buddha statue closes at dusk.',
+    mapQuery: 'Hussain Sagar, Hyderabad',
+  },
+  {
+    id: 'ramoji',
+    name: 'Ramoji Film City',
+    area: 'Family',
+    category: 'family',
+    minutes: 60,
+    why: 'The world’s largest film studio complex — a full day of sets, shows and gardens.',
+    atmosphere: 'lively',
+    image: placeRamoji,
+    directions:
+      'About an hour by car on the Vijayawada highway. Leave by 9 a.m. and make it a day; tickets through the concierge.',
+    mapQuery: 'Ramoji Film City, Hyderabad',
+  },
+  {
+    id: 'zoo',
+    name: 'Nehru Zoological Park',
+    area: 'Family',
+    category: 'family',
+    minutes: 30,
+    why: 'One of India’s better zoos — lions, tigers and a safari park children remember for years.',
+    atmosphere: 'local',
+    image: placeZoo,
+    directions:
+      '30 minutes by car via NH44. Mornings are coolest and the animals are awake; closed on Mondays.',
+    mapQuery: 'Nehru Zoological Park, Hyderabad',
   },
 ]
 
@@ -563,11 +710,11 @@ export const cravings: { id: import('./types').Mood; label: string; hint: string
 export const exploreGroups = [
   { id: 'old-city', title: 'The Old City', subtitle: 'Charminar · Laad Bazaar · Chowmahalla Palace' },
   { id: 'modern', title: 'The Modern City', subtitle: 'HITEC City · Jubilee Hills · Banjara Hills' },
-  { id: 'art', title: 'Art & Culture', subtitle: 'Museums · Galleries · Heritage' },
-  { id: 'food', title: 'Food', subtitle: 'Biryani · Irani chai · Haleem · Bakeries' },
+  { id: 'art', title: 'Art & Culture', subtitle: 'Museums · Forts · Temples · Tombs' },
+  { id: 'food', title: 'Food', subtitle: 'Biryani · Irani chai · Haleem' },
   { id: 'nightlife', title: 'Nightlife', subtitle: 'Bars · Clubs · Live music' },
-  { id: 'shopping', title: 'Shopping', subtitle: 'Luxury · Local · Souvenirs' },
-  { id: 'family', title: 'Family', subtitle: 'Activities · Parks · Experiences' },
+  { id: 'shopping', title: 'Shopping', subtitle: 'Pearls · Bangles · Crafts' },
+  { id: 'family', title: 'Family', subtitle: 'Parks · Lakes · Film City' },
 ] as const
 
 export const eventFilters: { id: CityEvent['category'] | 'all'; label: string }[] = [

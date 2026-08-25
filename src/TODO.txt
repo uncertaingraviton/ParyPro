@@ -1,8 +1,13 @@
 DONE - BMS and hotel events algo 
     Set up "itinerary" algo for whats happening today section, homepage
 
-change info text for all outlets 
 - make 96 page more interactive (add other bars/cafes)
-better the explore page 
 Host the page 
 
+
+For this project — a static Vite site already living in your GitHub repo (`uncertaingraviton/ParyPro`) with a GitHub Actions cron refreshing the feeds — the best "free forever" options, in order:
+
+**1. GitHub Pages (best fit — zero extra services)**
+- Free forever for **public** repositories (unlimited bandwidth). If `ParyPro` is private, either flip it to public, or upgrade to GitHub Pro (~$4/mo).
+- Perfect synergy: your existing 6-hourly scrape workflow already commits fresh feeds to `public/feed/`, so every push automatically republishes the latest data. No second hosting service to manage.
+- Setup: Settings → Pages → Source: "GitHub Actions", then add a small deploy job (`actions/upload-pages-artifact` on `dist/` + `actions/deploy-pages`). One caveat: since the app uses React Router paths like `/dine/kanak`, we'd add a `404.html` fallback (copy of `index.html`) so deep links work after refresh.
