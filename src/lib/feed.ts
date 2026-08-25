@@ -14,6 +14,8 @@ export type HotelPromotion = {
   timeLabel?: string
   /** Outlet the promotion runs at, e.g. 'Kanak'. */
   venueName?: string
+  /** Cleanly written description for the detail view. */
+  story?: string
   /** Full caption text for the detail view. */
   full?: string
   image: string

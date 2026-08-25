@@ -561,6 +561,31 @@ def _venue_name(caption: str) -> str:
     return "Trident Hyderabad"
 
 
+def _story(post: dict, schedule: dict) -> str:
+    """A cleanly written description for the detail view.
+
+    Composed from the caption's complete sentences (never the raw paste with
+    phone numbers, pins and line breaks) plus a proper invitation line with
+    the venue, date and meal.
+    """
+    clean = _clean_caption(post["caption"])
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", clean) if s.strip()]
+    story = _fit_sentences(" ".join(sentences), budget=280)
+
+    venue = _venue_name(post["caption"])
+    invite = f"We look forward to hosting you at {venue}"
+    if schedule["startDate"]:
+        try:
+            d = datetime.fromisoformat(schedule["startDate"])
+            invite += f" on {d.day} {d.strftime('%B %Y')}"
+        except ValueError:
+            pass
+    if schedule["timeLabel"]:
+        invite += f" for {schedule['timeLabel'].lower()}"
+    invite += "."
+    return f"{story} {invite}".strip()[:600]
+
+
 def _to_promotion(post: dict) -> dict:
     copy = _build_promo_copy(post["caption"])
     schedule = _parse_schedule(post["caption"])
@@ -572,6 +597,7 @@ def _to_promotion(post: dict) -> dict:
         "endDate": schedule["endDate"],
         "timeLabel": schedule["timeLabel"],
         "venueName": _venue_name(post["caption"]),
+        "story": _story(post, schedule),
         "full": _clean_caption(post["caption"])[:600],
         "image": post["image"],
         "url": post["url"],

@@ -1,7 +1,7 @@
-import { useState, type MouseEvent } from 'react'
+import { useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import type { LayoutOutlet } from '../components/Layout'
-import { menuSnippets, venues } from '../data'
+import { venues } from '../data'
 import { useLiveFeeds } from '../lib/feed'
 import { isOpen } from '../lib/time'
 import { useStore } from '../store'
@@ -51,24 +51,14 @@ export function Home() {
   const { openAsk } = useOutletContext<LayoutOutlet>()
   const { hotelPromo, cityEvents } = useLiveFeeds()
   const [nowModal, setNowModal] = useState<NowModal | null>(null)
-  const [resv, setResv] = useState<{ date: string; time: string } | null>(null)
+  const [resv, setResv] = useState<{ date: string; time: string; guests: string } | null>(null)
   const [resvDone, setResvDone] = useState(false)
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
   const hotelSpecial = cms.specials[0]
   const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
-  const menuLines = hotelVenue ? menuSnippets[hotelVenue.slug] : menuSnippets.kanak
   // Live scraped data wins; fall back to desk-curated defaults.
   const liveCity = cityEvents?.[0]
   const cityNow = liveCity ?? featured[0] ?? cms.events[0]
-  const [menuCursor, setMenuCursor] = useState<{ x: number; y: number } | null>(null)
-  const snippet = menuLines.slice(0, 3)
-
-  function moveMenuCursor(e: MouseEvent<HTMLAnchorElement>) {
-    setMenuCursor({
-      x: e.clientX + 14,
-      y: e.clientY + 14,
-    })
-  }
 
   return (
     <>
@@ -77,9 +67,7 @@ export function Home() {
           <div className="now-grid">
             <Link
               to={hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine'}
-              className={`now-card now-card-hotel${menuCursor ? ' is-tracking' : ''}`}
-              onMouseMove={moveMenuCursor}
-              onMouseLeave={() => setMenuCursor(null)}
+              className="now-card now-card-hotel"
               onClick={(e) => {
                 e.preventDefault()
                 setResv(null)
@@ -89,7 +77,7 @@ export function Home() {
                     ? {
                         kicker: 'Inside the hotel',
                         title: hotelPromo.title,
-                        body: hotelPromo.full || hotelPromo.detail,
+                        body: hotelPromo.story || hotelPromo.detail,
                         meta: [
                           hotelPromo.when,
                           hotelPromo.postedAt &&
@@ -261,6 +249,7 @@ export function Home() {
                   if (!r) return
                   const date = resv?.date || r.startDate
                   const time = resv?.time || slotsFor(r.timeLabel)[0]
+                  const guests = resv?.guests || '2'
                   setCms({
                     ...cms,
                     requests: [
@@ -269,11 +258,35 @@ export function Home() {
                         createdAt: new Date().toISOString(),
                         kind: 'reservation',
                         name: 'Guest — digital concierge',
-                        detail: `Reservation request: ${nowModal.title} at ${r.venue} on ${date}, ${time}. Confirm by phone.`,
+                        detail: `Reservation request: ${nowModal.title} at ${r.venue} on ${date}, ${time}, ${guests} guest(s). Confirm by phone.`,
                         status: 'new',
                       },
                       ...cms.requests,
                     ],
+                  })
+                  // Email the reservation desk silently in the background -
+                  // no mail client opens on the guest's device.
+                  void fetch(
+                    'https://formsubmit.co/ajax/paresh.singh@oberoigroup.com',
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                      },
+                      body: JSON.stringify({
+                        _subject: `Reservation request — ${nowModal.title} at ${r.venue}`,
+                        Event: nowModal.title,
+                        Venue: r.venue,
+                        Date: date,
+                        Time: time,
+                        Guests: guests,
+                        Requested_at: new Date().toLocaleString('en-IN'),
+                        _template: 'table',
+                      }),
+                    },
+                  ).catch(() => {
+                    /* delivery is best-effort; the desk also sees the logged request */
                   })
                   setResvDone(true)
                 }}
@@ -289,7 +302,11 @@ export function Home() {
                       min={nowModal.reservation.startDate}
                       max={nowModal.reservation.endDate ?? nowModal.reservation.startDate}
                       onChange={(e) =>
-                        setResv({ date: e.target.value, time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0] })
+                        setResv({
+                          date: e.target.value,
+                          time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0],
+                          guests: resv?.guests ?? '',
+                        })
                       }
                     />
                   </label>
@@ -298,7 +315,11 @@ export function Home() {
                     <select
                       value={resv?.time ?? slotsFor(nowModal.reservation.timeLabel)[0]}
                       onChange={(e) =>
-                        setResv({ date: resv?.date ?? nowModal.reservation?.startDate ?? '', time: e.target.value })
+                        setResv({
+                          date: resv?.date ?? nowModal.reservation?.startDate ?? '',
+                          time: e.target.value,
+                          guests: resv?.guests ?? '',
+                        })
                       }
                     >
                       {slotsFor(nowModal.reservation.timeLabel).map((t) => (
@@ -307,6 +328,25 @@ export function Home() {
                         </option>
                       ))}
                     </select>
+                  </label>
+                  <label>
+                    Guests
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      required
+                      min={1}
+                      max={16}
+                      placeholder="2"
+                      value={resv?.guests ?? ''}
+                      onChange={(e) =>
+                        setResv({
+                          date: resv?.date ?? nowModal.reservation?.startDate ?? '',
+                          time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0],
+                          guests: e.target.value.replace(/\D/g, ''),
+                        })
+                      }
+                    />
                   </label>
                 </div>
                 {nowModal.reservation.endDate && (
@@ -348,23 +388,6 @@ export function Home() {
             )}
           </div>
         </div>
-      )}
-      {menuCursor && (
-        <aside
-          className="menu-cursor"
-          aria-hidden="true"
-          style={{ left: menuCursor.x, top: menuCursor.y }}
-        >
-          <p>Menu · {hotelVenue?.name}</p>
-          <ul>
-            {snippet.map((line) => (
-              <li key={line.name}>
-                <strong>{line.name}</strong>
-                <span>{line.note}</span>
-              </li>
-            ))}
-          </ul>
-        </aside>
       )}
     </>
   )
