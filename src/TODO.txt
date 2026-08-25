@@ -1,10 +1,8 @@
 DONE - BMS and hotel events algo 
-    request res button goes to paresh
     Set up "itinerary" algo for whats happening today section, homepage
 
 change info text for all outlets 
-remove tonight from homepage 
-add link/snippet of menu for outlets 
 - make 96 page more interactive (add other bars/cafes)
 better the explore page 
 Host the page 
+

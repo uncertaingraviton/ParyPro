@@ -3,6 +3,7 @@ import { Link, useOutletContext } from 'react-router-dom'
 import type { LayoutOutlet } from '../components/Layout'
 import { venues } from '../data'
 import { useLiveFeeds } from '../lib/feed'
+import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 
@@ -12,7 +13,6 @@ const moods = [
   { to: '/explore', label: 'Experience', icon: '🎵', img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=70' },
   { to: '/explore', label: 'Explore', icon: '🏙', img: 'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=900&q=70' },
   { to: '/explore?group=shopping', label: 'Shop', icon: '🛍', img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=70' },
-  { to: '/tonight', label: 'Tonight', icon: '🌙', img: 'https://images.unsplash.com/photo-1514565131-fce0801d3f73?auto=format&fit=crop&w=900&q=70' },
 ]
 
 type NowModal = {
@@ -266,27 +266,12 @@ export function Home() {
                   })
                   // Email the reservation desk silently in the background -
                   // no mail client opens on the guest's device.
-                  void fetch(
-                    'https://formsubmit.co/ajax/paresh.singh@oberoigroup.com',
-                    {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                      },
-                      body: JSON.stringify({
-                        _subject: `Reservation request — ${nowModal.title} at ${r.venue}`,
-                        Event: nowModal.title,
-                        Venue: r.venue,
-                        Date: date,
-                        Time: time,
-                        Guests: guests,
-                        Requested_at: new Date().toLocaleString('en-IN'),
-                        _template: 'table',
-                      }),
-                    },
-                  ).catch(() => {
-                    /* delivery is best-effort; the desk also sees the logged request */
+                  sendReservationEmail({
+                    event: nowModal.title,
+                    venue: r.venue,
+                    date,
+                    time,
+                    guests,
                   })
                   setResvDone(true)
                 }}

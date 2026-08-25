@@ -371,6 +371,49 @@ button {
   color: var(--muted);
 }
 
+/* Kanak à la carte menu pages. */
+.menu-pages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.menu-pages button {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 0;
+  overflow: hidden;
+}
+
+.menu-pages img {
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.menu-pages button:hover img {
+  transform: scale(1.02);
+}
+
+.menu-lightbox {
+  width: min(760px, 100%);
+  max-height: min(92vh, 900px);
+  overflow: auto;
+  padding: 20px;
+  background: var(--cream);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-lightbox img {
+  width: auto;
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+}
+
 .now-foot {
   margin-top: 14px;
   font-size: 11px !important;
@@ -901,6 +944,10 @@ h3,
   .now-grid {
     grid-template-columns: minmax(0, 420px);
     justify-content: center;
+  }
+
+  .menu-pages {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .now-card {
