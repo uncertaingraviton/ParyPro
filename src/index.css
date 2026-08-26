@@ -22,6 +22,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -974,6 +975,25 @@ h3,
   .now-card {
     aspect-ratio: 5 / 4;
     max-height: none;
+    padding: 32px 26px;
+  }
+
+  /* Stamp copy must shrink with the card on tablets/phones. */
+  .now-card p {
+    font-size: 17px;
+  }
+
+  .split .copy {
+    padding: 36px 24px;
+  }
+
+  .venue-card h3,
+  .place-card h3 {
+    font-size: 30px;
+  }
+
+  .quote {
+    font-size: 19px;
   }
 
   .timeline-item {
@@ -993,5 +1013,153 @@ h3,
   .footer {
     flex-direction: column;
     padding: 32px 20px 88px;
+  }
+}
+
+/* Phones. */
+@media (max-width: 640px) {
+  .topbar {
+    top: 10px;
+    padding: 10px 14px;
+  }
+
+  .brand-trident {
+    width: 108px;
+  }
+
+  .brand small {
+    font-size: 7px;
+    letter-spacing: 0.1em;
+  }
+
+  .site:not(.is-home) {
+    padding-top: 92px;
+  }
+
+  .hero {
+    padding-top: 104px;
+  }
+
+  .hero-inner {
+    padding: 8px 16px 44px;
+  }
+
+  .now-grid {
+    gap: 18px;
+  }
+
+  .now-card {
+    aspect-ratio: auto;
+    min-height: 300px;
+    padding: 26px 22px;
+  }
+
+  .now-card p {
+    font-size: 15px;
+  }
+
+  .section,
+  .page-hero,
+  .today-hero {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .section-head {
+    margin-bottom: 32px;
+  }
+
+  .mood-grid,
+  .venue-grid,
+  .event-grid,
+  .place-grid,
+  .service-grid,
+  .staff-grid,
+  .qr-grid {
+    gap: 14px;
+  }
+
+  .mood-card {
+    min-height: 170px;
+    padding: 20px;
+  }
+
+  .mood-card strong {
+    font-size: 26px;
+  }
+
+  .venue-card h3,
+  .place-card h3 {
+    font-size: 26px;
+  }
+
+  .venue-card .copy,
+  .place-card .copy,
+  .service-card,
+  .event-card,
+  .panel,
+  .form-card {
+    padding: 22px 18px;
+  }
+
+  .display {
+    font-size: clamp(38px, 11vw, 56px);
+  }
+
+  .page-hero h1 {
+    font-size: clamp(36px, 11vw, 56px);
+  }
+
+  /* Reservation fields stack full-width and stay thumb-friendly. */
+  .resv-row input,
+  .resv-row select {
+    flex: 1 1 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    font-size: 16px; /* prevents iOS zoom-on-focus */
+  }
+
+  .now-modal {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .now-modal-panel {
+    max-height: 88vh;
+    padding: 28px 22px 24px;
+  }
+
+  .place-modal-img {
+    width: calc(100% + 44px);
+    margin: -28px -22px 18px;
+    height: 180px;
+  }
+
+  .place-map {
+    height: 220px;
+  }
+
+  .menu-pages {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .menu-lightbox img {
+    max-height: 58vh;
+  }
+
+  .now-modal-actions .btn,
+  .form-card .btn {
+    flex: 1 1 auto;
+  }
+
+  .ask-fab {
+    right: 14px;
+    bottom: 76px;
+    padding: 14px 18px;
+  }
+
+  .footer {
+    padding-bottom: 96px;
   }
 }
