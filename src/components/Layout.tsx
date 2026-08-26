@@ -33,7 +33,7 @@ export function Layout() {
             ))}
           </nav>
           <NavLink to="/" className="brand">
-            <img className="brand-trident" src="/trident-letters.svg" alt="Trident" />
+            <img className="brand-trident" src={`${import.meta.env.BASE_URL}trident-letters.svg`} alt="Trident" />
             <small>Food &amp; Beverage Concierge</small>
           </NavLink>
         </div>

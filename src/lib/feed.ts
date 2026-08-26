@@ -76,8 +76,9 @@ export function useLiveFeeds(): LiveFeeds {
 
     async function load() {
       const [hotel, city] = await Promise.all([
-        fetchJson<HotelFeed>('/feed/hotel.json'),
-        fetchJson<CityFeed>('/feed/city.json'),
+    // BASE_URL keeps this correct on GitHub Pages (/ParyPro/) and locally (/).
+    fetchJson<HotelFeed>(`${import.meta.env.BASE_URL}feed/hotel.json`),
+    fetchJson<CityFeed>(`${import.meta.env.BASE_URL}feed/city.json`),
       ])
       if (cancelled) return
       setFeeds({
