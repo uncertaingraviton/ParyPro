@@ -69,9 +69,24 @@ def main() -> int:
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
 
-    # Exit non-zero only if BOTH failed — partial success still refreshes
-    # whatever it could, which is better than nothing.
-    return 1 if len(failures) == 2 else 0
+    if len(failures) == 2:
+        # Both failed (e.g. Instagram/BookMyShow blocking GitHub's IPs).
+        # If last-good feeds already exist, keep them serving and stay green -
+        # a red cron every 6 hours helps nobody. Fail loudly only when there
+        # is no data at all to fall back on.
+        have_last_good = all(
+            (FEED_DIR / f"{name}.json").exists() for name in ("hotel", "city")
+        )
+        if have_last_good:
+            print(
+                "All sources blocked; keeping last-good feeds. "
+                "Consider setting APIFY_TOKEN for an Instagram fallback.",
+                file=sys.stderr,
+            )
+            return 0
+        return 1
+
+    return 0
 
 
 if __name__ == "__main__":

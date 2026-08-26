@@ -38,6 +38,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No feed changes."
           else
-            git commit -m "[skip ci] refresh live feeds"
+            git commit -m "chore: refresh live feeds"
             git push
           fi
