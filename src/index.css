@@ -1021,7 +1021,16 @@ h3,
 @media (max-width: 640px) {
   .topbar {
     top: 10px;
-    padding: 10px 14px;
+    /* Shrink to fit the brand so the banner doesn't span the full width
+       with empty space on either side. The bar is still centered. */
+    width: max-content;
+    max-width: calc(100vw - 28px);
+    padding: 10px 18px;
+  }
+
+  .topbar-inner {
+    justify-content: center;
+    gap: 0;
   }
 
   .brand-trident {
