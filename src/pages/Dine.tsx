@@ -7,14 +7,112 @@ import kanakMenu3 from '../assets/kanak-menu-3.png'
 import kanakMenu4 from '../assets/kanak-menu-4.png'
 import kanakMenu5 from '../assets/kanak-menu-5.png'
 import kanakMenu6 from '../assets/kanak-menu-6.png'
+import tuscanyMenu1 from '../assets/1.png'
+import tuscanyMenu2 from '../assets/2.png'
+import tuscanyMenu3 from '../assets/3.png'
+import tuscanyMenu4 from '../assets/4.png'
+import tuscanyMenu5 from '../assets/5.png'
+import tuscanyMenu6 from '../assets/6.png'
+import tuscanyMenu7 from '../assets/7.png'
+import tuscanySetMenu from '../assets/set menu.png'
 
 const kanakMenu = [kanakMenu1, kanakMenu2, kanakMenu3, kanakMenu4, kanakMenu5, kanakMenu6]
+const tuscanyMenu = [
+  tuscanyMenu1,
+  tuscanyMenu2,
+  tuscanyMenu3,
+  tuscanyMenu4,
+  tuscanyMenu5,
+  tuscanyMenu6,
+  tuscanyMenu7,
+  tuscanySetMenu,
+]
 import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 import type { Mood, VenueSlug } from '../types'
 
 const diningVenues = venues.filter((v) => v.slug !== 'in-room')
+
+/**
+ * A paged restaurant menu - the same gallery + lightbox pattern used on
+ * Kanak, now also serving Tuscany. The grid shows every page as a thumbnail
+ * and a tap opens a full-size lightbox with previous / next / close
+ * controls. Kept in this file so the venue page owns its menu state.
+ */
+function MenuSection({
+  venueName,
+  kicker,
+  title,
+  pages,
+  altPrefix,
+}: {
+  venueName: string
+  kicker: string
+  title: string
+  pages: string[]
+  altPrefix: string
+}) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  if (pages.length === 0) return null
+  return (
+    <section className="section">
+      <p className="eyebrow">{kicker}</p>
+      <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', margin: '8px 0 24px' }}>{title}</h2>
+      <div className="menu-pages">
+        {pages.map((src, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setOpenIndex(i)}
+            aria-label={`Open ${venueName} menu page ${i + 1}`}
+          >
+            <img src={src} alt={`${altPrefix} menu, page ${i + 1}`} loading="lazy" />
+          </button>
+        ))}
+      </div>
+      <p className="muted" style={{ marginTop: 14 }}>
+        Tap a page to read it full size.
+      </p>
+      {openIndex !== null && (
+        <div
+          className="now-modal"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setOpenIndex(null)}
+        >
+          <div className="menu-lightbox" onClick={(e) => e.stopPropagation()}>
+            <img src={pages[openIndex]} alt={`${altPrefix} menu page ${openIndex + 1}`} />
+            <div className="now-modal-actions">
+              <button
+                className="btn ghost"
+                type="button"
+                disabled={openIndex === 0}
+                onClick={() => setOpenIndex(openIndex - 1)}
+              >
+                ← Previous
+              </button>
+              <span className="muted" style={{ alignSelf: 'center' }}>
+                Page {openIndex + 1} of {pages.length}
+              </span>
+              <button
+                className="btn ghost"
+                type="button"
+                disabled={openIndex === pages.length - 1}
+                onClick={() => setOpenIndex(openIndex + 1)}
+              >
+                Next →
+              </button>
+              <button className="btn" type="button" onClick={() => setOpenIndex(null)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
 
 export function Dine() {
   return (
@@ -54,7 +152,6 @@ export function Dine() {
 export function Venue() {
   const { slug } = useParams()
   const { cms } = useStore()
-  const [menuPage, setMenuPage] = useState<number | null>(null)
   const venue = venues.find((v) => v.slug === slug)
   if (!venue) return <p className="section">That room does not exist.</p>
   const specials = cms.specials.filter((s) => s.venue === venue.slug)
@@ -94,52 +191,23 @@ export function Venue() {
       </article>
 
       {venue.slug === 'kanak' && (
-        <section className="section">
-          <p className="eyebrow">Kanak · À la carte</p>
-          <h2 style={{ fontSize: 'clamp(32px, 4vw, 52px)', margin: '8px 0 24px' }}>The menu</h2>
-          <div className="menu-pages">
-            {kanakMenu.map((src, i) => (
-              <button key={i} type="button" onClick={() => setMenuPage(i)} aria-label={`Open menu page ${i + 1}`}>
-                <img src={src} alt={`Kanak à la carte menu, page ${i + 1}`} loading="lazy" />
-              </button>
-            ))}
-          </div>
-          <p className="muted" style={{ marginTop: 14 }}>
-            Tap a page to read it full size.
-          </p>
-        </section>
+        <MenuSection
+          venueName={venue.name}
+          kicker={`${venue.name} · À la carte`}
+          title="The menu"
+          pages={kanakMenu}
+          altPrefix="Kanak à la carte"
+        />
       )}
 
-      {menuPage !== null && (
-        <div className="now-modal" role="dialog" aria-modal="true" onClick={() => setMenuPage(null)}>
-          <div className="menu-lightbox" onClick={(e) => e.stopPropagation()}>
-            <img src={kanakMenu[menuPage]} alt={`Kanak menu page ${menuPage + 1}`} />
-            <div className="now-modal-actions">
-              <button
-                className="btn ghost"
-                type="button"
-                disabled={menuPage === 0}
-                onClick={() => setMenuPage(menuPage - 1)}
-              >
-                ← Previous
-              </button>
-              <span className="muted" style={{ alignSelf: 'center' }}>
-                Page {menuPage + 1} of {kanakMenu.length}
-              </span>
-              <button
-                className="btn ghost"
-                type="button"
-                disabled={menuPage === kanakMenu.length - 1}
-                onClick={() => setMenuPage(menuPage + 1)}
-              >
-                Next →
-              </button>
-              <button className="btn" type="button" onClick={() => setMenuPage(null)}>
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+      {venue.slug === 'tuscany' && (
+        <MenuSection
+          venueName={venue.name}
+          kicker={`${venue.name} · À la carte`}
+          title="The menu"
+          pages={tuscanyMenu}
+          altPrefix="Tuscany à la carte"
+        />
       )}
     </>
   )
