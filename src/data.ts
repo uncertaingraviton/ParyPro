@@ -102,7 +102,9 @@ export const venues: Venue[] = [
     moods: ['cocktail', 'nightcap', 'coffee'],
     cuisine: ['Bar'],
     floor: 'Lobby level',
-    reservation: true,
+    // Ninety Six is a walk-in bar - no table reservations are taken.
+    reservation: false,
+    walkIn: true,
   },
   {
     slug: 'in-room',

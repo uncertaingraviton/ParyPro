@@ -6,7 +6,7 @@
  * once. The first submission emails an activation link; clicking it once
  * enables all future deliveries automatically.
  */
-export const RESERVATION_EMAIL = 'r.singh@oberoigroup.com'
+export const RESERVATION_EMAIL = 'rpareshsingh@gmail.com'
 
 export type ReservationDetails = {
   event?: string

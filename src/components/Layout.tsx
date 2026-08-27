@@ -42,13 +42,7 @@ export function Layout() {
       <footer className="footer">
         <span>Trident Hyderabad · HITEC City</span>
         <span>Your guide to the hotel, the table and the city.</span>
-        <span>
-          <NavLink to="/hotel">Hotel</NavLink>
-          {' · '}
-          <NavLink to="/qr">QR</NavLink>
-          {' · '}
-          <NavLink to="/staff">Staff</NavLink>
-        </span>
+        <span>© Trident Hotels</span>
       </footer>
       <nav className="mobile-nav">
         {links.map((l) => (

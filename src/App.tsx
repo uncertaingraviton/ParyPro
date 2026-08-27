@@ -6,10 +6,6 @@ import { Drink } from './pages/Drink'
 import { Evening } from './pages/Evening'
 import { Explore } from './pages/Explore'
 import { Home } from './pages/Home'
-import { Hotel } from './pages/Hotel'
-import { Qr } from './pages/Qr'
-import { QrRedirect } from './pages/QrRedirect'
-import { Staff } from './pages/Staff'
 import { Today } from './pages/Today'
 import { StoreProvider } from './store'
 
@@ -26,13 +22,9 @@ export default function App() {
             <Route path="dine/:slug" element={<Venue />} />
             <Route path="drink" element={<Drink />} />
             <Route path="explore" element={<Explore />} />
-            <Route path="hotel" element={<Hotel />} />
             <Route path="today" element={<Today />} />
             <Route path="evening" element={<Evening />} />
             <Route path="concierge" element={<ConciergePage />} />
-            <Route path="staff" element={<Staff />} />
-            <Route path="qr" element={<Qr />} />
-            <Route path="qr/:place" element={<QrRedirect />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

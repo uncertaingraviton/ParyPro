@@ -79,12 +79,16 @@ export function Venue() {
               <strong>{s.title}.</strong> {s.detail}
             </p>
           ))}
-          <div style={{ marginTop: 28, display: 'flex', gap: 12 }}>
-            {venue.reservation && (
+          <div style={{ marginTop: 28, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {venue.walkIn ? (
+              <p className="walk-in">
+                We do not take table reservations at {venue.name}. We request you to please walk in.
+              </p>
+            ) : venue.reservation ? (
               <Link className="btn" to={`/dine/reserve?venue=${venue.slug}`}>
                 Reserve a table
               </Link>
-            )}
+            ) : null}
           </div>
         </div>
       </article>
@@ -223,11 +227,15 @@ export function Reserve() {
           <label>
             Room
             <select className="field" value={venue} onChange={(e) => setVenue(e.target.value)}>
-              {venues.map((v) => (
-                <option key={v.slug} value={v.slug}>
-                  {v.name}
-                </option>
-              ))}
+              {/* Only show venues that take table reservations. Walk-in bars
+                  (e.g. Ninety Six) and in-room dining are not selectable. */}
+              {venues
+                .filter((v) => v.reservation && !v.walkIn && v.slug !== 'in-room')
+                .map((v) => (
+                  <option key={v.slug} value={v.slug}>
+                    {v.name}
+                  </option>
+                ))}
             </select>
           </label>
           <p style={{ margin: '8px 0 20px' }} className="muted">

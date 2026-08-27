@@ -613,6 +613,19 @@ h3,
   margin-top: 16px;
 }
 
+/* Inline note shown on a venue page that doesn't take reservations
+   (e.g. Ninety Six) - a calm, framed line in place of the "Reserve" button. */
+.walk-in {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.45;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  max-width: 520px;
+}
+
 .timeline {
   display: grid;
   gap: 0;
@@ -1117,6 +1130,18 @@ h3,
     font-size: 26px;
   }
 
+  /* Outlet cards: stop the image from blowing out the grid row. On phones
+     the image gets a fixed max-height and the copy sits in its own row
+     with proper padding so the venue name no longer overlaps the photo. */
+  .venue-card {
+    grid-template-rows: 200px auto;
+    min-height: 0;
+  }
+
+  .venue-card > img {
+    height: 100%;
+  }
+
   .venue-card .copy,
   .place-card .copy,
   .service-card,
@@ -1124,6 +1149,10 @@ h3,
   .panel,
   .form-card {
     padding: 22px 18px;
+  }
+
+  .venue-card .copy {
+    padding-bottom: 32px;
   }
 
   .display {

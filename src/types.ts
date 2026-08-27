@@ -41,6 +41,8 @@ export type Venue = {
   cuisine: string[]
   floor: string
   reservation: boolean
+  /** If true, this venue does not take reservations - show a walk-in note. */
+  walkIn?: boolean
 }
 
 export type MenuLine = { name: string; note: string }
