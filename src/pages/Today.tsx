@@ -47,8 +47,8 @@ export function Today() {
           </h3>
           <p>{cms.notes}</p>
           <p style={{ marginTop: 16 }}>{cms.traffic}</p>
-          <Link className="btn" to="/tonight" style={{ marginTop: 24 }}>
-            Open tonight
+          <Link className="btn" to="/explore" style={{ marginTop: 24 }}>
+            Explore Hyderabad
           </Link>
         </aside>
       </div>

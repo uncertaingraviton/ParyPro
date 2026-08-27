@@ -2,9 +2,9 @@ import { Navigate, useParams } from 'react-router-dom'
 
 const map: Record<string, string> = {
   room: '/today',
-  restaurant: '/tonight',
+  restaurant: '/explore',
   bar: '/drink',
-  elevator: '/tonight',
+  elevator: '/explore',
   pool: '/hotel',
   lobby: '/concierge',
 }

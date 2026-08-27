@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { Link, useOutletContext } from 'react-router-dom'
-import type { LayoutOutlet } from '../components/Layout'
+import { Link } from 'react-router-dom'
 import { venues } from '../data'
 import moodDine from '../assets/place-biryani.jpg'
 import moodDrink from '../assets/place-chai.jpg'
@@ -53,7 +52,6 @@ function slotsFor(timeLabel?: string): string[] {
 
 export function Home() {
   const { cms, setCms } = useStore()
-  const { openAsk } = useOutletContext<LayoutOutlet>()
   const { hotelPromo, cityEvents } = useLiveFeeds()
   const [nowModal, setNowModal] = useState<NowModal | null>(null)
   const [resv, setResv] = useState<{ date: string; time: string; guests: string } | null>(null)
@@ -158,7 +156,7 @@ export function Home() {
               )}
             </Link>
             <Link
-              to={liveCity ? cityNow.url || '/tonight' : '/tonight'}
+              to={liveCity ? cityNow.url || '/explore' : '/explore'}
               className="now-card"
               onClick={(e) => {
                 e.preventDefault()
@@ -167,8 +165,8 @@ export function Home() {
                   title: cityNow.title,
                   body: cityNow.editorial || cityNow.description,
                   meta: [cityNow.time, cityNow.venue].filter(Boolean).join(' · '),
-                  ctaTo: cityNow.url || '/tonight',
-                  ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Tonight in Hyderabad',
+                  ctaTo: cityNow.url || '/explore',
+                  ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Explore the city',
                   external: Boolean(cityNow.url),
                 })
               }}
@@ -194,9 +192,6 @@ export function Home() {
               )}
             </Link>
           </div>
-          <button className="hero-ask" type="button" onClick={openAsk}>
-            Ask the Concierge
-          </button>
         </div>
       </section>
 
@@ -269,7 +264,7 @@ export function Home() {
                 <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
               </a>
             ) : (
-              <Link to={event.url || '/tonight'} className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key={event.id}>
+              <Link to={event.url || '/explore'} className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key={event.id}>
                 <p className="eyebrow">{event.time}</p>
                 <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
                   {event.title}
@@ -279,11 +274,6 @@ export function Home() {
               </Link>
             )
           ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: 36 }}>
-          <Link className="btn gold" to="/tonight">
-            Tonight in Hyderabad
-          </Link>
         </div>
       </section>
       {nowModal && (

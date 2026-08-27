@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 
 const codes = [
   { place: 'Guest room', line: 'Discover Hyderabad →', to: '/today' },
-  { place: 'Restaurant', line: 'Explore tonight’s recommendations →', to: '/tonight' },
+  { place: 'Restaurant', line: 'Explore Hyderabad’s recommendations →', to: '/explore' },
   { place: 'Bar', line: 'Find your next drink →', to: '/drink' },
-  { place: 'Elevator', line: 'What’s happening tonight? →', to: '/tonight' },
+  { place: 'Elevator', line: 'What’s happening in the city? →', to: '/explore' },
   { place: 'Pool', line: 'Discover your afternoon →', to: '/hotel' },
   { place: 'Lobby', line: 'Ask our digital concierge →', to: '/concierge' },
 ]

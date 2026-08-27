@@ -11,7 +11,6 @@ import { Qr } from './pages/Qr'
 import { QrRedirect } from './pages/QrRedirect'
 import { Staff } from './pages/Staff'
 import { Today } from './pages/Today'
-import { Tonight } from './pages/Tonight'
 import { StoreProvider } from './store'
 
 export default function App() {
@@ -27,7 +26,6 @@ export default function App() {
             <Route path="dine/:slug" element={<Venue />} />
             <Route path="drink" element={<Drink />} />
             <Route path="explore" element={<Explore />} />
-            <Route path="tonight" element={<Tonight />} />
             <Route path="hotel" element={<Hotel />} />
             <Route path="today" element={<Today />} />
             <Route path="evening" element={<Evening />} />

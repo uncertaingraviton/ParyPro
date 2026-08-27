@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { AskDrawer } from './AskDrawer'
 import { StampClip } from './StampClip'
 
 const links = [
@@ -8,15 +6,17 @@ const links = [
   { to: '/dine', label: 'Dine' },
   { to: '/drink', label: 'Drink' },
   { to: '/explore', label: 'Explore' },
-  { to: '/tonight', label: 'Tonight' },
 ]
 
+// Pages used to expose an `openAsk` callback so they could pop the concierge
+// drawer. The "Ask the Concierge" button was removed site-wide, so no page
+// uses this anymore; the type is kept for source-compatibility with any
+// stale `useOutletContext` calls.
 export type LayoutOutlet = {
   openAsk: () => void
 }
 
 export function Layout() {
-  const [ask, setAsk] = useState(false)
   const { pathname } = useLocation()
   const isHome = pathname === '/'
 
@@ -38,7 +38,7 @@ export function Layout() {
           </NavLink>
         </div>
       </header>
-      <Outlet context={{ openAsk: () => setAsk(true) } satisfies LayoutOutlet} />
+      <Outlet />
       <footer className="footer">
         <span>Trident Hyderabad · HITEC City</span>
         <span>Your guide to the hotel, the table and the city.</span>
@@ -57,12 +57,6 @@ export function Layout() {
           </NavLink>
         ))}
       </nav>
-      {!isHome && (
-        <button className="ask-fab" type="button" onClick={() => setAsk(true)}>
-          Ask the Concierge
-        </button>
-      )}
-      <AskDrawer open={ask} onClose={() => setAsk(false)} />
     </div>
   )
 }
