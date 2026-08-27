@@ -15,6 +15,16 @@ import tuscanyMenu5 from '../assets/5.png'
 import tuscanyMenu6 from '../assets/6.png'
 import tuscanyMenu7 from '../assets/7.png'
 import tuscanySetMenu from '../assets/set menu.png'
+import amaraMenu1 from '../assets/A1.avif'
+import amaraMenu2 from '../assets/A3.avif'
+import amaraMenu3 from '../assets/A4.avif'
+import amaraMenu4 from '../assets/A5.avif'
+import amaraMenu5 from '../assets/A6.avif'
+import amaraMenu6 from '../assets/A7.avif'
+import amaraMenu7 from '../assets/A8.avif'
+import amaraMenu8 from '../assets/A9.avif'
+import amaraMenu9 from '../assets/A10.avif'
+import amaraMenu10 from '../assets/A11.avif'
 
 const kanakMenu = [kanakMenu1, kanakMenu2, kanakMenu3, kanakMenu4, kanakMenu5, kanakMenu6]
 const tuscanyMenu = [
@@ -26,6 +36,18 @@ const tuscanyMenu = [
   tuscanyMenu6,
   tuscanyMenu7,
   tuscanySetMenu,
+]
+const amaraMenu = [
+  amaraMenu1,
+  amaraMenu2,
+  amaraMenu3,
+  amaraMenu4,
+  amaraMenu5,
+  amaraMenu6,
+  amaraMenu7,
+  amaraMenu8,
+  amaraMenu9,
+  amaraMenu10,
 ]
 import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
@@ -207,6 +229,16 @@ export function Venue() {
           title="The menu"
           pages={tuscanyMenu}
           altPrefix="Tuscany à la carte"
+        />
+      )}
+
+      {venue.slug === 'amara' && (
+        <MenuSection
+          venueName={venue.name}
+          kicker={`${venue.name} · À la carte`}
+          title="The menu"
+          pages={amaraMenu}
+          altPrefix="Amara à la carte"
         />
       )}
     </>
