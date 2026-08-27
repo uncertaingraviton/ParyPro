@@ -1,8 +1,13 @@
 name: Refresh live feeds
 
+# All times are UTC. The hotel is in Hyderabad (UTC+5:30), so:
+#   09:30 UTC = 15:00 IST (refreshes after lunch service)
+#   14:00 UTC = 19:30 IST (refreshes after dinner starts)
 on:
   schedule:
-    - cron: "0 */6 * * *" # every 6 hours
+    - cron: "0 */6 * * *"          # every 6 hours
+    - cron: "30 9 * * *"           # post-lunch refresh (15:00 IST)
+    - cron: "0 14 * * *"           # post-dinner refresh (19:30 IST)
   workflow_dispatch: {} # manual trigger for testing
 
 permissions:

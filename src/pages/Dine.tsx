@@ -85,9 +85,6 @@ export function Venue() {
                 Reserve a table
               </Link>
             )}
-            <Link className="btn ghost" to="/dine">
-              All dining
-            </Link>
           </div>
         </div>
       </article>

@@ -605,12 +605,62 @@ def _to_promotion(post: dict) -> dict:
     }
 
 
+def _is_current(promo: dict) -> bool:
+    """Return False when a promotion's event has already passed.
+
+    A same-day lunch event ('26 August | Lunch') is expired once lunch is over
+    on that day; a multi-day run is expired after its end date. Future events
+    are always kept so the feed can be booked ahead of time. Events with no
+    parseable date are kept (better to surface than to hide).
+    """
+    start = promo.get("startDate") or ""
+    if not start:
+        return True
+    try:
+        start_date = datetime.fromisoformat(start).date()
+    except ValueError:
+        return True
+
+    today = datetime.now().date()
+
+    if start_date > today:
+        return True  # upcoming
+
+    end = promo.get("endDate") or ""
+    try:
+        end_date = datetime.fromisoformat(end).date() if end else start_date
+    except ValueError:
+        end_date = start_date
+
+    if end_date < today:
+        return False  # finished in the past
+
+    # Same-day single-slot event (no separate end date): expire the slot once
+    # its last service time is over. e.g. 26th Lunch -> gone after 14:30 IST.
+    if start_date == today and not end:
+        time_label = (promo.get("timeLabel") or "").lower()
+        now = datetime.now().time()
+        if time_label in MEAL_SLOTS:
+            latest = max(MEAL_SLOTS[time_label])
+            latest_time = datetime.strptime(latest, "%H:%M").time()
+            if now >= latest_time:
+                return False
+        # unrecognised slot: keep it for the whole day.
+
+    return True
+
+
 def get_promotions(limit: int = 5) -> list[dict]:
     """Return up to `limit` F&B promotion records, newest first.
 
     Tries every source until one yields posts that look like F&B specials.
     If no post qualifies anywhere, the newest available posts are still used
     as generic 'hotel happenings' - an empty feed helps nobody.
+
+    Expired promotions (events whose date/time has already passed) are
+    stripped from the output so the feed always reflects the current date
+    and time, and is refreshed by the next scrape run once an event ends
+    (e.g. the 26th lunch disappears after lunch time on the 26th).
     """
     errors: list[str] = []
     fallback: list[dict] = []
@@ -634,17 +684,23 @@ def get_promotions(limit: int = 5) -> list[dict]:
         scored = [pair for pair in scored if pair[0] >= 2]
         if scored:
             scored.sort(key=lambda pair: pair[0], reverse=True)
-            return [_to_promotion(p) for _, p in scored[:limit]]
+            promos = [_to_promotion(p) for _, p in scored[:limit]]
+            fresh = [p for p in promos if _is_current(p)]
+            if fresh:
+                return fresh
+            # Scored posts existed but every one is already past its time -
+            # fall through to the next source / the fallback rather than
+            # surfacing a stale lunch event.
 
         if posts and not fallback:
             fallback = posts
 
     if fallback:
-        # Nothing matched promo keywords - surface the latest posts anyway.
-        fallback.sort(
-            key=lambda p: p.get("postedAt") or "", reverse=True
-        )
-        return [_to_promotion(p) for p in fallback[:limit]]
+        # Nothing matched promo keywords (or all matches were expired) - surface
+        # the latest posts anyway, skipping any whose event time has passed.
+        fallback.sort(key=lambda p: p.get("postedAt") or "", reverse=True)
+        fresh = [_to_promotion(p) for p in fallback[:limit]]
+        return [p for p in fresh if _is_current(p)]
 
     raise RuntimeError(
         "Instagram scrape failed on all sources: " + " | ".join(errors)

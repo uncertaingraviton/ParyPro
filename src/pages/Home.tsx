@@ -91,8 +91,8 @@ export function Home() {
                               month: 'short',
                             }),
                         ]
-                          .filter(Boolean)
-                          .join(' · '),
+                        .filter(Boolean)
+                        .join(' · '),
                         ctaTo: hotelPromo.url,
                         ctaLabel: 'See the post on Instagram',
                         external: true,
@@ -220,16 +220,64 @@ export function Home() {
         <div className="section-head">
           <p className="eyebrow">Hyderabad Now</p>
           <h2>What’s happening today</h2>
-          <p>Editorial, not scraped. Updated by the desk.</p>
+          <p>Live updates from our outlets and the city.</p>
         </div>
         <div className="event-grid" style={{ maxWidth: 1280, margin: '0 auto' }}>
-          {featured.map((e) => (
-            <article key={e.id} className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }}>
-              <p className="eyebrow">{e.time}</p>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>{e.title}</h3>
-              <p className="muted">{e.venue}</p>
-              <p style={{ marginTop: 12 }}>{e.editorial}</p>
-            </article>
+          {hotelPromo ? (
+            hotelPromo.url ? (
+              <a
+                href={hotelPromo.url}
+                target="_blank"
+                rel="noreferrer"
+                className="event-card"
+                style={{ background: '#2a2219', color: '#faf6f0' }}
+                key="hotel-promo"
+              >
+                <p className="eyebrow">{hotelPromo.when || hotelPromo.timeLabel}</p>
+                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                  {hotelPromo.title}
+                </h3>
+                <p className="muted">{hotelPromo.venueName}</p>
+                <p style={{ marginTop: 12 }}>{hotelPromo.detail}</p>
+              </a>
+            ) : (
+              <Link to="/dine" className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key="hotel-promo">
+                <p className="eyebrow">{hotelPromo.when || hotelPromo.timeLabel}</p>
+                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                  {hotelPromo.title}
+                </h3>
+                <p className="muted">{hotelPromo.venueName}</p>
+                <p style={{ marginTop: 12 }}>{hotelPromo.detail}</p>
+              </Link>
+            )
+          ) : null}
+          {cityEvents?.map((event) => (
+            event.url ? (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noreferrer"
+                className="event-card"
+                style={{ background: '#2a2219', color: '#faf6f0' }}
+                key={event.id}
+              >
+                <p className="eyebrow">{event.time}</p>
+                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                  {event.title}
+                </h3>
+                <p className="muted">{event.venue}</p>
+                <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
+              </a>
+            ) : (
+              <Link to={event.url || '/tonight'} className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key={event.id}>
+                <p className="eyebrow">{event.time}</p>
+                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                  {event.title}
+                </h3>
+                <p className="muted">{event.venue}</p>
+                <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
+              </Link>
+            )
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 36 }}>

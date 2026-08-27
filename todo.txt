@@ -1,0 +1,6 @@
+- [x] Analyze requirements and current codebase
+- [x] Remove "All Dining" button from outlet pages (removed in Dine.tsx; Drink/Evening had none)
+- [x] Implement reservation email send (already via FormSubmit AJAX in lib/reservations.ts — no mail app redirect)
+- [x] Update "What's happening today" section in Home.tsx to use live feeds and link to event/outlet
+- [ ] Instagram scrape: date-aware filtering of expired events + refresh schedule after lunch/dinner (IST)
+- [ ] Verify TypeScript compiles and test</arg_value></tool_call>
