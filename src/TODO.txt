@@ -11,3 +11,10 @@ For this project — a static Vite site already living in your GitHub repo (`unc
 - Free forever for **public** repositories (unlimited bandwidth). If `ParyPro` is private, either flip it to public, or upgrade to GitHub Pro (~$4/mo).
 - Perfect synergy: your existing 6-hourly scrape workflow already commits fresh feeds to `public/feed/`, so every push automatically republishes the latest data. No second hosting service to manage.
 - Setup: Settings → Pages → Source: "GitHub Actions", then add a small deploy job (`actions/upload-pages-artifact` on `dist/` + `actions/deploy-pages`). One caveat: since the app uses React Router paths like `/dine/kanak`, we'd add a `404.html` fallback (copy of `index.html`) so deep links work after refresh.
+
+Tevar and Burma Burma are the closest to Trident, both in the Salarpuria Sattva Knowledge City complex in Madhapur, just a few minutes away — good "walking distance" recommendations for guests.
+Tansen is a standout for special-occasion Indian fine dining (Financial District, Nanakramguda) — royal ambience, live music, consistently rated highly.
+Monastery works well for guests wanting a livelier, cocktail-forward evening with Pan-Asian/continental food.
+Babylon Kitchen & Bar and Air Live Jubilee Hills are better for guests headed toward Jubilee Hills for nightlife with a more premium crowd, rather than a quiet dinner.
+
+A couple of things worth flagging to guests directly: reviews across nearly all of these mention advance reservations are strongly recommended, especially on weekends, and Air Live / Babylon can get loud and club-like later in the evening, so they're better suited to guests looking for a scene rather than a quiet meal.

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { venues } from '../data'
 import moodDine from '../assets/place-biryani.jpg'
 import moodDrink from '../assets/place-chai.jpg'
-import moodExperience from '../assets/place-golconda.jpg'
 import moodExplore from '../assets/place-charminar.jpg'
 import moodShop from '../assets/place-laad.jpg'
 import { useLiveFeeds } from '../lib/feed'
@@ -14,7 +13,6 @@ import { useStore } from '../store'
 const moods = [
   { to: '/dine', label: 'Dine', icon: '🍽', img: moodDine },
   { to: '/drink', label: 'Drink', icon: '🍵', img: moodDrink },
-  { to: '/explore', label: 'Experience', icon: '🏰', img: moodExperience },
   { to: '/explore', label: 'Explore', icon: '🕌', img: moodExplore },
   { to: '/explore?group=shopping', label: 'Shop', icon: '🛍', img: moodShop },
 ]
