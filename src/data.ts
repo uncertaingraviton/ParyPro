@@ -33,6 +33,7 @@ import taazakitchenImg from './assets/taazakitchen.png'
 import prostImg from './assets/prost.png'
 import nawaabsImg from './assets/the nawaabs.png'
 import dumPhuktImg from './assets/dum phukt.png'
+import tabulaRasaImg from './assets/tabula rasa.png'
 import type {
   CityEvent,
   CityPlace,
@@ -579,6 +580,19 @@ export const places: CityPlace[] = [
     mapQuery: 'Prost Brewpub Jubilee Hills Hyderabad',
   },
   {
+    id: 'tabula-rasa',
+    name: 'Tabula Rasa',
+    area: 'Banjara Hills',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'An elegant rooftop bar with stunning views and a sophisticated cocktail program. Perfect for a refined evening out with good company.',
+    atmosphere: 'elegant',
+    image: tabulaRasaImg,
+    directions:
+      'About 20 minutes by car in Banjara Hills. Best to reserve a table in advance.',
+    mapQuery: 'Tabula Rasa rooftop bar Banjara Hills Hyderabad',
+  },
+  {
     id: 'biryani',
     name: 'A proper Hyderabadi biryani',
     area: 'Food',
@@ -623,7 +637,7 @@ export const places: CityPlace[] = [
     area: 'Food',
     category: 'food',
     minutes: 25,
-    why: 'A Hyderabad institution for biryani and Kebabs — the kind of place the city sends its guests. Dum ka白云, anyone?',
+    why: 'A Hyderabad institution for biryani and Kebabs — the kind of place the city sends its guests.',
     atmosphere: 'local',
     image: nawaabsImg,
     directions:

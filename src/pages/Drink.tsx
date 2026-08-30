@@ -57,15 +57,15 @@ export function Drink() {
         </div>
         <div className="venue-grid">
           {nightlifeVenues.map((v) => (
-            <div key={v.slug} className="venue-card">
-              <img src={v.image} alt={v.name} />
-              <div className="copy">
+            <div key={v.slug} className="venue-card" style={{ display: 'flex', flexDirection: 'column' }}>
+              <img src={v.image} alt={v.name} style={{ aspectRatio: '16/9', objectFit: 'cover' }} />
+              <div className="copy" style={{ flex: 1 }}>
                 <p className="eyebrow">{v.kicker} · {v.area}</p>
                 <h3>{v.name}</h3>
                 <p>{v.tagline}</p>
-                <p style={{ marginTop: 8 }}>{v.description}</p>
-                <p className="quote" style={{ marginTop: 12 }}>“{v.note}”</p>
-                <div style={{ marginTop: 16 }}>
+                <p>{v.description}</p>
+                <p className="quote">"{v.note}"</p>
+                <div style={{ marginTop: 'auto', paddingTop: 12 }}>
                   <a href={v.zomatoUrl} target="_blank" rel="noreferrer" className="btn ghost" style={{ fontSize: 14, padding: '8px 16px' }}>
                     Book on Zomato →
                   </a>
