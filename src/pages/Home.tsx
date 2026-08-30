@@ -1,10 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { venues } from '../data'
 import moodDine from '../assets/place-biryani.jpg'
 import moodDrink from '../assets/place-chai.jpg'
 import moodExplore from '../assets/place-charminar.jpg'
 import moodShop from '../assets/place-laad.jpg'
+import kanakImg from '../kanak1.png'
+import amaraImg from '../amara1.png'
+import tuscanyImg from '../tuscany1.png'
+import ninetySixImg from '../96a.png'
+import nawaabsImg from '../assets/the nawaabs.png'
+import tansenImg from '../assets/Tansen.png'
+import monasteryImg from '../assets/monastery.png'
+import burmaburmaImg from '../assets/burmaburma.png'
 import { useLiveFeeds } from '../lib/feed'
 import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
@@ -48,18 +56,39 @@ function slotsFor(timeLabel?: string): string[] {
   return ['12:30', '13:30', '19:00', '19:30', '20:30']
 }
 
+// Slideshow venues
+const slideshowVenues = [
+  { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'The flavours of the Nizams' },
+  { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining' },
+  { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy' },
+  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark' },
+  { slug: 'nawaabs', name: 'The Nawaabs', image: nawaabsImg, tagline: 'Hyderabadi cuisine' },
+  { slug: 'tansen', name: 'Tansen', image: tansenImg, tagline: 'Indian fine dining' },
+  { slug: 'monastery', name: 'Monastery', image: monasteryImg, tagline: 'Pan-Asian · Continental' },
+  { slug: 'burmaburma', name: 'Burma Burma', image: burmaburmaImg, tagline: 'Burmese cuisine' },
+]
+
 export function Home() {
   const { cms, setCms } = useStore()
   const { hotelPromo, cityEvents } = useLiveFeeds()
   const [nowModal, setNowModal] = useState<NowModal | null>(null)
   const [resv, setResv] = useState<{ date: string; time: string; guests: string } | null>(null)
   const [resvDone, setResvDone] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
   const hotelSpecial = cms.specials[0]
   const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
   // Live scraped data wins; fall back to desk-curated defaults.
   const liveCity = cityEvents?.[0]
   const cityNow = liveCity ?? featured[0] ?? cms.events[0]
+
+  // Auto-advance slideshow
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slideshowVenues.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <>
@@ -87,8 +116,8 @@ export function Home() {
                               month: 'short',
                             }),
                         ]
-                        .filter(Boolean)
-                        .join(' · '),
+                          .filter(Boolean)
+                          .join(' · '),
                         ctaTo: hotelPromo.url,
                         ctaLabel: 'See the post on Instagram',
                         external: true,
@@ -193,6 +222,36 @@ export function Home() {
         </div>
       </section>
 
+      {/* Slideshow Section */}
+      <section className="section slideshow-section">
+        <div className="slideshow-container">
+          {slideshowVenues.map((venue, index) => (
+            <div
+              key={venue.slug}
+              className={`slideshow-slide ${index === currentSlide ? 'active' : ''}`}
+            >
+              <Link to={`/dine/${venue.slug}`} className="slideshow-link">
+                <img src={venue.image} alt={venue.name} />
+                <div className="slideshow-overlay">
+                  <p className="slideshow-name">{venue.name}</p>
+                  <p className="slideshow-tagline">{venue.tagline}</p>
+                </div>
+              </Link>
+            </div>
+          ))}
+          <div className="slideshow-dots">
+            {slideshowVenues.map((_, index) => (
+              <button
+                key={index}
+                className={`slideshow-dot ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => setCurrentSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section mood-section">
         <div className="section-head">
           <p className="eyebrow">01 — Begin</p>
@@ -212,7 +271,7 @@ export function Home() {
       <section className="section dark" style={{ maxWidth: 'none' }}>
         <div className="section-head">
           <p className="eyebrow">Hyderabad Now</p>
-          <h2>What’s happening today</h2>
+          <h2>What's happening today</h2>
           <p>Live updates from our outlets and the city.</p>
         </div>
         <div className="event-grid" style={{ maxWidth: 1280, margin: '0 auto' }}>
