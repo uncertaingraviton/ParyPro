@@ -177,13 +177,18 @@ export function Dine() {
         <div className="venue-grid">
           {nearbyVenues.map((v) => (
             <div key={v.slug} className="venue-card">
-              <img src={v.image} alt="" />
+              <img src={v.image} alt={v.name} />
               <div className="copy">
                 <p className="eyebrow">{v.kicker} · {v.area}</p>
                 <h3>{v.name}</h3>
                 <p>{v.tagline}</p>
                 <p style={{ marginTop: 8 }}>{v.description}</p>
                 <p className="quote" style={{ marginTop: 12 }}>“{v.note}”</p>
+                <div style={{ marginTop: 16 }}>
+                  <a href={v.zomatoUrl} target="_blank" rel="noreferrer" className="btn ghost" style={{ fontSize: 14, padding: '8px 16px' }}>
+                    Book on Zomato →
+                  </a>
+                </div>
               </div>
             </div>
           ))}

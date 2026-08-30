@@ -21,7 +21,12 @@ import placeShilparamam from './assets/place-shilparamam.jpg'
 import placeNecklace from './assets/place-necklace.jpg'
 import placeRamoji from './assets/place-ramoji.jpg'
 import placeZoo from './assets/place-zoo.jpg'
-import placeJubileeNight from './assets/place-jubilee.jpg'
+import tevarImg from './assets/tevar.png'
+import burmaburmaImg from './assets/burmaburma.png'
+import tansenImg from './assets/Tansen.png'
+import monasteryImg from './assets/monastery.png'
+import babylonImg from './assets/babylon.png'
+import airliveImg from './assets/airlive.png'
 import type {
   CityEvent,
   CityPlace,
@@ -137,9 +142,10 @@ export const nearbyVenues = [
     hours: '11:00 a.m. – 11:00 p.m.',
     description:
       'The closest dining option to Trident, located in Salarpuria Sattva Knowledge City, Madhapur. A relaxed multi-cuisine restaurant ideal for a quick, convenient meal without venturing far from the hotel.',
-    image: placeHitec,
+    image: tevarImg,
     area: 'Madhapur',
     note: 'Strongly recommended to book ahead, especially on weekends.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/tevar-madhapur',
   },
   {
     slug: 'burma-burma',
@@ -149,9 +155,10 @@ export const nearbyVenues = [
     hours: '12:00 p.m. – 10:30 p.m.',
     description:
       'Also in Salarpuria Sattva Knowledge City, Madhapur — just a few minutes from the hotel. Renowned for authentic Burmese flavours with a strong vegetarian selection. A quiet, relaxed atmosphere makes it great for a peaceful dinner.',
-    image: placeHitec,
+    image: burmaburmaImg,
     area: 'Madhapur',
     note: 'Strongly recommended to book ahead, especially on weekends.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/burma-burma-gachibowli',
   },
   {
     slug: 'tansen',
@@ -161,9 +168,10 @@ export const nearbyVenues = [
     hours: '12:00 p.m. – 3:00 p.m. / 7:00 p.m. – 11:00 p.m.',
     description:
       'A standout destination for special-occasion Indian fine dining in the Financial District, Nanakramguda. Royal ambience, live classical music, and consistently highly-rated cuisine make it perfect for memorable evenings.',
-    image: placeJubilee,
+    image: tansenImg,
     area: 'Nanakramguda',
     note: 'Advance reservations strongly recommended, especially on weekends.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/tansen-the-golkonda-hotel-nanakramguda',
   },
   {
     slug: 'monastery',
@@ -173,9 +181,10 @@ export const nearbyVenues = [
     hours: '12:00 p.m. – 11:00 p.m.',
     description:
       'Well-suited for guests wanting a livelier evening with a cocktail-forward experience. Pan-Asian and continental cuisine served alongside an extensive drinks menu in an energetic atmosphere.',
-    image: placeBanjara,
+    image: monasteryImg,
     area: 'Banjara Hills',
     note: 'Can get busy later in the evening; advance reservations recommended.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/monastery-banajra-hills',
   },
   {
     slug: 'babylon',
@@ -185,9 +194,10 @@ export const nearbyVenues = [
     hours: '12:00 p.m. – 11:30 p.m.',
     description:
       'Located in Jubilee Hills, Babylon offers premium dining with a side of nightlife energy. Better suited to guests looking for a scene rather than a quiet meal — the atmosphere becomes more club-like as the evening progresses.',
-    image: placeJubileeNight,
+    image: babylonImg,
     area: 'Jubilee Hills',
     note: 'Gets loud and club-like later in the evening. Reservations recommended.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/babylon-kitchen-bar-jubilee-hills',
   },
   {
     slug: 'air-live',
@@ -197,9 +207,10 @@ export const nearbyVenues = [
     hours: '12:00 p.m. – 11:00 p.m.',
     description:
       'A premium venue in Jubilee Hills with a rooftop setting, popular with the city\'s well-heeled crowd. Offers a more upscale nightlife experience — better for guests seeking a scene than a quiet dinner.',
-    image: placeJubileeNight,
+    image: airliveImg,
     area: 'Jubilee Hills',
     note: 'Gets loud and energetic later in the evening. Reservations recommended.',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/air-live-jubilee-hills',
   },
 ]
 
