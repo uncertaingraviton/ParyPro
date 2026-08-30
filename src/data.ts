@@ -27,7 +27,9 @@ import tansenImg from './assets/Tansen.png'
 import monasteryImg from './assets/monastery.png'
 import babylonImg from './assets/babylon.png'
 import airliveImg from './assets/airlive.png'
-import placeHitecCity from './assets/place-hitec.jpg'
+import swacchImg from './assets/swacch.png'
+import rameshwaramImg from './assets/rameshwaram.png'
+import taazakitchenImg from './assets/taazakitchen.png'
 import placeFood from './assets/place-biryani.jpg'
 import type {
   CityEvent,
@@ -504,7 +506,7 @@ export const places: CityPlace[] = [
     minutes: 8,
     why: 'A popular casual dining spot in HITEC City — good for a relaxed meal without venturing far from the hotel.',
     atmosphere: 'lively',
-    image: placeHitecCity,
+    image: swacchImg,
     directions:
       'About 8 minutes by car from the hotel in the HITEC City area. Ask the concierge for directions.',
     mapQuery: 'Swachh restaurant HITEC City Hyderabad',
@@ -517,7 +519,7 @@ export const places: CityPlace[] = [
     minutes: 10,
     why: 'A reliable multi-cuisine option in the HITEC City neighbourhood with a comfortable setting for business or leisure.',
     atmosphere: 'lively',
-    image: placeHitecCity,
+    image: taazakitchenImg,
     directions:
       'About 10 minutes by car from the hotel. Located in the commercial district near Cyber Towers.',
     mapQuery: 'Taaza Kitchen HITEC City Hyderabad',
@@ -530,7 +532,7 @@ export const places: CityPlace[] = [
     minutes: 12,
     why: 'South Indian favourites done well — a favourite among locals and visitors for authentic flavours without the fuss.',
     atmosphere: 'local',
-    image: placeHitecCity,
+    image: rameshwaramImg,
     directions:
       'About 12 minutes by car from the hotel. A popular spot that can get busy during peak hours.',
     mapQuery: 'Rameshwaram Cafe HITEC City Hyderabad',
@@ -560,6 +562,84 @@ export const places: CityPlace[] = [
     directions:
       '22 minutes by car through Jubilee Hills. Road Nos. 1 to 12 hold most of the rooms worth booking.',
     mapQuery: 'Banjara Hills, Hyderabad',
+  },
+  {
+    id: 'prost',
+    name: 'Prost Brewpub',
+    area: 'Jubilee Hills',
+    category: 'nightlife',
+    minutes: 18,
+    why: 'A favourite among the city\'s craft beer community — good brews, decent food, and a relaxed vibe that works for groups.',
+    atmosphere: 'lively',
+    image: placeJubilee,
+    directions:
+      'About 18 minutes by car in Jubilee Hills. Best for early evening; can get crowded on weekends.',
+    mapQuery: 'Prost Brewpub Jubilee Hills Hyderabad',
+  },
+  {
+    id: 'overmoon',
+    name: 'Overmoon',
+    area: 'Jubilee Hills',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'A rooftop bar with a view and a crowd that knows how to enjoy it. Popular for sundowners and late-night conversations.',
+    atmosphere: 'lively',
+    image: placeJubilee,
+    directions:
+      'About 20 minutes by car in Jubilee Hills. Best to arrive before 9 p.m. for a good table.',
+    mapQuery: 'Overmoon rooftop bar Jubilee Hills Hyderabad',
+  },
+  {
+    id: 'farzi',
+    name: 'Farzi Cafe',
+    area: 'Jubilee Hills',
+    category: 'nightlife',
+    minutes: 22,
+    why: 'Modern Indian cuisine in a theatrical setting — molecular gastronomy meets street food. A Hyderabad favourite for a night out.',
+    atmosphere: 'lively',
+    image: placeJubilee,
+    directions:
+      'About 22 minutes by car in Jubilee Hills. Reservations recommended, especially on weekends.',
+    mapQuery: 'Farzi Cafe Jubilee Hills Hyderabad',
+  },
+  {
+    id: 'hop',
+    name: 'The Hop Company',
+    area: 'Banjara Hills',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'Another excellent option for craft beer enthusiasts in Banjara Hills — a more laid-back crowd than the club scene.',
+    atmosphere: 'lively',
+    image: placeBanjara,
+    directions:
+      'About 20 minutes by car in Banjara Hills. Good for groups and casual evenings.',
+    mapQuery: 'The Hop Company Banjara Hills Hyderabad',
+  },
+  {
+    id: 'taproom',
+    name: 'The Taproom',
+    area: 'Banjara Hills',
+    category: 'nightlife',
+    minutes: 22,
+    why: 'A reliable choice for a relaxed evening — good drinks selection, decent food, and an atmosphere that works for conversation or a small group.',
+    atmosphere: 'lively',
+    image: placeBanjara,
+    directions:
+      'About 22 minutes by car in Banjara Hills. A good fallback if Prost is too busy.',
+    mapQuery: 'The Taproom Banjara Hills Hyderabad',
+  },
+  {
+    id: 'kafal',
+    name: 'Kafal',
+    area: 'Banjara Hills',
+    category: 'nightlife',
+    minutes: 20,
+    why: 'A quieter option for those who want good drinks in an upscale setting without the noise — perfect for meaningful conversations.',
+    atmosphere: 'elegant',
+    image: placeBanjara,
+    directions:
+      'About 20 minutes by car in Banjara Hills. A more intimate atmosphere than most bars in the area.',
+    mapQuery: 'Kafal bar Banjara Hills Hyderabad',
   },
   {
     id: 'biryani',
