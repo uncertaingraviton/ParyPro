@@ -30,7 +30,9 @@ import airliveImg from './assets/airlive.png'
 import swacchImg from './assets/swacch.png'
 import rameshwaramImg from './assets/rameshwaram.png'
 import taazakitchenImg from './assets/taazakitchen.png'
-import placeFood from './assets/place-biryani.jpg'
+import prostImg from './assets/prost.png'
+import nawaabsImg from './assets/the nawaabs.png'
+import dumPhuktImg from './assets/dum phukt.png'
 import type {
   CityEvent,
   CityPlace,
@@ -571,75 +573,10 @@ export const places: CityPlace[] = [
     minutes: 18,
     why: 'A favourite among the city\'s craft beer community — good brews, decent food, and a relaxed vibe that works for groups.',
     atmosphere: 'lively',
-    image: placeJubilee,
+    image: prostImg,
     directions:
       'About 18 minutes by car in Jubilee Hills. Best for early evening; can get crowded on weekends.',
     mapQuery: 'Prost Brewpub Jubilee Hills Hyderabad',
-  },
-  {
-    id: 'overmoon',
-    name: 'Overmoon',
-    area: 'Jubilee Hills',
-    category: 'nightlife',
-    minutes: 20,
-    why: 'A rooftop bar with a view and a crowd that knows how to enjoy it. Popular for sundowners and late-night conversations.',
-    atmosphere: 'lively',
-    image: placeJubilee,
-    directions:
-      'About 20 minutes by car in Jubilee Hills. Best to arrive before 9 p.m. for a good table.',
-    mapQuery: 'Overmoon rooftop bar Jubilee Hills Hyderabad',
-  },
-  {
-    id: 'farzi',
-    name: 'Farzi Cafe',
-    area: 'Jubilee Hills',
-    category: 'nightlife',
-    minutes: 22,
-    why: 'Modern Indian cuisine in a theatrical setting — molecular gastronomy meets street food. A Hyderabad favourite for a night out.',
-    atmosphere: 'lively',
-    image: placeJubilee,
-    directions:
-      'About 22 minutes by car in Jubilee Hills. Reservations recommended, especially on weekends.',
-    mapQuery: 'Farzi Cafe Jubilee Hills Hyderabad',
-  },
-  {
-    id: 'hop',
-    name: 'The Hop Company',
-    area: 'Banjara Hills',
-    category: 'nightlife',
-    minutes: 20,
-    why: 'Another excellent option for craft beer enthusiasts in Banjara Hills — a more laid-back crowd than the club scene.',
-    atmosphere: 'lively',
-    image: placeBanjara,
-    directions:
-      'About 20 minutes by car in Banjara Hills. Good for groups and casual evenings.',
-    mapQuery: 'The Hop Company Banjara Hills Hyderabad',
-  },
-  {
-    id: 'taproom',
-    name: 'The Taproom',
-    area: 'Banjara Hills',
-    category: 'nightlife',
-    minutes: 22,
-    why: 'A reliable choice for a relaxed evening — good drinks selection, decent food, and an atmosphere that works for conversation or a small group.',
-    atmosphere: 'lively',
-    image: placeBanjara,
-    directions:
-      'About 22 minutes by car in Banjara Hills. A good fallback if Prost is too busy.',
-    mapQuery: 'The Taproom Banjara Hills Hyderabad',
-  },
-  {
-    id: 'kafal',
-    name: 'Kafal',
-    area: 'Banjara Hills',
-    category: 'nightlife',
-    minutes: 20,
-    why: 'A quieter option for those who want good drinks in an upscale setting without the noise — perfect for meaningful conversations.',
-    atmosphere: 'elegant',
-    image: placeBanjara,
-    directions:
-      'About 20 minutes by car in Banjara Hills. A more intimate atmosphere than most bars in the area.',
-    mapQuery: 'Kafal bar Banjara Hills Hyderabad',
   },
   {
     id: 'biryani',
@@ -682,29 +619,29 @@ export const places: CityPlace[] = [
   },
   {
     id: 'nawab',
-    name: 'Nawab\'s biryani trail',
+    name: 'The Nawaabs',
     area: 'Food',
     category: 'food',
-    minutes: 30,
-    why: 'For guests who want to do it properly — the old city biryani houses that have earned their reputation over decades.',
+    minutes: 25,
+    why: 'A Hyderabad institution for biryani and Kebabs — the kind of place the city sends its guests. Dum ka白云, anyone?',
     atmosphere: 'local',
-    image: placeFood,
+    image: nawaabsImg,
     directions:
-      'About 30 minutes by car into the old city. The desk will know which house is performing best this week.',
-    mapQuery: 'best biryani old city Hyderabad',
+      'About 25 minutes by car. Banjara Hills location; the concierge will have the current address.',
+    mapQuery: 'The Nawaabs restaurant Hyderabad',
   },
   {
     id: 'dum',
-    name: 'Dum Pukht dining',
+    name: 'Dum Pukht by Nawaabs',
     area: 'Food',
     category: 'food',
-    minutes: 20,
-    why: 'The slow-cooked tradition — meat sealed in dough, cooked over embers. A method the Nizams perfected.',
+    minutes: 25,
+    why: 'The slow-cooked tradition in an elegant setting — meat sealed in dough, cooked over embers. A method the Nizams perfected, served with ceremony.',
     atmosphere: 'elegant',
-    image: placeFood,
+    image: dumPhuktImg,
     directions:
-      'About 20 minutes by car. Ask the concierge for the current recommendation; the kitchen culture in Hyderabad changes often.',
-    mapQuery: 'Dum Pukht restaurant Hyderabad',
+      'About 25 minutes by car in Banjara Hills. Ask the concierge to call ahead.',
+    mapQuery: 'Dum Pukht by Nawaabs Hyderabad',
   },
   {
     id: 'pearls',
