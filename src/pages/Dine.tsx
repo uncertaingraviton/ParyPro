@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { cravings, venues } from '../data'
+import { cravings, venues, nearbyVenues } from '../data'
 import kanakMenu1 from '../assets/kanak-menu-1.png'
 import kanakMenu2 from '../assets/kanak-menu-2.png'
 import kanakMenu3 from '../assets/kanak-menu-3.png'
@@ -166,6 +166,31 @@ export function Dine() {
             Reservations
           </Link>
         </div>
+      </section>
+
+      <section className="section" style={{ background: 'var(--warm)', paddingTop: 48 }}>
+        <div className="section-head">
+          <p className="eyebrow">Nearby recommendations</p>
+          <h2>Worth stepping out for</h2>
+          <p>Close by, and worth knowing about. We can arrange a car or call ahead for you.</p>
+        </div>
+        <div className="venue-grid">
+          {nearbyVenues.map((v) => (
+            <div key={v.slug} className="venue-card">
+              <img src={v.image} alt="" />
+              <div className="copy">
+                <p className="eyebrow">{v.kicker} · {v.area}</p>
+                <h3>{v.name}</h3>
+                <p>{v.tagline}</p>
+                <p style={{ marginTop: 8 }}>{v.description}</p>
+                <p className="quote" style={{ marginTop: 12 }}>“{v.note}”</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="muted" style={{ marginTop: 24, textAlign: 'center' }}>
+          The concierge can arrange transport or make reservations. Dial 0 from your room.
+        </p>
       </section>
     </>
   )

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { venues } from '../data'
+import { venues, nearbyVenues } from '../data'
 import { useStore } from '../store'
 
 const drinks = [
@@ -10,6 +10,8 @@ const drinks = [
   { title: 'Coffee', text: 'Conversation at Amara, or a pot in the room.', to: '/dine/amara' },
   { title: 'Non-alcoholic', text: 'As considered as the rest of the bar. Ask; do not settle for an afterthought.', to: '/dine/ninety-six' },
 ]
+
+const nightlifeVenues = nearbyVenues.filter((v) => ['monastery', 'babylon', 'air-live'].includes(v.slug))
 
 export function Drink() {
   const { cms } = useStore()
@@ -45,6 +47,28 @@ export function Drink() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="section" style={{ background: 'var(--warm)', paddingTop: 48 }}>
+        <div className="section-head">
+          <p className="eyebrow">Beyond the hotel</p>
+          <h2>Hyderabad after dark</h2>
+          <p>For guests heading into the city for a livelier evening. We can arrange a car.</p>
+        </div>
+        <div className="service-grid">
+          {nightlifeVenues.map((v) => (
+            <div key={v.slug} className="service-card">
+              <p className="eyebrow">{v.kicker} · {v.area}</p>
+              <h3 style={{ fontFamily: 'var(--serif)', fontSize: 36, margin: '8px 0' }}>{v.name}</h3>
+              <p>{v.tagline}</p>
+              <p style={{ marginTop: 8 }}>{v.description}</p>
+              <p className="quote" style={{ marginTop: 12 }}>“{v.note}”</p>
+            </div>
+          ))}
+        </div>
+        <p className="muted" style={{ marginTop: 24, textAlign: 'center' }}>
+          The concierge can arrange transport or make reservations. Dial 0 from your room.
+        </p>
       </section>
     </>
   )
