@@ -835,15 +835,8 @@ export const defaultSpecials: Special[] = [
     id: 's1',
     venue: 'kanak',
     kind: 'chef',
-    title: 'Tonight’s haleem',
-    detail: 'Slow-cooked, only while it lasts. Ask for the chef’s portion.',
-  },
-  {
-    id: 's2',
-    venue: 'ninety-six',
-    kind: 'happy-hour',
-    title: 'Early evening at the bar',
-    detail: 'Selected cocktails, 5:00 – 7:00 p.m.',
+    title: "Tonight's haleem",
+    detail: "Slow-cooked, only while it lasts. Ask for the chef's portion.",
   },
   {
     id: 's3',

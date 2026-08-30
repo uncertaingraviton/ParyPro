@@ -19,8 +19,8 @@ import { isOpen } from '../lib/time'
 import { useStore } from '../store'
 
 const moods = [
-  { to: '/dine', label: 'Dine', icon: '🍽', img: moodDine },
-  { to: '/drink', label: 'Drink', icon: '🍵', img: moodDrink },
+  { to: '/dine', label: 'Dining', icon: '🍽', img: moodDine },
+  { to: '/drink', label: 'Beverages', icon: '🍵', img: moodDrink },
   { to: '/explore', label: 'Explore', icon: '🕌', img: moodExplore },
   { to: '/explore?group=shopping', label: 'Shop', icon: '🛍', img: moodShop },
 ]
@@ -58,14 +58,14 @@ function slotsFor(timeLabel?: string): string[] {
 
 // Slideshow venues
 const slideshowVenues = [
-  { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'The flavours of the Nizams' },
-  { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining' },
-  { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy' },
-  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark' },
-  { slug: 'nawaabs', name: 'The Nawaabs', image: nawaabsImg, tagline: 'Hyderabadi cuisine' },
-  { slug: 'tansen', name: 'Tansen', image: tansenImg, tagline: 'Indian fine dining' },
-  { slug: 'monastery', name: 'Monastery', image: monasteryImg, tagline: 'Pan-Asian · Continental' },
-  { slug: 'burmaburma', name: 'Burma Burma', image: burmaburmaImg, tagline: 'Burmese cuisine' },
+  { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'The flavours of the Nizams', link: '/dine/kanak' },
+  { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining', link: '/dine/amara' },
+  { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy', link: '/dine/tuscany' },
+  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },
+  { slug: 'nawab', name: 'The Nawaabs', image: nawaabsImg, tagline: 'Hyderabadi cuisine', link: '/explore' },
+  { slug: 'tansen', name: 'Tansen', image: tansenImg, tagline: 'Indian fine dining', link: '/explore' },
+  { slug: 'monastery', name: 'Monastery', image: monasteryImg, tagline: 'Pan-Asian · Continental', link: '/explore' },
+  { slug: 'burmaburma', name: 'Burma Burma', image: burmaburmaImg, tagline: 'Burmese cuisine', link: '/explore' },
 ]
 
 export function Home() {
@@ -92,145 +92,15 @@ export function Home() {
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="now-grid">
-            <Link
-              to={hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine'}
-              className="now-card now-card-hotel"
-              onClick={(e) => {
-                e.preventDefault()
-                setResv(null)
-                setResvDone(false)
-                setNowModal(
-                  hotelPromo
-                    ? {
-                        kicker: 'Inside the hotel',
-                        title: hotelPromo.title,
-                        body: hotelPromo.story || hotelPromo.detail,
-                        meta: [
-                          hotelPromo.when,
-                          hotelPromo.postedAt &&
-                            new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
-                              day: 'numeric',
-                              month: 'short',
-                            }),
-                        ]
-                          .filter(Boolean)
-                          .join(' · '),
-                        ctaTo: hotelPromo.url,
-                        ctaLabel: 'See the post on Instagram',
-                        external: true,
-                        reservation: hotelPromo.startDate
-                          ? {
-                              venue: hotelPromo.venueName ?? 'Trident Hyderabad',
-                              startDate: hotelPromo.startDate,
-                              endDate: hotelPromo.endDate,
-                              timeLabel: hotelPromo.timeLabel,
-                            }
-                          : undefined,
-                      }
-                    : {
-                        kicker: 'Inside the hotel',
-                        title: hotelSpecial?.title ?? 'A quiet house',
-                        body:
-                          hotelSpecial?.detail ??
-                          'No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.',
-                        meta: hotelVenue?.hours ?? '',
-                        ctaTo: hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine',
-                        ctaLabel: hotelVenue ? `Explore ${hotelVenue.name}` : 'Explore dining',
-                      },
-                )
-              }}
-            >
-              <p className="now-kicker">Inside the hotel</p>
-              {hotelPromo ? (
-                <div className="now-card-body">
-                  <h2>{hotelPromo.title}</h2>
-                  <p>{hotelPromo.detail}</p>
-                  <p className="now-meta">
-                    {hotelPromo.when && `${hotelPromo.when} · `}
-                    From @tridenthyderabad
-                    {hotelPromo.postedAt &&
-                      ` · ${new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short',
-                      })}`}
-                  </p>
-                </div>
-              ) : hotelSpecial ? (
-                <>
-                  <div className="now-card-body">
-                    <h2>{hotelSpecial.title}</h2>
-                    <p>{hotelSpecial.detail}</p>
-                    {hotelVenue && (
-                      <p className="now-meta">
-                        {hotelVenue.name}
-                        {isOpen(hotelVenue.openFrom, hotelVenue.openTo, hotelVenue.overnight)
-                          ? ' · Open now'
-                          : ` · ${hotelVenue.hours}`}
-                      </p>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="now-card-body">
-                    <h2>A quiet house</h2>
-                    <p>No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.</p>
-                  </div>
-                </>
-              )}
-            </Link>
-            <Link
-              to={liveCity ? cityNow.url || '/explore' : '/explore'}
-              className="now-card"
-              onClick={(e) => {
-                e.preventDefault()
-                setNowModal({
-                  kicker: 'Nearby in the city',
-                  title: cityNow.title,
-                  body: cityNow.editorial || cityNow.description,
-                  meta: [cityNow.time, cityNow.venue].filter(Boolean).join(' · '),
-                  ctaTo: cityNow.url || '/explore',
-                  ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Explore the city',
-                  external: Boolean(cityNow.url),
-                })
-              }}
-            >
-              <p className="now-kicker">Nearby in the city</p>
-              {cityNow ? (
-                <>
-                  <div className="now-card-body">
-                    <h2>{cityNow.title}</h2>
-                    <p>{cityNow.editorial || cityNow.description}</p>
-                    <p className="now-meta">
-                      {cityNow.time} · {cityNow.venue}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="now-card-body">
-                    <h2>Nothing we would send you to</h2>
-                    <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
-                  </div>
-                </>
-              )}
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Slideshow Section */}
-      <section className="section slideshow-section">
+      <section className="slideshow-section">
         <div className="slideshow-container">
           {slideshowVenues.map((venue, index) => (
             <div
               key={venue.slug}
               className={`slideshow-slide ${index === currentSlide ? 'active' : ''}`}
             >
-              <Link to={`/dine/${venue.slug}`} className="slideshow-link">
+              <Link to={venue.link} className="slideshow-link">
                 <img src={venue.image} alt={venue.name} />
                 <div className="slideshow-overlay">
                   <p className="slideshow-name">{venue.name}</p>
@@ -252,11 +122,139 @@ export function Home() {
         </div>
       </section>
 
+      <section className="now-section">
+        <div className="now-grid">
+          <Link
+            to={hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine'}
+            className="now-card now-card-hotel"
+            onClick={(e) => {
+              e.preventDefault()
+              setResv(null)
+              setResvDone(false)
+              setNowModal(
+                hotelPromo
+                  ? {
+                      kicker: 'Inside the hotel',
+                      title: hotelPromo.title,
+                      body: hotelPromo.story || hotelPromo.detail,
+                      meta: [
+                        hotelPromo.when,
+                        hotelPromo.postedAt &&
+                          new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
+                            day: 'numeric',
+                            month: 'short',
+                          }),
+                      ]
+                        .filter(Boolean)
+                        .join(' · '),
+                      ctaTo: hotelPromo.url,
+                      ctaLabel: 'See the post on Instagram',
+                      external: true,
+                      reservation: hotelPromo.startDate
+                        ? {
+                            venue: hotelPromo.venueName ?? 'Trident Hyderabad',
+                            startDate: hotelPromo.startDate,
+                            endDate: hotelPromo.endDate,
+                            timeLabel: hotelPromo.timeLabel,
+                          }
+                        : undefined,
+                    }
+                  : {
+                      kicker: 'Inside the hotel',
+                      title: hotelSpecial?.title ?? 'A quiet house',
+                      body:
+                        hotelSpecial?.detail ??
+                        'No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.',
+                      meta: hotelVenue?.hours ?? '',
+                      ctaTo: hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine',
+                      ctaLabel: hotelVenue ? `Explore ${hotelVenue.name}` : 'Explore dining',
+                    },
+              )
+            }}
+          >
+            <p className="now-kicker">Inside the hotel</p>
+            {hotelPromo ? (
+              <div className="now-card-body">
+                <h2>{hotelPromo.title}</h2>
+                <p>{hotelPromo.detail}</p>
+                <p className="now-meta">
+                  {hotelPromo.when && `${hotelPromo.when} · `}
+                  From @tridenthyderabad
+                  {hotelPromo.postedAt &&
+                    ` · ${new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                    })}`}
+                </p>
+              </div>
+            ) : hotelSpecial ? (
+              <>
+                <div className="now-card-body">
+                  <h2>{hotelSpecial.title}</h2>
+                  <p>{hotelSpecial.detail}</p>
+                  {hotelVenue && (
+                    <p className="now-meta">
+                      {hotelVenue.name}
+                      {isOpen(hotelVenue.openFrom, hotelVenue.openTo, hotelVenue.overnight)
+                        ? ' · Open now'
+                        : ` · ${hotelVenue.hours}`}
+                    </p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="now-card-body">
+                  <h2>A quiet house</h2>
+                  <p>No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.</p>
+                </div>
+              </>
+            )}
+          </Link>
+          <Link
+            to={liveCity ? cityNow.url || '/explore' : '/explore'}
+            className="now-card"
+            onClick={(e) => {
+              e.preventDefault()
+              setNowModal({
+                kicker: 'Nearby in the city',
+                title: cityNow.title,
+                body: cityNow.editorial || cityNow.description,
+                meta: [cityNow.time, cityNow.venue].filter(Boolean).join(' · '),
+                ctaTo: cityNow.url || '/explore',
+                ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Explore the city',
+                external: Boolean(cityNow.url),
+              })
+            }}
+          >
+            <p className="now-kicker">Nearby in the city</p>
+            {cityNow ? (
+              <>
+                <div className="now-card-body">
+                  <h2>{cityNow.title}</h2>
+                  <p>{cityNow.editorial || cityNow.description}</p>
+                  <p className="now-meta">
+                    {cityNow.time} · {cityNow.venue}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="now-card-body">
+                  <h2>Nothing we would send you to</h2>
+                  <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
+                </div>
+              </>
+            )}
+          </Link>
+        </div>
+      </section>
+
+
       <section className="section mood-section">
         <div className="section-head">
           <p className="eyebrow">01 — Begin</p>
           <h2>What are you in the mood for?</h2>
-          <p>Not restaurants, rooms and facilities. A night.</p>
         </div>
         <div className="mood-grid">
           {moods.map((m) => (
