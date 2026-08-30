@@ -27,6 +27,8 @@ import tansenImg from './assets/Tansen.png'
 import monasteryImg from './assets/monastery.png'
 import babylonImg from './assets/babylon.png'
 import airliveImg from './assets/airlive.png'
+import placeHitecCity from './assets/place-hitec.jpg'
+import placeFood from './assets/place-biryani.jpg'
 import type {
   CityEvent,
   CityPlace,
@@ -145,7 +147,7 @@ export const nearbyVenues = [
     image: tevarImg,
     area: 'Madhapur',
     note: 'Strongly recommended to book ahead, especially on weekends.',
-    zomatoUrl: 'https://www.zomato.com/hyderabad/tevar-madhapur',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/tevar-the-progressive-indian-kitchen-bar-hitech-city',
   },
   {
     slug: 'burma-burma',
@@ -158,7 +160,7 @@ export const nearbyVenues = [
     image: burmaburmaImg,
     area: 'Madhapur',
     note: 'Strongly recommended to book ahead, especially on weekends.',
-    zomatoUrl: 'https://www.zomato.com/hyderabad/burma-burma-gachibowli',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/burma-burma-hitech-city-hitech-city',
   },
   {
     slug: 'tansen',
@@ -171,7 +173,7 @@ export const nearbyVenues = [
     image: tansenImg,
     area: 'Nanakramguda',
     note: 'Advance reservations strongly recommended, especially on weekends.',
-    zomatoUrl: 'https://www.zomato.com/hyderabad/tansen-the-golkonda-hotel-nanakramguda',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/tansen-2-nanakramguda',
   },
   {
     slug: 'monastery',
@@ -184,7 +186,7 @@ export const nearbyVenues = [
     image: monasteryImg,
     area: 'Banjara Hills',
     note: 'Can get busy later in the evening; advance reservations recommended.',
-    zomatoUrl: 'https://www.zomato.com/hyderabad/monastery-banajra-hills',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/monastery-hitech-city',
   },
   {
     slug: 'babylon',
@@ -197,7 +199,7 @@ export const nearbyVenues = [
     image: babylonImg,
     area: 'Jubilee Hills',
     note: 'Gets loud and club-like later in the evening. Reservations recommended.',
-    zomatoUrl: 'https://www.zomato.com/hyderabad/babylon-kitchen-bar-jubilee-hills',
+    zomatoUrl: 'https://www.zomato.com/hyderabad/babylon-bar-and-kitchen-jubilee-hills',
   },
   {
     slug: 'air-live',
@@ -370,7 +372,7 @@ export const places: CityPlace[] = [
     area: 'The Old City',
     category: 'old-city',
     minutes: 45,
-    why: 'The city’s compass. Go at blue hour, when the limestone still holds the day’s heat.',
+    why: 'The city\'s compass. Go at blue hour, when the limestone still holds the day\'s heat.',
     atmosphere: 'local',
     image: placeCharminar,
     directions:
@@ -383,7 +385,7 @@ export const places: CityPlace[] = [
     area: 'The Old City',
     category: 'old-city',
     minutes: 45,
-    why: 'One of India’s largest mosques, four centuries old, with granite arches and bricks said to hold Meccan soil.',
+    why: 'One of India\'s largest mosques, four centuries old, with granite arches and bricks said to hold Meccan soil.',
     atmosphere: 'local',
     image: placeMecca,
     directions:
@@ -409,7 +411,7 @@ export const places: CityPlace[] = [
     area: 'The Old City',
     category: 'old-city',
     minutes: 50,
-    why: 'The Nizams’ ceremonial palaces — courtyards, chandeliers, and a quieter kind of grandeur.',
+    why: 'The Nizams\' ceremonial palaces — courtyards, chandeliers, and a quieter kind of grandeur.',
     atmosphere: 'elegant',
     image: placeChowmahalla,
     directions:
@@ -422,7 +424,7 @@ export const places: CityPlace[] = [
     area: 'Art & Culture',
     category: 'art',
     minutes: 40,
-    why: 'One collector’s impossible appetite — ivory, clocks, manuscripts, and a famous veiled Rebecca.',
+    why: 'One collector\'s impossible appetite — ivory, clocks, manuscripts, and a famous veiled Rebecca.',
     atmosphere: 'elegant',
     image: placeSalar,
     directions:
@@ -474,7 +476,7 @@ export const places: CityPlace[] = [
     area: 'Art & Culture',
     category: 'art',
     minutes: 25,
-    why: 'A marble temple on a hill above the lake — the city’s calmest view at sunset.',
+    why: 'A marble temple on a hill above the lake — the city\'s calmest view at sunset.',
     atmosphere: 'elegant',
     image: placeBirla,
     directions:
@@ -484,10 +486,10 @@ export const places: CityPlace[] = [
   {
     id: 'hitec',
     name: 'HITEC City',
-    area: 'The Modern City',
+    area: 'HITEC City',
     category: 'modern',
     minutes: 5,
-    why: 'You are already here. Glass, gardens, and the city’s newer appetite for late dinners.',
+    why: 'You are already here. Glass, gardens, and the city\'s newer appetite for late dinners.',
     atmosphere: 'lively',
     image: placeHitec,
     directions:
@@ -495,12 +497,51 @@ export const places: CityPlace[] = [
     mapQuery: 'HITEC City, Hyderabad',
   },
   {
+    id: 'swachh',
+    name: 'Swachh',
+    area: 'HITEC City',
+    category: 'modern',
+    minutes: 8,
+    why: 'A popular casual dining spot in HITEC City — good for a relaxed meal without venturing far from the hotel.',
+    atmosphere: 'lively',
+    image: placeHitecCity,
+    directions:
+      'About 8 minutes by car from the hotel in the HITEC City area. Ask the concierge for directions.',
+    mapQuery: 'Swachh restaurant HITEC City Hyderabad',
+  },
+  {
+    id: 'taaza',
+    name: 'Taaza Kitchen',
+    area: 'HITEC City',
+    category: 'modern',
+    minutes: 10,
+    why: 'A reliable multi-cuisine option in the HITEC City neighbourhood with a comfortable setting for business or leisure.',
+    atmosphere: 'lively',
+    image: placeHitecCity,
+    directions:
+      'About 10 minutes by car from the hotel. Located in the commercial district near Cyber Towers.',
+    mapQuery: 'Taaza Kitchen HITEC City Hyderabad',
+  },
+  {
+    id: 'rameshwaram',
+    name: 'Rameshwaram Cafe',
+    area: 'HITEC City',
+    category: 'modern',
+    minutes: 12,
+    why: 'South Indian favourites done well — a favourite among locals and visitors for authentic flavours without the fuss.',
+    atmosphere: 'local',
+    image: placeHitecCity,
+    directions:
+      'About 12 minutes by car from the hotel. A popular spot that can get busy during peak hours.',
+    mapQuery: 'Rameshwaram Cafe HITEC City Hyderabad',
+  },
+  {
     id: 'jubilee',
     name: 'Jubilee Hills',
-    area: 'The Modern City',
+    area: 'Jubilee Hills',
     category: 'nightlife',
     minutes: 20,
-    why: 'Hyderabad’s preferred evening — restaurants that stay open, rooms that know how to light a table.',
+    why: 'Hyderabad\'s preferred evening — restaurants that stay open, rooms that know how to light a table.',
     atmosphere: 'elegant',
     image: placeJubilee,
     directions:
@@ -510,10 +551,10 @@ export const places: CityPlace[] = [
   {
     id: 'banjara',
     name: 'Banjara Hills',
-    area: 'The Modern City',
+    area: 'Banjara Hills',
     category: 'nightlife',
     minutes: 22,
-    why: 'Bars, galleries and long dinners. The city’s social map still runs through these streets.',
+    why: 'Bars, galleries and long dinners. The city\'s social map still runs through these streets.',
     atmosphere: 'lively',
     image: placeBanjara,
     directions:
@@ -526,7 +567,7 @@ export const places: CityPlace[] = [
     area: 'Food',
     category: 'food',
     minutes: 25,
-    why: 'We will not send you to a tourist queue. Ask the concierge for tonight’s house recommendation — dum, saffron, and patience.',
+    why: 'We will not send you to a tourist queue. Ask the concierge for tonight\'s house recommendation — dum, saffron, and patience.',
     atmosphere: 'local',
     image: placeBiryani,
     directions:
@@ -539,7 +580,7 @@ export const places: CityPlace[] = [
     area: 'Food',
     category: 'food',
     minutes: 15,
-    why: 'The city’s unofficial breakfast. Strong tea, sweet biscuits, newspapers, and no performance.',
+    why: 'The city\'s unofficial breakfast. Strong tea, sweet biscuits, newspapers, and no performance.',
     atmosphere: 'local',
     image: placeChai,
     directions:
@@ -558,6 +599,32 @@ export const places: CityPlace[] = [
     directions:
       'The famous houses are in the old city, about 40 minutes by car. In season we can have a portion sent up to the room.',
     mapQuery: 'haleem restaurant Hyderabad',
+  },
+  {
+    id: 'nawab',
+    name: 'Nawab\'s biryani trail',
+    area: 'Food',
+    category: 'food',
+    minutes: 30,
+    why: 'For guests who want to do it properly — the old city biryani houses that have earned their reputation over decades.',
+    atmosphere: 'local',
+    image: placeFood,
+    directions:
+      'About 30 minutes by car into the old city. The desk will know which house is performing best this week.',
+    mapQuery: 'best biryani old city Hyderabad',
+  },
+  {
+    id: 'dum',
+    name: 'Dum Pukht dining',
+    area: 'Food',
+    category: 'food',
+    minutes: 20,
+    why: 'The slow-cooked tradition — meat sealed in dough, cooked over embers. A method the Nizams perfected.',
+    atmosphere: 'elegant',
+    image: placeFood,
+    directions:
+      'About 20 minutes by car. Ask the concierge for the current recommendation; the kitchen culture in Hyderabad changes often.',
+    mapQuery: 'Dum Pukht restaurant Hyderabad',
   },
   {
     id: 'pearls',
@@ -604,7 +671,7 @@ export const places: CityPlace[] = [
     area: 'Family',
     category: 'family',
     minutes: 60,
-    why: 'The world’s largest film studio complex — a full day of sets, shows and gardens.',
+    why: 'The world\'s largest film studio complex — a full day of sets, shows and gardens.',
     atmosphere: 'lively',
     image: placeRamoji,
     directions:
@@ -617,7 +684,7 @@ export const places: CityPlace[] = [
     area: 'Family',
     category: 'family',
     minutes: 30,
-    why: 'One of India’s better zoos — lions, tigers and a safari park children remember for years.',
+    why: 'One of India\'s better zoos — lions, tigers and a safari park children remember for years.',
     atmosphere: 'local',
     image: placeZoo,
     directions:
