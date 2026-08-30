@@ -62,10 +62,10 @@ const slideshowVenues = [
   { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining', link: '/dine/amara' },
   { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy', link: '/dine/tuscany' },
   { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },
-  { slug: 'nawab', name: 'The Nawaabs', image: nawaabsImg, tagline: 'Hyderabadi cuisine', link: '/explore' },
-  { slug: 'tansen', name: 'Tansen', image: tansenImg, tagline: 'Indian fine dining', link: '/explore' },
-  { slug: 'monastery', name: 'Monastery', image: monasteryImg, tagline: 'Pan-Asian · Continental', link: '/explore' },
-  { slug: 'burmaburma', name: 'Burma Burma', image: burmaburmaImg, tagline: 'Burmese cuisine', link: '/explore' },
+  { slug: 'nawab', name: 'The Nawaabs', image: nawaabsImg, tagline: 'Hyderabadi cuisine', link: '/explore?group=food' },
+  { slug: 'tansen', name: 'Tansen', image: tansenImg, tagline: 'Indian fine dining', link: '/explore?group=food' },
+  { slug: 'monastery', name: 'Monastery', image: monasteryImg, tagline: 'Pan-Asian · Continental', link: '/explore?group=nightlife' },
+  { slug: 'burmaburma', name: 'Burma Burma', image: burmaburmaImg, tagline: 'Burmese cuisine', link: '/explore?group=modern' },
 ]
 
 export function Home() {
