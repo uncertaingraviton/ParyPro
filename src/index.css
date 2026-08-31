@@ -1058,7 +1058,16 @@ h3,
 .reels-section {
   max-width: none;
   padding: 88px 40px;
-  background: var(--cream);
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.reels-section .section-head {
+  color: var(--cream);
+}
+
+.reels-section .eyebrow {
+  color: var(--gold);
 }
 
 .reels-grid {
@@ -1073,7 +1082,8 @@ h3,
   position: relative;
   aspect-ratio: 9/16;
   overflow: hidden;
-  background: var(--ink);
+  background: #000;
+  border-radius: 4px;
 }
 
 .reel-card iframe {
