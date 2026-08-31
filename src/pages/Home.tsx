@@ -6,8 +6,8 @@ import moodDrink from '../assets/place-chai.jpg'
 import moodExplore from '../assets/place-charminar.jpg'
 import moodShop from '../assets/place-laad.jpg'
 import kanakImg from '../kanak1.png'
-import amaraImg from '../amara1.png'
-import tuscanyImg from '../tuscany1.png'
+import amaraImg from '../assets/amaraNew.png'
+import tuscanyImg from '../assets/TuscanyNew.png'
 import ninetySixImg from '../assets/96TWO.png'
 import { useLiveFeeds } from '../lib/feed'
 import { sendReservationEmail } from '../lib/reservations'
@@ -57,8 +57,7 @@ const slideshowVenues = [
   { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'The flavours of the Nizams', link: '/dine/kanak' },
   { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining', link: '/dine/amara' },
   { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy', link: '/dine/tuscany' },
-  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },
-]
+  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },]
 
 export function Home() {
   const { cms, setCms } = useStore()
