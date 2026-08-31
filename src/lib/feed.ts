@@ -116,6 +116,9 @@ function mealEndTime(timeLabel: string): string | null {
  * over on the 26th, and a multi-day event is only current while within its date
  * range. Future events stay visible so guests can book ahead. If we can't work
  * out the timing we keep the event (better to surface than to hide).
+ * 
+ * Events with dates in the past (before today) are filtered out - the scraper
+ * should find other promotions, but this is a safety net.
  */
 function isEventCurrent(p: HotelPromotion): boolean {
   const start = parseLocalDate(p.startDate ?? '')
@@ -123,8 +126,9 @@ function isEventCurrent(p: HotelPromotion): boolean {
 
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const isFuture = start.getTime() > today.getTime() + 23 * 60 * 60 * 1000
-  if (isFuture) return true
+  
+  // Strictly past events are filtered out
+  if (start.getTime() < today.getTime()) return false
 
   const end = parseLocalDate(p.endDate ?? '')
   // Past end of a range already passed today.
@@ -140,9 +144,6 @@ function isEventCurrent(p: HotelPromotion): boolean {
     if (end && end.getTime() === start.getTime()) return true
     return true
   }
-
-  // Date is strictly in the past.
-  if (start.getTime() < today.getTime()) return false
 
   return true
 }

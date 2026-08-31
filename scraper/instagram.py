@@ -447,13 +447,14 @@ def _short_body(sentences: list[str], budget: int = 110) -> str:
 
 
 def _parse_schedule(caption: str) -> dict:
-    """Extract event dates and meal/time from the caption, with correct years.
+    """Extract event dates and meal/time from the caption.
 
     Handles '26 August | Lunch', ranges like '20-25 August' / 'till 30 August',
-    and explicit times like '7 pm'. A date that has already passed this year
-    is assumed to be next year's occurrence.
+    and explicit times like '7 pm'. Dates are parsed as-is without year manipulation.
+    If an event has passed, the scraper will fetch more posts to find other promotions.
     """
     today = datetime.now().date()
+    year = today.year
     start: str = ""
     end: str = ""
     time_label: str = ""
@@ -466,13 +467,10 @@ def _parse_schedule(caption: str) -> dict:
     month_map = {name[:3]: i for i, name in enumerate(month_names, start=1)}
 
     def make_date(day: int, month: int) -> str:
-        year = today.year
         try:
             d = datetime(year, month, day).date()
         except ValueError:
             return ""
-        if d < today:  # already passed - it must mean next year
-            d = datetime(year + 1, month, day).date()
         return d.isoformat()
 
     def day_month(day: int, month_name: str) -> str:

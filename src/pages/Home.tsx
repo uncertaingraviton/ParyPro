@@ -242,6 +242,42 @@ export function Home() {
         </div>
       </section>
 
+      {/* Instagram Reels Section */}
+      <section className="section reels-section">
+        <div className="section-head">
+          <p className="eyebrow">@tridenthyderabad</p>
+          <h2>Follow our journey</h2>
+        </div>
+        <div className="reels-grid">
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/reel/C9XETllTPIw/embed/?autoplay=1&muted=1&loop=1"
+              title="Instagram Reel 1"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/reel/CuTZ431hgTb/embed/?autoplay=1&muted=1&loop=1"
+              title="Instagram Reel 2"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/reel/Csko0TuB0lL/embed/?autoplay=1&muted=1&loop=1"
+              title="Instagram Reel 3"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
 
       <section className="section mood-section">
         <div className="section-head">
@@ -321,43 +357,6 @@ export function Home() {
               </Link>
             )
           ))}
-        </div>
-      </section>
-
-      {/* Instagram Reels Section */}
-      <section className="section reels-section">
-        <div className="section-head">
-          <p className="eyebrow">@tridenthyderabad</p>
-          <h2>Follow our journey</h2>
-        </div>
-        <div className="reels-grid">
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/C9XETllTPIw/embed/"
-              title="Instagram Reel 1"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/CuTZ431hgTb/embed/"
-              title="Instagram Reel 2"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/Csko0TuB0lL/embed/"
-              title="Instagram Reel 3"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
         </div>
       </section>
       {nowModal && (
