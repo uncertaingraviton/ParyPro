@@ -1043,10 +1043,13 @@ h3,
   overflow: hidden;
 }
 
-/* Now Section - Below slideshow, no background image */
+/* Now Section - Below slideshow, with hotel background */
 .now-section {
+  position: relative;
   padding: 48px 40px;
-  background: var(--cream);
+  background:
+    linear-gradient(180deg, rgba(18, 32, 48, 0.18) 0%, rgba(16, 22, 18, 0.22) 42%, rgba(16, 18, 14, 0.55) 100%),
+    url('/hotel.png') center 28% / cover no-repeat;
   display: flex;
   justify-content: center;
 }
@@ -1054,6 +1057,8 @@ h3,
 .now-section .now-grid {
   max-width: 1080px;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .slideshow-slide {
