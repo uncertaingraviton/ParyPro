@@ -8,7 +8,7 @@ import moodShop from '../assets/place-laad.jpg'
 import kanakImg from '../kanak1.png'
 import amaraImg from '../amara1.png'
 import tuscanyImg from '../tuscany1.png'
-import ninetySixImg from '../96a.png'
+import ninetySixImg from '../assets/96TWO.png'
 import { useLiveFeeds } from '../lib/feed'
 import { sendReservationEmail } from '../lib/reservations'
 import { isOpen } from '../lib/time'
@@ -110,6 +110,43 @@ export function Home() {
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Instagram Reels Section */}
+      <section className="section reels-section">
+        <div className="section-head">
+          <p className="eyebrow">@tridenthyderabad</p>
+          <h2>Follow our journey</h2>
+        </div>
+        <div className="reels-grid">
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/tridenthyderabad/reel/C9XETllTPIw/embed/"
+              title="Instagram Reel 1"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/reel/CuTZ431hgTb/embed/"
+              title="Instagram Reel 2"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="reel-card">
+            <iframe
+              src="https://www.instagram.com/reel/Csko0TuB0lL/embed/"
+              title="Instagram Reel 3"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       </section>
