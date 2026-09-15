@@ -1,5 +1,28 @@
 {
-  "fetchedAt": "2026-09-15T18:02:26.528026+00:00",
+  "fetchedAt": "2026-09-15T21:05:50.251601+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms-ET00440117",
+      "title": "Roobaru",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Roobaru — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/roobaru/ET00440117",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00461172",
+      "title": "Jamming Night",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Jamming Night — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pookie-jams-the-premium-jamming-experience/ET00461172",
+      "image": ""
+    }
+  ]
 }
