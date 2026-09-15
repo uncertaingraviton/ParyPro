@@ -131,14 +131,7 @@ def _title_from_caption(caption: str) -> str:
     return trimmed[:80].rstrip()
 
 
-def fetch_via_web_endpoint(timeout: int = 20) -> list[dict]:
-    """Primary source: Instagram's public web_profile_info JSON."""
-    headers = dict(BROWSER_HEADERS)
-    headers["x-ig-app-id"] = IG_APP_ID
-    resp = requests.get(WEB_PROFILE_ENDPOINT, headers=headers, timeout=timeout)
-    resp.raise_for_status()
-    data = resp.json()
-
+def _posts_from_web_profile(data: dict) -> list[dict]:
     edges = (
         data.get("data", {})
         .get("user", {})
@@ -149,9 +142,7 @@ def fetch_via_web_endpoint(timeout: int = 20) -> list[dict]:
     for edge in edges:
         node = edge.get("node", {})
         caption_edges = node.get("edge_media_to_caption", {}).get("edges", [])
-        caption = (
-            caption_edges[0]["node"]["text"] if caption_edges else ""
-        )
+        caption = caption_edges[0]["node"]["text"] if caption_edges else ""
         posts.append(
             {
                 "caption": caption,
@@ -166,6 +157,18 @@ def fetch_via_web_endpoint(timeout: int = 20) -> list[dict]:
     return posts
 
 
+def fetch_via_web_endpoint(timeout: int = 20) -> list[dict]:
+    """Primary source: Instagram's public web_profile_info JSON."""
+    headers = dict(BROWSER_HEADERS)
+    headers["x-ig-app-id"] = IG_APP_ID
+    resp = requests.get(WEB_PROFILE_ENDPOINT, headers=headers, timeout=timeout)
+    resp.raise_for_status()
+    posts = _posts_from_web_profile(resp.json())
+    if not posts:
+        raise RuntimeError("web_profile_info returned no posts")
+    return posts
+
+
 def fetch_via_browser(timeout_ms: int = 60000) -> list[dict]:
     """Render the logged-out profile in headless Chromium and read the grid.
 
@@ -176,8 +179,14 @@ def fetch_via_browser(timeout_ms: int = 60000) -> list[dict]:
        biryani ... and text that says Namaskaram!.'
     We map that onto our post shape; the alt doubles as the caption signal
     used for promo scoring.
+
+    From GitHub's IPs the public JSON endpoint is often 429'd. The same
+    payload sometimes still arrives as XHR inside a real Chromium session,
+    so we also intercept web_profile_info / GraphQL responses.
     """
     from playwright.sync_api import sync_playwright
+
+    captured: list[dict] = []
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -187,19 +196,42 @@ def fetch_via_browser(timeout_ms: int = 60000) -> list[dict]:
             locale="en-US",
         )
         page = context.new_page()
+
+        def on_response(response) -> None:
+            url = response.url
+            if "web_profile_info" not in url and "/graphql" not in url:
+                return
+            try:
+                data = response.json()
+            except Exception:  # noqa: BLE001
+                return
+            if isinstance(data, dict):
+                captured.append(data)
+
+        page.on("response", on_response)
         page.goto(PROFILE_URL, timeout=timeout_ms, wait_until="domcontentloaded")
         page.wait_for_timeout(8000)
 
         # Dismiss the login modal if it appeared.
-        try:
-            close = page.query_selector(
-                "div[role='dialog'] svg[aria-label='Close']"
-            )
-            if close:
-                close.click()
-                page.wait_for_timeout(1500)
-        except Exception:  # noqa: BLE001 - modal is optional
-            pass
+        for selector in (
+            "div[role='dialog'] svg[aria-label='Close']",
+            "button:has-text('Not Now')",
+            "button:has-text('Not now')",
+        ):
+            try:
+                close = page.query_selector(selector)
+                if close:
+                    close.click()
+                    page.wait_for_timeout(1500)
+                    break
+            except Exception:  # noqa: BLE001 - modal is optional
+                pass
+
+        for blob in captured:
+            posts = _posts_from_web_profile(blob)
+            if posts:
+                browser.close()
+                return posts
 
         raw = page.evaluate(
             """

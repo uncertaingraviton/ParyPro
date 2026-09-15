@@ -16,7 +16,7 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
 
@@ -27,7 +27,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r scraper/requirements.txt
-          python -m playwright install --with-deps chromium
+          # ubuntu-latest already has Chromium's system libs. --with-deps runs
+          # apt-get against Google's Chrome repo and has failed the job on a
+          # Hash Sum mismatch (run #83) before any scraper ran.
+          python -m playwright install chromium
 
       - name: Run scrapers
         env:

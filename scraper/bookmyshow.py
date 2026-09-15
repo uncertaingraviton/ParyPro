@@ -7,6 +7,8 @@ Layered strategy, most-reliable-first:
      link carries the event title. Reliable even on thin/cached responses.
   3. Optional enrichment: fetch individual event pages (ld+json there gives
      venue/date/image) for the top few events that lack details.
+  HTTP 403 from GitHub's IPs is common; Playwright renders the same pages
+  as a fallback so the cron can still refresh city.json.
 """
 
 from __future__ import annotations
@@ -27,7 +29,9 @@ BROWSER_HEADERS = {
         "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Language": "en-IN,en;q=0.9",
+    "Referer": "https://in.bookmyshow.com/",
+    "Cookie": "rgn=HYD",
 }
 
 CATEGORY_MAP = {
@@ -42,10 +46,70 @@ CATEGORY_MAP = {
 }
 
 
-def _get(url: str, timeout: int = 25) -> str:
+def _looks_blocked(html: str) -> bool:
+    if not html or len(html) < 2000:
+        return True
+    low = html.lower()
+    return any(
+        marker in low
+        for marker in (
+            "access denied",
+            "just a moment",
+            "cf-browser-verification",
+            "request blocked",
+        )
+    )
+
+
+def _get_http(url: str, timeout: int = 25) -> str:
     resp = requests.get(url, headers=BROWSER_HEADERS, timeout=timeout)
     resp.raise_for_status()
-    return resp.text
+    html = resp.text
+    if _looks_blocked(html):
+        raise RuntimeError("thin or blocked HTML")
+    return html
+
+
+def _get_via_browser(url: str, timeout_ms: int = 45000) -> str:
+    """Render a BookMyShow page in headless Chromium (used when HTTP is 403)."""
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent=BROWSER_HEADERS["User-Agent"],
+            locale="en-IN",
+            viewport={"width": 1366, "height": 900},
+            extra_http_headers={"Accept-Language": "en-IN,en;q=0.9"},
+        )
+        context.add_cookies(
+            [
+                {
+                    "name": "rgn",
+                    "value": "HYD",
+                    "domain": ".bookmyshow.com",
+                    "path": "/",
+                }
+            ]
+        )
+        page = context.new_page()
+        page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
+        page.wait_for_timeout(4000)
+        html = page.content()
+        browser.close()
+    if _looks_blocked(html):
+        raise RuntimeError(f"Browser also blocked {url}")
+    return html
+
+
+def _get(url: str, timeout: int = 25) -> str:
+    """HTTP first; Playwright only for the explore listing (enrichment stays HTTP)."""
+    try:
+        return _get_http(url, timeout=timeout)
+    except Exception:
+        if url.rstrip("/") != EXPLORE_URL.rstrip("/"):
+            raise
+        return _get_via_browser(url)
 
 
 def _extract_ldjson(html: str) -> list:
