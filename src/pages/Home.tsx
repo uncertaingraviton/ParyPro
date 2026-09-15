@@ -54,7 +54,7 @@ function slotsFor(timeLabel?: string): string[] {
 
 // Slideshow venues
 const slideshowVenues = [
-  { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'The flavours of the Nizams', link: '/dine/kanak' },
+  { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'Indian Specialty Restaurant', link: '/dine/kanak' },
   { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining', link: '/dine/amara' },
   { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy', link: '/dine/tuscany' },
   { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },]

@@ -310,10 +310,10 @@ export function Cravings() {
 
 export function Reserve() {
   const [params] = useSearchParams()
-  const { cms, prefs, setCms } = useStore()
+  const { cms, setCms } = useStore()
   const [venue, setVenue] = useState(params.get('venue') || 'kanak')
   const [sent, setSent] = useState(false)
-  const [name, setName] = useState(`${prefs.title} ${prefs.name}`)
+  const [name, setName] = useState('')
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10))
   const [time, setTime] = useState('19:30')
   const [guests, setGuests] = useState('2')

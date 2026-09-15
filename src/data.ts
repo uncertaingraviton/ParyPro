@@ -52,7 +52,7 @@ export const venues: Venue[] = [
     slug: 'amara',
     name: 'Amara',
     kicker: 'All-day dining',
-    tagline: 'Regional Hyderabadi · Far East · Mediterranean',
+    tagline: 'All-day Dining Restaurant',
     hours: '7:00 a.m. – 11:00 p.m.',
     openFrom: 7,
     openTo: 23,
@@ -68,7 +68,7 @@ export const venues: Venue[] = [
   {
     slug: 'kanak',
     name: 'Kanak',
-    kicker: 'The flavours of the Nizams',
+    kicker: 'Indian Specialty Restaurant',
     tagline: 'Indian specialties · Coastal seafood · Wine Cabinet',
     hours: '12:30 p.m. – 3:00 p.m. / 7:00 p.m. – 11:00 p.m.',
     openFrom: 12.5,
@@ -848,8 +848,8 @@ export const defaultSpecials: Special[] = [
 ]
 
 export const defaultPrefs: GuestPrefs = {
-  name: 'Singh',
-  title: 'Mr.',
+  name: '',
+  title: '',
   cuisines: ['Indian', 'Italian'],
   drinks: ['Cocktails', 'Wine'],
   experiences: ['Romantic', 'Culture'],
