@@ -1,28 +1,5 @@
 {
-  "fetchedAt": "2026-09-15T16:41:28.015531+00:00",
+  "fetchedAt": "2026-09-15T18:02:26.528026+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": [
-    {
-      "id": "bms-ET00503689",
-      "title": "Design Democracy 2026",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to Design Democracy 2026 — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/design-democracy-2026/ET00503689",
-      "image": ""
-    },
-    {
-      "id": "bms-ET00515798",
-      "title": "TTF HYDERABAD 2026",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to TTF HYDERABAD 2026 — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/ttf-hyderabad-2026/ET00515798",
-      "image": ""
-    }
-  ]
+  "events": []
 }
