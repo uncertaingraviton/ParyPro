@@ -67,7 +67,7 @@ const MEAL_SLOT_END: Record<string, string> = {
   Lunch: '14:30',
   'High Tea': '17:30',
   'Afternoon Tea': '17:30',
-  Dinner: '20:30',
+  Dinner: '23:00',
 }
 
 function parseLocalDate(iso: string): Date | null {
@@ -88,6 +88,18 @@ function localTimeString(d: Date): string {
 }
 
 function mealEndTime(timeLabel: string): string | null {
+  const parts = (timeLabel || '')
+    .split(/\s*(?:&|and|,|\|)\s*/i)
+    .map((p) => p.trim())
+    .filter(Boolean)
+  const ends = parts
+    .map((p) => mealEndTimeOne(p))
+    .filter((t): t is string => Boolean(t))
+  if (ends.length) return ends.sort().at(-1) ?? null
+  return mealEndTimeOne(timeLabel)
+}
+
+function mealEndTimeOne(timeLabel: string): string | null {
   const low = (timeLabel || '').trim().toLowerCase()
   const meal = Object.keys(MEAL_SLOT_END).find(
     (k) => k.toLowerCase() === low
@@ -126,25 +138,16 @@ function isEventCurrent(p: HotelPromotion): boolean {
 
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  
-  // Strictly past events are filtered out
-  if (start.getTime() < today.getTime()) return false
+  const end = parseLocalDate(p.endDate ?? '') ?? start
 
-  const end = parseLocalDate(p.endDate ?? '')
-  // Past end of a range already passed today.
-  if (end && end.getTime() < today.getTime()) return false
+  if (end.getTime() < today.getTime()) return false
+  if (start.getTime() > today.getTime()) return true
 
-  // Same-day meal slot: still current until the slot's last service is over.
-  if (start.getTime() >= today.getTime() && start.getTime() <= today.getTime() + 24 * 60 * 60 * 1000 - 1) {
+  // Today is inside the run. On the last day, drop it after the last service.
+  if (end.getTime() === today.getTime()) {
     const slotEnd = mealEndTime(p.timeLabel || '')
-    if (slotEnd) {
-      return localTimeString(now) <= slotEnd
-    }
-    // Single-day event with no recognised meal/time: keep for the whole day.
-    if (end && end.getTime() === start.getTime()) return true
-    return true
+    if (slotEnd) return localTimeString(now) <= slotEnd
   }
-
   return true
 }
 

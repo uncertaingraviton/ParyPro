@@ -40,16 +40,45 @@ type NowModal = {
 const MEAL_SLOTS: Record<string, string[]> = {
   Breakfast: ['07:00', '08:00', '09:00'],
   Brunch: ['12:00', '12:30', '13:30'],
-  Lunch: ['12:30', '13:30', '14:30'],
+  Lunch: ['12:30', '13:00', '13:30', '14:00', '14:30'],
   'High Tea': ['16:00', '16:30', '17:30'],
   'Afternoon Tea': ['16:00', '16:30', '17:30'],
-  Dinner: ['19:00', '19:30', '20:30'],
+  Dinner: ['19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'],
+}
+
+function todayISO(): string {
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
 function slotsFor(timeLabel?: string): string[] {
-  if (timeLabel && MEAL_SLOTS[timeLabel]) return MEAL_SLOTS[timeLabel]
-  if (timeLabel && /\d/.test(timeLabel)) return [timeLabel]
+  if (!timeLabel) return ['12:30', '13:30', '19:00', '19:30', '20:30']
+  const parts = timeLabel.split(/\s*(?:&|and|,|\|)\s*/i).map((p) => p.trim())
+  const out: string[] = []
+  for (const part of parts) {
+    const key = Object.keys(MEAL_SLOTS).find(
+      (k) => k.toLowerCase() === part.toLowerCase(),
+    )
+    if (key) {
+      for (const t of MEAL_SLOTS[key]) {
+        if (!out.includes(t)) out.push(t)
+      }
+    }
+  }
+  if (out.length) return out
+  if (/\d/.test(timeLabel)) return [timeLabel]
   return ['12:30', '13:30', '19:00', '19:30', '20:30']
+}
+
+function reservationBounds(startDate: string, endDate?: string) {
+  const start = startDate
+  const end = endDate && endDate >= startDate ? endDate : startDate
+  const today = todayISO()
+  const min = today > start ? today : start
+  const max = end
+  const defaultDate = min <= max ? min : start
+  return { min, max, defaultDate }
 }
 
 // Slideshow venues
@@ -120,8 +149,20 @@ export function Home() {
             className="now-card now-card-hotel"
             onClick={(e) => {
               e.preventDefault()
-              setResv(null)
               setResvDone(false)
+              if (hotelPromo?.startDate) {
+                const bounds = reservationBounds(
+                  hotelPromo.startDate,
+                  hotelPromo.endDate,
+                )
+                setResv({
+                  date: bounds.defaultDate,
+                  time: slotsFor(hotelPromo.timeLabel)[0],
+                  guests: '2',
+                })
+              } else {
+                setResv(null)
+              }
               setNowModal(
                 hotelPromo
                   ? {
@@ -372,7 +413,8 @@ export function Home() {
                   e.preventDefault()
                   const r = nowModal.reservation
                   if (!r) return
-                  const date = resv?.date || r.startDate
+                  const bounds = reservationBounds(r.startDate, r.endDate)
+                  const date = resv?.date || bounds.defaultDate
                   const time = resv?.time || slotsFor(r.timeLabel)[0]
                   const guests = resv?.guests || '2'
                   setCms({
@@ -408,9 +450,25 @@ export function Home() {
                     <input
                       type="date"
                       required
-                      value={resv?.date ?? nowModal.reservation.startDate}
-                      min={nowModal.reservation.startDate}
-                      max={nowModal.reservation.endDate ?? nowModal.reservation.startDate}
+                      value={
+                        resv?.date ??
+                        reservationBounds(
+                          nowModal.reservation.startDate,
+                          nowModal.reservation.endDate,
+                        ).defaultDate
+                      }
+                      min={
+                        reservationBounds(
+                          nowModal.reservation.startDate,
+                          nowModal.reservation.endDate,
+                        ).min
+                      }
+                      max={
+                        reservationBounds(
+                          nowModal.reservation.startDate,
+                          nowModal.reservation.endDate,
+                        ).max
+                      }
                       onChange={(e) =>
                         setResv({
                           date: e.target.value,
@@ -459,9 +517,14 @@ export function Home() {
                     />
                   </label>
                 </div>
-                {nowModal.reservation.endDate && (
+                {nowModal.reservation.endDate &&
+                  nowModal.reservation.endDate !== nowModal.reservation.startDate && (
                   <p className="resv-note">
-                    Runs {nowModal.reservation.startDate} to {nowModal.reservation.endDate} — pick your date.
+                    {nowModal.reservation.venue} · {nowModal.reservation.startDate} to{' '}
+                    {nowModal.reservation.endDate}
+                    {nowModal.reservation.timeLabel
+                      ? ` · ${nowModal.reservation.timeLabel}`
+                      : ''}
                   </p>
                 )}
                 <div className="now-modal-actions">

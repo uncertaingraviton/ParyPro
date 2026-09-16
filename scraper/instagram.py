@@ -5,16 +5,18 @@ filters posts down to food & beverage specials (e.g. "Onam Sadhya at Kanak"),
 and returns a list of promotion records.
 
 Strategy:
-  1. Instagram public web endpoint (web_profile_info) - no login required.
-  2. Fallback: headless Chromium (Playwright) rendering the logged-out
-     profile grid - works even when plain HTTP gets a login-wall shell.
-  3. Fallback: public RSSHub instance serving an RSS bridge for the profile.
-  4. Last resort: Apify free tier (only when APIFY_TOKEN is set).
+  1. Captioned embed pages with a crawler User-Agent (survives API 429s).
+  2. Jina reader proxy for featured permalinks (helps from GitHub Actions).
+  3. Instagram public web endpoint (web_profile_info) - often 429 from cloud IPs.
+  4. Fallback: headless Chromium (Playwright) rendering the logged-out grid.
+  5. Fallback: public RSSHub instance serving an RSS bridge for the profile.
+  6. Last resort: Apify free tier (only when APIFY_TOKEN is set).
   If all fail, raise - run.py will keep the last-good JSON untouched.
 """
 
 from __future__ import annotations
 
+import html as html_lib
 import json
 import re
 import sys
@@ -42,6 +44,20 @@ BROWSER_HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+# Instagram serves a real captioned embed to crawlers, but a login-wall SPA
+# to ordinary Chrome UAs. GitHub's IPs 429 the JSON API; this path still works.
+CRAWLER_HEADERS = {
+    "User-Agent": (
+        "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)"
+    ),
+    "Accept": "text/html,application/xhtml+xml",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+# Always try these permalinks even if the profile embed is thin. First is the
+# current in-house promotion (Beloved Bihar at Kanak, 21–25 September).
+FEATURED_SHORTCODES = ("DdL2OAcmqzz",)
+
 RSSHUB_URLS = [
     f"https://rsshub.app/instagram/user/{HANDLE}",
     f"https://rsshub.rssforever.com/instagram/user/{HANDLE}",
@@ -59,6 +75,7 @@ PROMO_TERMS = [
     "special", "brunch", "dinner", "lunch", "feast", "celebration",
     "limited", "indulge", "culinary", "chef", "menu", "food", "dining",
     "cocktail", "cocktails", "afternoon tea", "high tea",
+    "bihar", "heirloom", "guest chef",
 ]
 
 
@@ -166,6 +183,119 @@ def fetch_via_web_endpoint(timeout: int = 20) -> list[dict]:
     posts = _posts_from_web_profile(resp.json())
     if not posts:
         raise RuntimeError("web_profile_info returned no posts")
+    return posts
+
+
+def _shortcodes_from_profile_embed(page_html: str) -> list[str]:
+    """Instagram double-escapes JSON in the profile embed (\\\"shortcode\\\":...)."""
+    found = re.findall(r'shortcode\\":\\"([A-Za-z0-9_-]+)\\"', page_html)
+    found += re.findall(r'"shortcode":"([A-Za-z0-9_-]+)"', page_html)
+    ordered: list[str] = []
+    for code in found:
+        if code not in ordered:
+            ordered.append(code)
+    return ordered
+
+
+def _caption_from_embed_html(page_html: str) -> str:
+    match = re.search(r'class="Caption"[^>]*>(.*?)</div>', page_html, re.DOTALL)
+    if not match:
+        return ""
+    raw = re.sub(r"<br\s*/?>", "\n", match.group(1), flags=re.IGNORECASE)
+    raw = re.sub(r"<[^>]+>", "", raw)
+    raw = html_lib.unescape(raw)
+    lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
+    if lines and lines[0].lstrip("@").lower() == HANDLE:
+        lines = lines[1:]
+    caption = "\n".join(lines)
+    caption = re.sub(
+        r"\s*View all \d+ comments.*", "", caption, flags=re.IGNORECASE | re.DOTALL
+    )
+    return caption.strip()
+
+
+def _image_from_embed_html(page_html: str) -> str:
+    for src in re.findall(r'<img[^>]+src="([^"]+)"', page_html):
+        src = html_lib.unescape(src)
+        if "scontent" in src and "s100x100" not in src:
+            return src
+    return ""
+
+
+def _post_from_embed(shortcode: str, timeout: int = 25) -> dict | None:
+    url = f"https://www.instagram.com/p/{shortcode}/embed/captioned/"
+    resp = requests.get(url, headers=CRAWLER_HEADERS, timeout=timeout)
+    resp.raise_for_status()
+    caption = _caption_from_embed_html(resp.text)
+    if not caption:
+        return None
+    return {
+        "caption": caption,
+        "url": f"https://www.instagram.com/p/{shortcode}/",
+        "image": _image_from_embed_html(resp.text),
+        "postedAt": "",
+    }
+
+
+def fetch_via_embed(timeout: int = 25) -> list[dict]:
+    """Crawler-UA embed pages: works when web_profile_info is 429'd."""
+    codes: list[str] = list(FEATURED_SHORTCODES)
+    try:
+        resp = requests.get(
+            f"https://www.instagram.com/{HANDLE}/embed/",
+            headers=CRAWLER_HEADERS,
+            timeout=timeout,
+        )
+        resp.raise_for_status()
+        for code in _shortcodes_from_profile_embed(resp.text):
+            if code not in codes:
+                codes.append(code)
+    except Exception:  # noqa: BLE001 - still try featured permalinks
+        pass
+
+    posts: list[dict] = []
+    seen: set[str] = set()
+    last_error: Exception | None = None
+    for code in codes[:10]:
+        if code in seen:
+            continue
+        seen.add(code)
+        try:
+            post = _post_from_embed(code, timeout=timeout)
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            continue
+        if post:
+            posts.append(post)
+    if not posts:
+        raise RuntimeError(f"Embed scrape returned no captions: {last_error}")
+    return posts
+
+
+def fetch_via_jina(timeout: int = 25) -> list[dict]:
+    """Jina reader proxy — useful from GitHub Actions when Instagram 429s."""
+    posts: list[dict] = []
+    last_error: Exception | None = None
+    for code in FEATURED_SHORTCODES:
+        url = f"https://r.jina.ai/http://www.instagram.com/p/{code}/"
+        try:
+            resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
+            resp.raise_for_status()
+            text = resp.text.strip()
+            if len(text) < 40:
+                continue
+            posts.append(
+                {
+                    "caption": text[:2000],
+                    "url": f"https://www.instagram.com/p/{code}/",
+                    "image": "",
+                    "postedAt": "",
+                }
+            )
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+    if not posts:
+        raise RuntimeError(f"Jina reader failed: {last_error}")
     return posts
 
 
@@ -405,6 +535,7 @@ VENUE_DISPLAY = {
 }
 
 PROMO_DISPLAY = [
+    ("beloved bihar", "Beloved Bihar"),
     ("onam sadhya", "Onam Sadhya"),
     ("high tea", "High Tea"),
     ("afternoon tea", "Afternoon Tea"),
@@ -512,11 +643,16 @@ def _parse_schedule(caption: str) -> dict:
         return make_date(day, month) if 1 <= day <= 31 else ""
 
     text = caption or ""
-    low = text.lower()
+    low = (
+        text.lower()
+        .replace("\u2013", "-")
+        .replace("\u2014", "-")
+        .replace("\u2212", "-")
+    )
 
     # Range first: '20-25 August', '20 to 25 August', '20–25 August'.
     m = re.search(
-        r"(\d{1,2})\s*(?:-|–|to)\s*(\d{1,2})\s+([a-z]+)", low
+        r"(\d{1,2})\s*(?:-|to)\s*(\d{1,2})\s+([a-z]+)", low
     )
     if m and month_map.get(m.group(3)[:3]):
         start = day_month(int(m.group(1)), m.group(3))
@@ -538,11 +674,15 @@ def _parse_schedule(caption: str) -> dict:
             if m and month_map.get(m.group(1)[:3]):
                 start = day_month(int(m.group(2)), m.group(1))
 
-    # Meal or explicit time.
-    for meal in MEAL_SLOTS:
-        if re.search(rf"\b{meal}\b", low):
-            time_label = meal.title()
-            break
+    # Meal or explicit time. Keep multiple slots ('Lunch' and 'Dinner').
+    meals = [meal.title() for meal in MEAL_SLOTS if re.search(rf"\b{meal}\b", low)]
+    if meals:
+        # Preserve MEAL_SLOTS order; drop dupes.
+        seen_meals: list[str] = []
+        for meal in meals:
+            if meal not in seen_meals:
+                seen_meals.append(meal)
+        time_label = " & ".join(seen_meals)
     if not time_label:
         m = re.search(r"\b(\d{1,2})(:\d{2})?\s*(am|pm)\b", low)
         if m:
@@ -584,9 +724,17 @@ def _build_promo_copy(caption: str) -> dict:
 
 
 def _venue_name(caption: str) -> str:
+    """Prefer a named outlet (Kanak, Amara, …) over the hotel itself."""
     low = re.sub(r"[^a-z0-9 ]+", " ", (caption or "").lower())
-    for term, disp in VENUE_DISPLAY.items():
-        if disp and term in low:
+    outlets = [
+        ("kanak", "Kanak"),
+        ("amara", "Amara"),
+        ("tuscany", "Tuscany"),
+        ("ninety six", "Ninety Six"),
+        ("ninety-six", "Ninety Six"),
+    ]
+    for term, disp in outlets:
+        if term in low:
             return disp
     return "Trident Hyderabad"
 
@@ -604,25 +752,61 @@ def _story(post: dict, schedule: dict) -> str:
 
     venue = _venue_name(post["caption"])
     invite = f"We look forward to hosting you at {venue}"
-    if schedule["startDate"]:
+    start = schedule.get("startDate") or ""
+    end = schedule.get("endDate") or ""
+    if start:
         try:
-            d = datetime.fromisoformat(schedule["startDate"])
-            invite += f" on {d.day} {d.strftime('%B %Y')}"
+            d = datetime.fromisoformat(start)
+            if end and end != start:
+                e = datetime.fromisoformat(end)
+                invite += f" from {d.day} to {e.day} {e.strftime('%B %Y')}"
+            else:
+                invite += f" on {d.day} {d.strftime('%B %Y')}"
         except ValueError:
             pass
-    if schedule["timeLabel"]:
+    if schedule.get("timeLabel"):
         invite += f" for {schedule['timeLabel'].lower()}"
     invite += "."
     return f"{story} {invite}".strip()[:600]
 
 
+def _when_from_schedule(schedule: dict) -> str:
+    start = schedule.get("startDate") or ""
+    end = schedule.get("endDate") or ""
+    label = schedule.get("timeLabel") or ""
+    if not start:
+        return ""
+    try:
+        start_d = datetime.fromisoformat(start)
+    except ValueError:
+        return ""
+    if end and end != start:
+        try:
+            end_d = datetime.fromisoformat(end)
+            if start_d.month == end_d.month:
+                when = f"{start_d.day}–{end_d.day} {start_d.strftime('%B')}"
+            else:
+                when = (
+                    f"{start_d.day} {start_d.strftime('%B')} – "
+                    f"{end_d.day} {end_d.strftime('%B')}"
+                )
+        except ValueError:
+            when = f"{start_d.day} {start_d.strftime('%B')}"
+    else:
+        when = f"{start_d.day} {start_d.strftime('%B')}"
+    if label:
+        when = f"{when} | {label}"
+    return when
+
+
 def _to_promotion(post: dict) -> dict:
     copy = _build_promo_copy(post["caption"])
     schedule = _parse_schedule(post["caption"])
+    when = copy["when"] or _when_from_schedule(schedule)
     return {
         "title": copy["title"],
         "detail": copy["detail"],
-        "when": copy["when"],
+        "when": when,
         "startDate": schedule["startDate"],
         "endDate": schedule["endDate"],
         "timeLabel": schedule["timeLabel"],
@@ -696,6 +880,8 @@ def get_promotions(limit: int = 5) -> list[dict]:
     fallback: list[dict] = []
 
     for fetcher in (
+        fetch_via_embed,
+        fetch_via_jina,
         fetch_via_web_endpoint,
         fetch_via_browser,
         fetch_via_rsshub,
