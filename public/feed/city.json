@@ -1,27 +1,93 @@
 {
-  "fetchedAt": "2026-09-15T16:41:28.015531+00:00",
+  "fetchedAt": "2026-09-16T04:18:12.885503+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
-      "id": "bms-ET00503689",
-      "title": "Design Democracy 2026",
+      "id": "bms-ET00517505",
+      "title": "Tollywood Musical Jamming Ft.Karishma and Vishal",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to Design Democracy 2026 — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/design-democracy-2026/ET00503689",
+      "editorial": "We would happily send you to Tollywood Musical Jamming Ft.Karishma and Vishal — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/tollywood-musical-jamming-ft-karishma-and-vishal/ET00517505",
       "image": ""
     },
     {
-      "id": "bms-ET00515798",
-      "title": "TTF HYDERABAD 2026",
+      "id": "bms-ET00515967",
+      "title": "Musafir Jamming",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to TTF HYDERABAD 2026 — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/ttf-hyderabad-2026/ET00515798",
+      "editorial": "We would happily send you to Musafir Jamming — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/musafir-jamming/ET00515967",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00494783",
+      "title": "OG TOUR INDIA WITH THAMAN - LIVE IN HYDERABAD",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to OG TOUR INDIA WITH THAMAN - LIVE IN HYDERABAD — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/og-tour-india-with-thaman-live-in-hyderabad/ET00494783",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00516115",
+      "title": "Threeory at HCC",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Threeory at HCC — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/threeory-at-hcc/ET00516115",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00516468",
+      "title": "SwaRagam Telugu MASS songs Jamming Session",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to SwaRagam Telugu MASS songs Jamming Session — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/swaragam-telugu-mass-songs-jamming-session/ET00516468",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00516978",
+      "title": "Band Out Of Syllabus - 5th Anniversary Edition",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Band Out Of Syllabus - 5th Anniversary Edition — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/band-out-of-syllabus-5th-anniversary-edition/ET00516978",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00487290",
+      "title": "Saturday Regional Live ft. Rudhra at Vault Brewery",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Saturday Regional Live ft. Rudhra at Vault Brewery — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/saturday-regional-live-ft-rudhra-at-vault-brewery/ET00487290",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00465610",
+      "title": "BAND NADHA PERFORMING LIVE AT THE RABBIT HOLE",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to BAND NADHA PERFORMING LIVE AT THE RABBIT HOLE — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/band-nadha-performing-live-at-the-rabbit-hole/ET00465610",
       "image": ""
     }
   ]
