@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-17T16:40:10.811894+00:00",
+  "fetchedAt": "2026-09-17T18:01:42.514622+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -25,17 +25,6 @@
       "image": ""
     },
     {
-      "id": "bms-ET00366559",
-      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
-      "image": ""
-    },
-    {
       "id": "bms-ET00445089",
       "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
       "category": "culture",
@@ -55,6 +44,17 @@
       "description": "",
       "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00366559",
+      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
       "image": ""
     },
     {
@@ -80,14 +80,14 @@
       "image": ""
     },
     {
-      "id": "bms-ET00447909",
-      "title": "Weekend Dance workshop",
+      "id": "bms-ET00499559",
+      "title": "Fluid Art Workshop",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to Weekend Dance workshop — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/weekend-dance/ET00447909",
+      "editorial": "We would happily send you to Fluid Art Workshop — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/fluid-art-workshop/ET00499559",
       "image": ""
     }
   ]
