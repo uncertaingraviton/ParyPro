@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-18T17:35:31.522565+00:00",
+  "fetchedAt": "2026-09-18T20:42:43.888005+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -36,17 +36,6 @@
       "image": ""
     },
     {
-      "id": "bms-ET00482559",
-      "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
-      "image": ""
-    },
-    {
       "id": "bms-ET00445089",
       "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
       "category": "culture",
@@ -55,6 +44,17 @@
       "description": "",
       "editorial": "We would happily send you to PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/play-n-learn-inorbit-mall-cyberabad-hyderabad/ET00445089",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00482559",
+      "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
       "image": ""
     },
     {
