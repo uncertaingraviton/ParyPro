@@ -1,5 +1,94 @@
 {
-  "fetchedAt": "2026-09-19T13:18:45.347435+00:00",
+  "fetchedAt": "2026-09-19T15:42:57.749247+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms-ET00504642",
+      "title": "Sim and Sam's Party and Playtown Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Sim and Sam's Party and Playtown Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/sim-and-sam-s-party-and-playtown-hyderabad/ET00504642",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00477982",
+      "title": "Professional Photography Courses by Photofountain",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Professional Photography Courses by Photofountain — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/professional-photography-courses-by-photofountain/ET00477982",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00482559",
+      "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00445089",
+      "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-inorbit-mall-cyberabad-hyderabad/ET00445089",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00366559",
+      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00404324",
+      "title": "PLAY 'N' LEARN Sarath City Mall Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN Sarath City Mall Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-sarath-city-mall-hyderabad/ET00404324",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00517428",
+      "title": "Glass Onion Sundowner",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Glass Onion Sundowner — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/glass-onion-sundowner/ET00517428",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00499559",
+      "title": "Fluid Art Workshop",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Fluid Art Workshop — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/fluid-art-workshop/ET00499559",
+      "image": ""
+    }
+  ]
 }
