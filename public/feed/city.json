@@ -1,5 +1,94 @@
 {
-  "fetchedAt": "2026-09-19T17:04:34.649158+00:00",
+  "fetchedAt": "2026-09-19T20:22:27.609608+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms-ET00500407",
+      "title": "Cockroach - A Standup Comedy Show",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Cockroach - A Standup Comedy Show — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/cockroach-a-standup-comedy-show/ET00500407",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00495409",
+      "title": "Late night stand up comedy show",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Late night stand up comedy show — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/late-night-stand-up-comedy-show/ET00495409",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00495406",
+      "title": "SEX JOKES NIGHT",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to SEX JOKES NIGHT — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/sex-jokes-night/ET00495406",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00349185",
+      "title": "Best in Standup ft. Various Artists",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Best in Standup ft. Various Artists — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/best-in-standup-ft-utkarsh-ketan-and-manish/ET00349185",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00342543",
+      "title": "All Star Lineup- A Curated Stand up comedy show",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to All Star Lineup- A Curated Stand up comedy show — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/stand-up-comedy-open-mic/ET00342543",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00495372",
+      "title": "Dark Jokes - A Dark Jokes Comedy Show",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Dark Jokes - A Dark Jokes Comedy Show — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/dark-jokes-a-dark-jokes-comedy-show/ET00495372",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00348898",
+      "title": "Mid-night Comedy",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Mid-night Comedy — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/comedy-countdown-ft-pawan-rakesh-shubham/ET00348898",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00513870",
+      "title": "Relationship Jokes",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Relationship Jokes — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/comedy-jam/ET00513870",
+      "image": ""
+    }
+  ]
 }
