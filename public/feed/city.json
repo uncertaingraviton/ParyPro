@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-20T04:24:39.041722+00:00",
+  "fetchedAt": "2026-09-20T11:02:33.577019+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -25,6 +25,17 @@
       "image": ""
     },
     {
+      "id": "bms-ET00445089",
+      "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-inorbit-mall-cyberabad-hyderabad/ET00445089",
+      "image": ""
+    },
+    {
       "id": "bms-ET00482559",
       "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
       "category": "culture",
@@ -44,17 +55,6 @@
       "description": "",
       "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
-      "image": ""
-    },
-    {
-      "id": "bms-ET00445089",
-      "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/play-n-learn-inorbit-mall-cyberabad-hyderabad/ET00445089",
       "image": ""
     },
     {
