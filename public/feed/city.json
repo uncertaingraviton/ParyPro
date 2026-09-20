@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-20T17:20:46.419489+00:00",
+  "fetchedAt": "2026-09-20T20:35:43.067850+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -69,17 +69,6 @@
       "image": ""
     },
     {
-      "id": "bms-ET00508440",
-      "title": "Pottery Wheel Workshop by KClay Studio",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to Pottery Wheel Workshop by KClay Studio — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/pottery-wheel-workshop-by-kclay-studio/ET00508440",
-      "image": ""
-    },
-    {
       "id": "bms-ET00517428",
       "title": "Glass Onion Sundowner",
       "category": "culture",
@@ -88,6 +77,17 @@
       "description": "",
       "editorial": "We would happily send you to Glass Onion Sundowner — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/glass-onion-sundowner/ET00517428",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00508440",
+      "title": "Pottery Wheel Workshop by KClay Studio",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Pottery Wheel Workshop by KClay Studio — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pottery-wheel-workshop-by-kclay-studio/ET00508440",
       "image": ""
     }
   ]
