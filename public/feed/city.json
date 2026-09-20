@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-20T15:48:59.711892+00:00",
+  "fetchedAt": "2026-09-20T17:20:46.419489+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -25,14 +25,14 @@
       "image": ""
     },
     {
-      "id": "bms-ET00482559",
-      "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
+      "id": "bms-ET00366559",
+      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
+      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
       "image": ""
     },
     {
@@ -47,14 +47,14 @@
       "image": ""
     },
     {
-      "id": "bms-ET00366559",
-      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
+      "id": "bms-ET00482559",
+      "title": "Ministry of Kids - Hyderabad (Jubilee Hills)",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
+      "editorial": "We would happily send you to Ministry of Kids - Hyderabad (Jubilee Hills) — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/ministry-of-kids-hyderabad-jubilee-hills/ET00482559",
       "image": ""
     },
     {
@@ -69,17 +69,6 @@
       "image": ""
     },
     {
-      "id": "bms-ET00517428",
-      "title": "Glass Onion Sundowner",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to Glass Onion Sundowner — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/glass-onion-sundowner/ET00517428",
-      "image": ""
-    },
-    {
       "id": "bms-ET00508440",
       "title": "Pottery Wheel Workshop by KClay Studio",
       "category": "culture",
@@ -88,6 +77,17 @@
       "description": "",
       "editorial": "We would happily send you to Pottery Wheel Workshop by KClay Studio — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/pottery-wheel-workshop-by-kclay-studio/ET00508440",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00517428",
+      "title": "Glass Onion Sundowner",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Glass Onion Sundowner — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/glass-onion-sundowner/ET00517428",
       "image": ""
     }
   ]
