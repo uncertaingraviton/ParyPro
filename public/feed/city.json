@@ -1,5 +1,61 @@
 {
-  "fetchedAt": "2026-09-22T04:17:58.092512+00:00",
+  "fetchedAt": "2026-09-22T11:18:56.775939+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms-ET00451623",
+      "title": "Hyderabad OPEN MIC - Singing Comedy Poetry",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Hyderabad OPEN MIC - Singing Comedy Poetry — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/hyderabad-open-mic-all-talent/ET00451623",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00508857",
+      "title": "Safarnama by Krishna Shukla",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Safarnama by Krishna Shukla — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/safarnama-by-krishna-shukla/ET00508857",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00377836",
+      "title": "Ghar - An Open Mic For Words By Tape A Tale",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Ghar - An Open Mic For Words By Tape A Tale — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/ghar-an-open-mic-for-words-by-tape-a-tale/ET00377836",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00387309",
+      "title": "Chikka on Roll",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Chikka on Roll — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/chikka-on-roll/ET00387309",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00514495",
+      "title": "Agomoni",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Agomoni — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/agomoni/ET00514495",
+      "image": ""
+    }
+  ]
 }
