@@ -1,17 +1,5 @@
 {
-  "fetchedAt": "2026-09-22T18:00:19.959553+00:00",
+  "fetchedAt": "2026-09-22T21:06:43.125386+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": [
-    {
-      "id": "bms-ET00518094",
-      "title": "GLOBAL STARTUPS CLUB STARTUP NETWORKING Hyderabad",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to GLOBAL STARTUPS CLUB STARTUP NETWORKING Hyderabad — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/global-startups-club-startup-networking-hyderabad/ET00518094",
-      "image": ""
-    }
-  ]
+  "events": []
 }
