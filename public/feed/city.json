@@ -1,16 +1,93 @@
 {
-  "fetchedAt": "2026-09-23T04:15:04.554329+00:00",
+  "fetchedAt": "2026-09-23T11:12:42.496968+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
-      "id": "bms-ET00485864",
-      "title": "Paatala Shikaru  A picnic but with music",
+      "id": "bms-ET00414889",
+      "title": "Immersive Pottery Wheel Session",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to Paatala Shikaru  A picnic but with music — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/paatala-shikaru-a-picnic-but-with-music/ET00485864",
+      "editorial": "We would happily send you to Immersive Pottery Wheel Session — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/kclay-pottery-workshop/ET00414889",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00508440",
+      "title": "Pottery Wheel Workshop by KClay Studio",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Pottery Wheel Workshop by KClay Studio — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pottery-wheel-workshop-by-kclay-studio/ET00508440",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00146935",
+      "title": "Make Your Own Pizza",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Make Your Own Pizza — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/make-your-own-pizza/ET00146935",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00146938",
+      "title": "Make Your Own Sushi",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Make Your Own Sushi — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/make-your-own-sushi/ET00146938",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00468453",
+      "title": "AERIAL YOGA WORKSHOP",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to AERIAL YOGA WORKSHOP — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/aerial-yoga-workshop/ET00468453",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00391835",
+      "title": "Pottery Workshop",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Pottery Workshop — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pottery-workshop-at-house-of-gourmet/ET00391835",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00465344",
+      "title": "Coaster Painting Workshop",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Coaster Painting Workshop — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/coaster-painting-workshop/ET00465344",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00446498",
+      "title": "Pottery Workshop at Belloso",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Pottery Workshop at Belloso — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pottery-workshop-at-heart-cup-coffee/ET00446498",
       "image": ""
     }
   ]
