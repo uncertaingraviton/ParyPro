@@ -1,5 +1,17 @@
 {
-  "fetchedAt": "2026-09-22T21:06:43.125386+00:00",
+  "fetchedAt": "2026-09-23T04:15:04.554329+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms-ET00485864",
+      "title": "Paatala Shikaru  A picnic but with music",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Paatala Shikaru  A picnic but with music — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/paatala-shikaru-a-picnic-but-with-music/ET00485864",
+      "image": ""
+    }
+  ]
 }
