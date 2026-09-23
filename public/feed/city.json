@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-23T14:19:34.740554+00:00",
+  "fetchedAt": "2026-09-23T16:34:37.315927+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
@@ -14,14 +14,14 @@
       "image": ""
     },
     {
-      "id": "bms-ET00517428",
-      "title": "Glass Onion Sundowner",
+      "id": "bms-ET00495671",
+      "title": "Pizza Making Workshop at Broadway",
       "category": "culture",
       "time": "",
       "venue": "",
       "description": "",
-      "editorial": "We would happily send you to Glass Onion Sundowner — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/glass-onion-sundowner/ET00517428",
+      "editorial": "We would happily send you to Pizza Making Workshop at Broadway — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/pizza-making-workshop-at-broadway/ET00495671",
       "image": ""
     },
     {
@@ -58,17 +58,6 @@
       "image": ""
     },
     {
-      "id": "bms-ET00366559",
-      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
-      "category": "culture",
-      "time": "",
-      "venue": "",
-      "description": "",
-      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
-      "image": ""
-    },
-    {
       "id": "bms-ET00445089",
       "title": "PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad",
       "category": "culture",
@@ -77,6 +66,17 @@
       "description": "",
       "editorial": "We would happily send you to PLAY 'N' LEARN Inorbit Mall Cyberabad, Hyderabad — book ahead, seats go fast.",
       "url": "https://in.bookmyshow.com/events/play-n-learn-inorbit-mall-cyberabad-hyderabad/ET00445089",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00366559",
+      "title": "PLAY 'N' LEARN GVK One Mall Hyderabad",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to PLAY 'N' LEARN GVK One Mall Hyderabad — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/play-n-learn-gvk-one-mall-hyderabad/ET00366559",
       "image": ""
     },
     {
