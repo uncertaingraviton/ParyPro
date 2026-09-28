@@ -1,5 +1,94 @@
 {
-  "fetchedAt": "2026-09-28T04:48:07.566863+00:00",
+  "fetchedAt": "2026-09-28T13:28:06.574024+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms--mahotsav/ET00514995",
+      "title": "Bhajan Mahotsav",
+      "category": "culture",
+      "time": "2026-10-02T18:30:00",
+      "venue": "Ravindra Bharathi: Hyderabad",
+      "description": "",
+      "editorial": "We would happily send you to Bhajan Mahotsav at Ravindra Bharathi — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/bhajan-mahotsav/ET00514995",
+      "image": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-1440,h-288,bg-CCCCCC/et00514995-weknhvnvyf-landscape.jpg"
+    },
+    {
+      "id": "bms-ET00407142",
+      "title": "Sing With Live Music",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Sing With Live Music — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/sing-with-live-acoustic-band/ET00407142",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00407151",
+      "title": "Hyderabad Music Jamming Session LIVE",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Hyderabad Music Jamming Session LIVE — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/hyderabad-music-jamming-with-live-band/ET00407151",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00388252",
+      "title": "Hyderabad Karaoke Open Mic",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Hyderabad Karaoke Open Mic — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/hyderabad-karaoke-open-mic/ET00388252",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00515765",
+      "title": "Nykaaland India's Biggest Beauty Festival In Delhi",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Nykaaland India's Biggest Beauty Festival In Delhi — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/nykaaland-india-s-biggest-beauty-festival/ET00515765",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00503973",
+      "title": "Fred again.. India Tour 2026",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Fred again.. India Tour 2026 — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/fred-again-india-tour-2026/ET00503973",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00496800",
+      "title": "Sunday Tunes Ft. Arpit and Chuba",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Sunday Tunes Ft. Arpit and Chuba — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/sunday-tunes-ft-arpit-and-chuba/ET00496800",
+      "image": ""
+    },
+    {
+      "id": "bms-ET00506267",
+      "title": "Keinemusik presents Adam Port - India Tour",
+      "category": "culture",
+      "time": "",
+      "venue": "",
+      "description": "",
+      "editorial": "We would happily send you to Keinemusik presents Adam Port - India Tour — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/keinemusik-presents-adam-port-india-tour/ET00506267",
+      "image": ""
+    }
+  ]
 }
