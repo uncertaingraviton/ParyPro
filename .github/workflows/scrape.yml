@@ -33,9 +33,6 @@ jobs:
           python -m playwright install chromium
 
       - name: Run scrapers
-        env:
-          # Optional: enables the Apify fallback for Instagram (free tier).
-          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python scraper/run.py
 
       - name: Commit refreshed feeds

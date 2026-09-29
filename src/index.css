@@ -177,6 +177,10 @@ button {
   width: 100%;
 }
 
+.now-grid--single {
+  grid-template-columns: minmax(0, 460px);
+}
+
 .now-card {
   position: relative;
   isolation: isolate;

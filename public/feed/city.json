@@ -1,5 +1,28 @@
 {
-  "fetchedAt": "2026-09-29T05:13:58.495781+00:00",
+  "fetchedAt": "2026-09-29T06:31:29.831447+00:00",
   "source": "bookmyshow/hyderabad-events",
-  "events": []
+  "events": [
+    {
+      "id": "bms--mahotsav/ET00514995",
+      "title": "Bhajan Mahotsav",
+      "category": "culture",
+      "time": "2026-10-02T18:30:00",
+      "venue": "Ravindra Bharathi: Hyderabad",
+      "description": "",
+      "editorial": "We would happily send you to Bhajan Mahotsav at Ravindra Bharathi — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/bhajan-mahotsav/ET00514995",
+      "image": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-1440,h-288,bg-CCCCCC/et00514995-weknhvnvyf-landscape.jpg"
+    },
+    {
+      "id": "bms-ET00440117",
+      "title": "Roobaru",
+      "category": "culture",
+      "time": "2026-10-03T19:00:00+05:30",
+      "venue": "Locale Cafe and Bistro: Hyderabad",
+      "description": "Roobaru – Where conversations come alive at Milaap! 🎤✨ A heartfelt gathering to share stories, exchange ideas, and build meaningful connections. Whether it’s about life, travel, career, or passions, every conversation adds a new chapter to your journey. Come, be part of an evening filled with warmth",
+      "editorial": "Roobaru – Where conversations come alive at Milaap! 🎤✨ A heartfelt gathering to share stories, exchange ideas, and build meaningful connections.",
+      "url": "https://in.bookmyshow.com/events/roobaru/ET00440117",
+      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-roobaru-0-2026-6-12-t-2-48-45.jpg"
+    }
+  ]
 }

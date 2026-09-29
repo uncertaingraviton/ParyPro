@@ -18,7 +18,6 @@ FEED_DIR = REPO_ROOT / "public" / "feed"
 sys.path.insert(0, str(Path(__file__).parent))
 
 import bookmyshow  # noqa: E402
-import instagram  # noqa: E402
 
 
 def write_feed(name: str, payload: dict) -> None:
@@ -35,20 +34,6 @@ def write_feed(name: str, payload: dict) -> None:
 def main() -> int:
     now = datetime.now(timezone.utc).isoformat()
     failures: list[str] = []
-
-    # --- Instagram -> hotel happenings ---
-    try:
-        promos = instagram.get_promotions()
-        write_feed(
-            "hotel",
-            {
-                "fetchedAt": now,
-                "source": "instagram/@tridenthyderabad",
-                "promotions": promos,
-            },
-        )
-    except Exception as exc:  # noqa: BLE001
-        failures.append(f"instagram: {exc}")
 
     # --- BookMyShow -> city happenings ---
     try:
@@ -69,18 +54,11 @@ def main() -> int:
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
 
-    if len(failures) == 2:
-        # Both failed (e.g. Instagram/BookMyShow blocking GitHub's IPs).
-        # If last-good feeds already exist, keep them serving and stay green -
-        # a red cron every 6 hours helps nobody. Fail loudly only when there
-        # is no data at all to fall back on.
-        have_last_good = all(
-            (FEED_DIR / f"{name}.json").exists() for name in ("hotel", "city")
-        )
-        if have_last_good:
+    if failures:
+        have_city = (FEED_DIR / "city.json").exists()
+        if have_city:
             print(
-                "All sources blocked; keeping last-good feeds. "
-                "Consider setting APIFY_TOKEN for an Instagram fallback.",
+                "BookMyShow blocked; keeping last-good city feed.",
                 file=sys.stderr,
             )
             return 0

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { venues } from '../data'
 import moodDine from '../assets/place-biryani.jpg'
 import moodDrink from '../assets/place-chai.jpg'
 import moodExplore from '../assets/place-charminar.jpg'
@@ -10,9 +9,8 @@ import amaraImg from '../assets/amaraNew.png'
 import tuscanyImg from '../assets/TuscanyNew.png'
 import ninetySixImg from '../assets/96TWO.png'
 import { useLiveFeeds } from '../lib/feed'
-import { sendReservationEmail } from '../lib/reservations'
-import { isOpen } from '../lib/time'
 import { useStore } from '../store'
+import type { CityEvent } from '../types'
 
 const moods = [
   { to: '/dine', label: 'Dining', icon: '🍽', img: moodDine },
@@ -29,56 +27,25 @@ type NowModal = {
   ctaTo: string
   ctaLabel: string
   external?: boolean
-  reservation?: {
-    venue: string
-    startDate: string
-    endDate?: string
-    timeLabel?: string
-  }
 }
 
-const MEAL_SLOTS: Record<string, string[]> = {
-  Breakfast: ['07:00', '08:00', '09:00'],
-  Brunch: ['12:00', '12:30', '13:30'],
-  Lunch: ['12:30', '13:00', '13:30', '14:00', '14:30'],
-  'High Tea': ['16:00', '16:30', '17:30'],
-  'Afternoon Tea': ['16:00', '16:30', '17:30'],
-  Dinner: ['19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'],
+function formatEventWhen(time: string): string {
+  if (!time) return ''
+  const parsed = Date.parse(time)
+  if (!Number.isFinite(parsed)) return time
+  return new Date(parsed).toLocaleString('en-IN', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
 }
 
-function todayISO(): string {
-  const d = new Date()
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-}
-
-function slotsFor(timeLabel?: string): string[] {
-  if (!timeLabel) return ['12:30', '13:30', '19:00', '19:30', '20:30']
-  const parts = timeLabel.split(/\s*(?:&|and|,|\|)\s*/i).map((p) => p.trim())
-  const out: string[] = []
-  for (const part of parts) {
-    const key = Object.keys(MEAL_SLOTS).find(
-      (k) => k.toLowerCase() === part.toLowerCase(),
-    )
-    if (key) {
-      for (const t of MEAL_SLOTS[key]) {
-        if (!out.includes(t)) out.push(t)
-      }
-    }
-  }
-  if (out.length) return out
-  if (/\d/.test(timeLabel)) return [timeLabel]
-  return ['12:30', '13:30', '19:00', '19:30', '20:30']
-}
-
-function reservationBounds(startDate: string, endDate?: string) {
-  const start = startDate
-  const end = endDate && endDate >= startDate ? endDate : startDate
-  const today = todayISO()
-  const min = today > start ? today : start
-  const max = end
-  const defaultDate = min <= max ? min : start
-  return { min, max, defaultDate }
+function eventMeta(event: CityEvent): string {
+  const when = formatEventWhen(event.time)
+  const parts = [when, event.venue].filter(Boolean)
+  return parts.length ? parts.join(' · ') : 'Hyderabad'
 }
 
 // Slideshow venues
@@ -86,23 +53,19 @@ const slideshowVenues = [
   { slug: 'kanak', name: 'Kanak', image: kanakImg, tagline: 'Indian Specialty Restaurant', link: '/dine/kanak' },
   { slug: 'amara', name: 'Amara', image: amaraImg, tagline: 'All-day dining', link: '/dine/amara' },
   { slug: 'tuscany', name: 'Tuscany', image: tuscanyImg, tagline: 'A taste of Italy', link: '/dine/tuscany' },
-  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },]
+  { slug: 'ninety-six', name: 'Ninety Six', image: ninetySixImg, tagline: 'After dark', link: '/dine/ninety-six' },
+]
 
 export function Home() {
-  const { cms, setCms } = useStore()
-  const { hotelPromo, cityEvents } = useLiveFeeds()
+  const { cms } = useStore()
+  const { cityEvents } = useLiveFeeds()
   const [nowModal, setNowModal] = useState<NowModal | null>(null)
-  const [resv, setResv] = useState<{ date: string; time: string; guests: string } | null>(null)
-  const [resvDone, setResvDone] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const featured = cms.events.filter((e) => e.featured).slice(0, 4)
-  const hotelSpecial = cms.specials[0]
-  const hotelVenue = venues.find((v) => v.slug === hotelSpecial?.venue) ?? venues.find((v) => v.slug === 'kanak')
-  // Live scraped data wins; fall back to desk-curated defaults.
   const liveCity = cityEvents?.[0]
   const cityNow = liveCity ?? featured[0] ?? cms.events[0]
+  const cityList = cityEvents?.length ? cityEvents : featured
 
-  // Auto-advance slideshow
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slideshowVenues.length)
@@ -110,9 +73,20 @@ export function Home() {
     return () => clearInterval(timer)
   }, [])
 
+  function openCityModal(event: CityEvent) {
+    setNowModal({
+      kicker: 'BookMyShow · Hyderabad',
+      title: event.title,
+      body: event.editorial || event.description,
+      meta: eventMeta(event),
+      ctaTo: event.url || '/explore',
+      ctaLabel: event.url ? 'Book on BookMyShow' : 'Explore the city',
+      external: Boolean(event.url),
+    })
+  }
+
   return (
     <>
-      {/* Slideshow Section */}
       <section className="slideshow-section">
         <div className="slideshow-container">
           {slideshowVenues.map((venue, index) => (
@@ -143,179 +117,29 @@ export function Home() {
       </section>
 
       <section className="now-section">
-        <div className="now-grid">
-          <Link
-            to={hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine'}
-            className="now-card now-card-hotel"
-            onClick={(e) => {
-              e.preventDefault()
-              setResvDone(false)
-              if (hotelPromo?.startDate) {
-                const bounds = reservationBounds(
-                  hotelPromo.startDate,
-                  hotelPromo.endDate,
-                )
-                setResv({
-                  date: bounds.defaultDate,
-                  time: slotsFor(hotelPromo.timeLabel)[0],
-                  guests: '2',
-                })
-              } else {
-                setResv(null)
-              }
-              setNowModal(
-                hotelPromo
-                  ? {
-                      kicker: 'Inside the hotel',
-                      title: hotelPromo.title,
-                      body: hotelPromo.story || hotelPromo.detail,
-                      meta: [
-                        hotelPromo.when,
-                        hotelPromo.postedAt &&
-                          new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
-                            day: 'numeric',
-                            month: 'short',
-                          }),
-                      ]
-                        .filter(Boolean)
-                        .join(' · '),
-                      ctaTo: hotelPromo.url,
-                      ctaLabel: 'See the post on Instagram',
-                      external: true,
-                      reservation: hotelPromo.startDate
-                        ? {
-                            venue: hotelPromo.venueName ?? 'Trident Hyderabad',
-                            startDate: hotelPromo.startDate,
-                            endDate: hotelPromo.endDate,
-                            timeLabel: hotelPromo.timeLabel,
-                          }
-                        : undefined,
-                    }
-                  : {
-                      kicker: 'Inside the hotel',
-                      title: hotelSpecial?.title ?? 'A quiet house',
-                      body:
-                        hotelSpecial?.detail ??
-                        'No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.',
-                      meta: hotelVenue?.hours ?? '',
-                      ctaTo: hotelVenue ? `/dine/${hotelVenue.slug}` : '/dine',
-                      ctaLabel: hotelVenue ? `Explore ${hotelVenue.name}` : 'Explore dining',
-                    },
-              )
-            }}
-          >
-            <p className="now-kicker">Inside the hotel</p>
-            {hotelPromo ? (
-              <div className="now-card-body">
-                <h2>{hotelPromo.title}</h2>
-                <p>{hotelPromo.detail}</p>
-                <p className="now-meta">
-                  {hotelPromo.when && `${hotelPromo.when} · `}
-                  From @tridenthyderabad
-                  {hotelPromo.postedAt &&
-                    ` · ${new Date(hotelPromo.postedAt).toLocaleDateString('en-IN', {
-                      day: 'numeric',
-                      month: 'short',
-                    })}`}
-                </p>
-              </div>
-            ) : hotelSpecial ? (
-              <>
-                <div className="now-card-body">
-                  <h2>{hotelSpecial.title}</h2>
-                  <p>{hotelSpecial.detail}</p>
-                  {hotelVenue && (
-                    <p className="now-meta">
-                      {hotelVenue.name}
-                      {isOpen(hotelVenue.openFrom, hotelVenue.openTo, hotelVenue.overnight)
-                        ? ' · Open now'
-                        : ` · ${hotelVenue.hours}`}
-                    </p>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="now-card-body">
-                  <h2>A quiet house</h2>
-                  <p>No specials on the board. Amara, Kanak, Tuscany and Ninety Six are as usual.</p>
-                </div>
-              </>
-            )}
-          </Link>
+        <div className="now-grid now-grid--single">
           <Link
             to={liveCity ? cityNow.url || '/explore' : '/explore'}
-            className="now-card"
+            className="now-card now-card-city"
             onClick={(e) => {
               e.preventDefault()
-              setNowModal({
-                kicker: 'Nearby in the city',
-                title: cityNow.title,
-                body: cityNow.editorial || cityNow.description,
-                meta: [cityNow.time, cityNow.venue].filter(Boolean).join(' · '),
-                ctaTo: cityNow.url || '/explore',
-                ctaLabel: cityNow.url ? 'Book on BookMyShow' : 'Explore the city',
-                external: Boolean(cityNow.url),
-              })
+              openCityModal(cityNow)
             }}
           >
-            <p className="now-kicker">Nearby in the city</p>
+            <p className="now-kicker">BookMyShow · Hyderabad</p>
             {cityNow ? (
-              <>
-                <div className="now-card-body">
-                  <h2>{cityNow.title}</h2>
-                  <p>{cityNow.editorial || cityNow.description}</p>
-                  <p className="now-meta">
-                    {cityNow.time} · {cityNow.venue}
-                  </p>
-                </div>
-              </>
+              <div className="now-card-body">
+                <h2>{cityNow.title}</h2>
+                <p>{cityNow.editorial || cityNow.description}</p>
+                <p className="now-meta">{eventMeta(cityNow)}</p>
+              </div>
             ) : (
-              <>
-                <div className="now-card-body">
-                  <h2>Nothing we would send you to</h2>
-                  <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
-                </div>
-              </>
+              <div className="now-card-body">
+                <h2>Nothing we would send you to</h2>
+                <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
+              </div>
             )}
           </Link>
-        </div>
-      </section>
-
-      {/* Instagram Reels Section */}
-      <section className="section reels-section">
-        <div className="section-head">
-          <p className="eyebrow">@tridenthyderabad</p>
-          <h2>Follow our journey</h2>
-        </div>
-        <div className="reels-grid">
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/C9XETllTPIw/embed/?autoplay=1&muted=1&loop=1"
-              title="Instagram Reel 1"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/CuTZ431hgTb/embed/?autoplay=1&muted=1&loop=1"
-              title="Instagram Reel 2"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <div className="reel-card">
-            <iframe
-              src="https://www.instagram.com/reel/Csko0TuB0lL/embed/?autoplay=1&muted=1&loop=1"
-              title="Instagram Reel 3"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
         </div>
       </section>
 
@@ -337,39 +161,11 @@ export function Home() {
       <section className="section dark" style={{ maxWidth: 'none' }}>
         <div className="section-head">
           <p className="eyebrow">Hyderabad Now</p>
-          <h2>What's happening today</h2>
-          <p>Live updates from our outlets and the city.</p>
+          <h2>What&apos;s happening in the city</h2>
+          <p>Live picks from BookMyShow — refreshed every few hours.</p>
         </div>
-        <div className="event-grid" style={{ maxWidth: 1280, margin: '0 auto' }}>
-          {hotelPromo ? (
-            hotelPromo.url ? (
-              <a
-                href={hotelPromo.url}
-                target="_blank"
-                rel="noreferrer"
-                className="event-card"
-                style={{ background: '#2a2219', color: '#faf6f0' }}
-                key="hotel-promo"
-              >
-                <p className="eyebrow">{hotelPromo.when || hotelPromo.timeLabel}</p>
-                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
-                  {hotelPromo.title}
-                </h3>
-                <p className="muted">{hotelPromo.venueName}</p>
-                <p style={{ marginTop: 12 }}>{hotelPromo.detail}</p>
-              </a>
-            ) : (
-              <Link to="/dine" className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key="hotel-promo">
-                <p className="eyebrow">{hotelPromo.when || hotelPromo.timeLabel}</p>
-                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
-                  {hotelPromo.title}
-                </h3>
-                <p className="muted">{hotelPromo.venueName}</p>
-                <p style={{ marginTop: 12 }}>{hotelPromo.detail}</p>
-              </Link>
-            )
-          ) : null}
-          {cityEvents?.map((event) => (
+        <div className="event-grid event-grid--city" style={{ maxWidth: 1280, margin: '0 auto' }}>
+          {cityList.map((event) =>
             event.url ? (
               <a
                 href={event.url}
@@ -379,26 +175,32 @@ export function Home() {
                 style={{ background: '#2a2219', color: '#faf6f0' }}
                 key={event.id}
               >
-                <p className="eyebrow">{event.time}</p>
+                <p className="eyebrow">{formatEventWhen(event.time) || 'BookMyShow'}</p>
                 <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
                   {event.title}
                 </h3>
-                <p className="muted">{event.venue}</p>
+                <p className="muted">{event.venue || 'Hyderabad'}</p>
                 <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
               </a>
             ) : (
-              <Link to={event.url || '/explore'} className="event-card" style={{ background: '#2a2219', color: '#faf6f0' }} key={event.id}>
-                <p className="eyebrow">{event.time}</p>
+              <Link
+                to="/explore"
+                className="event-card"
+                style={{ background: '#2a2219', color: '#faf6f0' }}
+                key={event.id}
+              >
+                <p className="eyebrow">{formatEventWhen(event.time) || 'BookMyShow'}</p>
                 <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
                   {event.title}
                 </h3>
-                <p className="muted">{event.venue}</p>
+                <p className="muted">{event.venue || 'Hyderabad'}</p>
                 <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
               </Link>
-            )
-          ))}
+            ),
+          )}
         </div>
       </section>
+
       {nowModal && (
         <div className="now-modal" role="dialog" aria-modal="true" onClick={() => setNowModal(null)}>
           <div className="now-modal-panel" onClick={(e) => e.stopPropagation()}>
@@ -406,159 +208,20 @@ export function Home() {
             <h3>{nowModal.title}</h3>
             <p className="now-modal-body">{nowModal.body}</p>
             {nowModal.meta && <p className="now-meta">{nowModal.meta}</p>}
-            {nowModal.reservation && !resvDone && (
-              <form
-                className="resv-form"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  const r = nowModal.reservation
-                  if (!r) return
-                  const bounds = reservationBounds(r.startDate, r.endDate)
-                  const date = resv?.date || bounds.defaultDate
-                  const time = resv?.time || slotsFor(r.timeLabel)[0]
-                  const guests = resv?.guests || '2'
-                  setCms({
-                    ...cms,
-                    requests: [
-                      {
-                        id: `req-${Date.now()}`,
-                        createdAt: new Date().toISOString(),
-                        kind: 'reservation',
-                        name: 'Guest — digital concierge',
-                        detail: `Reservation request: ${nowModal.title} at ${r.venue} on ${date}, ${time}, ${guests} guest(s). Confirm by phone.`,
-                        status: 'new',
-                      },
-                      ...cms.requests,
-                    ],
-                  })
-                  // Email the reservation desk silently in the background -
-                  // no mail client opens on the guest's device.
-                  sendReservationEmail({
-                    event: nowModal.title,
-                    venue: r.venue,
-                    date,
-                    time,
-                    guests,
-                  })
-                  setResvDone(true)
-                }}
-              >
-                <p className="resv-title">Reserve at {nowModal.reservation.venue}</p>
-                <div className="resv-row">
-                  <label>
-                    Date
-                    <input
-                      type="date"
-                      required
-                      value={
-                        resv?.date ??
-                        reservationBounds(
-                          nowModal.reservation.startDate,
-                          nowModal.reservation.endDate,
-                        ).defaultDate
-                      }
-                      min={
-                        reservationBounds(
-                          nowModal.reservation.startDate,
-                          nowModal.reservation.endDate,
-                        ).min
-                      }
-                      max={
-                        reservationBounds(
-                          nowModal.reservation.startDate,
-                          nowModal.reservation.endDate,
-                        ).max
-                      }
-                      onChange={(e) =>
-                        setResv({
-                          date: e.target.value,
-                          time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0],
-                          guests: resv?.guests ?? '',
-                        })
-                      }
-                    />
-                  </label>
-                  <label>
-                    Time
-                    <select
-                      value={resv?.time ?? slotsFor(nowModal.reservation.timeLabel)[0]}
-                      onChange={(e) =>
-                        setResv({
-                          date: resv?.date ?? nowModal.reservation?.startDate ?? '',
-                          time: e.target.value,
-                          guests: resv?.guests ?? '',
-                        })
-                      }
-                    >
-                      {slotsFor(nowModal.reservation.timeLabel).map((t) => (
-                        <option key={t} value={t}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    Guests
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      required
-                      min={1}
-                      max={16}
-                      placeholder="2"
-                      value={resv?.guests ?? ''}
-                      onChange={(e) =>
-                        setResv({
-                          date: resv?.date ?? nowModal.reservation?.startDate ?? '',
-                          time: resv?.time ?? slotsFor(nowModal.reservation?.timeLabel)[0],
-                          guests: e.target.value.replace(/\D/g, ''),
-                        })
-                      }
-                    />
-                  </label>
-                </div>
-                {nowModal.reservation.endDate &&
-                  nowModal.reservation.endDate !== nowModal.reservation.startDate && (
-                  <p className="resv-note">
-                    {nowModal.reservation.venue} · {nowModal.reservation.startDate} to{' '}
-                    {nowModal.reservation.endDate}
-                    {nowModal.reservation.timeLabel
-                      ? ` · ${nowModal.reservation.timeLabel}`
-                      : ''}
-                  </p>
-                )}
-                <div className="now-modal-actions">
-                  <button className="btn gold" type="submit">
-                    Request reservation
-                  </button>
-                  {nowModal.external && (
-                    <a className="btn ghost" href={nowModal.ctaTo} target="_blank" rel="noreferrer">
-                      {nowModal.ctaLabel}
-                    </a>
-                  )}
-                  <button className="btn ghost" type="button" onClick={() => setNowModal(null)}>
-                    Close
-                  </button>
-                </div>
-              </form>
-            )}
-            {(!nowModal.reservation || resvDone) && (
-              <div className="now-modal-actions">
-                {resvDone && <p className="resv-note">Noted — the desk will call to confirm your table.</p>}
-                {nowModal.external ? (
-                  <a className="btn gold" href={nowModal.ctaTo} target="_blank" rel="noreferrer">
-                    {nowModal.ctaLabel}
-                  </a>
-                ) : (
-                  <Link className="btn gold" to={nowModal.ctaTo}>
-                    {nowModal.ctaLabel}
-                  </Link>
-                )}
-                <button className="btn ghost" type="button" onClick={() => setNowModal(null)}>
-                  Close
-                </button>
-              </div>
-            )}
+            <div className="now-modal-actions">
+              {nowModal.external ? (
+                <a className="btn gold" href={nowModal.ctaTo} target="_blank" rel="noreferrer">
+                  {nowModal.ctaLabel}
+                </a>
+              ) : (
+                <Link className="btn gold" to={nowModal.ctaTo}>
+                  {nowModal.ctaLabel}
+                </Link>
+              )}
+              <button className="btn ghost" type="button" onClick={() => setNowModal(null)}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
