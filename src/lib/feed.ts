@@ -7,12 +7,29 @@ type CityFeed = {
   events: CityEvent[]
 }
 
-const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000 // ignore feeds older than 7 days
+const GRACE_MS = 3 * 60 * 60 * 1000 // keep an event a few hours after it starts
 
-function isFresh(fetchedAt: string | undefined): boolean {
-  if (!fetchedAt) return false
-  const t = Date.parse(fetchedAt)
-  return Number.isFinite(t) && Date.now() - t < MAX_AGE_MS
+function eventStart(time: string | undefined): number | null {
+  if (!time) return null
+  const t = Date.parse(time)
+  return Number.isFinite(t) ? t : null
+}
+
+function upcomingEvents(events: CityEvent[]): CityEvent[] {
+  const cutoff = Date.now() - GRACE_MS
+  return events
+    .filter((event) => {
+      const start = eventStart(event.time)
+      return start === null || start >= cutoff
+    })
+    .sort((a, b) => {
+      const ta = eventStart(a.time)
+      const tb = eventStart(b.time)
+      if (ta !== null && tb !== null) return ta - tb
+      if (ta !== null) return -1
+      if (tb !== null) return 1
+      return 0
+    })
 }
 
 async function fetchJson<T>(url: string): Promise<T | null> {
@@ -26,19 +43,20 @@ async function fetchJson<T>(url: string): Promise<T | null> {
 }
 
 export type LiveFeeds = {
-  /** Hyderabad city events from BookMyShow, or null when stale/missing. */
+  /** Upcoming Hyderabad events from BookMyShow, or null when none. */
   cityEvents: CityEvent[] | null
+  ready: boolean
 }
 
 /**
  * Loads the scraper-generated city feed (/feed/city.json).
- *
- * Returns null until loaded; null after load means "no fresh feed" and the
- * caller should fall back to desk-curated defaults.
+ * Past events are dropped; remaining listings stay usable even if the
+ * last scrape is older than a week.
  */
 export function useLiveFeeds(): LiveFeeds {
   const [feeds, setFeeds] = useState<LiveFeeds>({
     cityEvents: null,
+    ready: false,
   })
 
   useEffect(() => {
@@ -50,11 +68,10 @@ export function useLiveFeeds(): LiveFeeds {
       )
       if (cancelled) return
 
+      const live = city?.events?.length ? upcomingEvents(city.events) : []
       setFeeds({
-        cityEvents:
-          city && isFresh(city.fetchedAt) && city.events?.length
-            ? city.events
-            : null,
+        cityEvents: live.length ? live : null,
+        ready: true,
       })
     }
 

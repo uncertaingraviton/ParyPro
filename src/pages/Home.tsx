@@ -9,8 +9,9 @@ import amaraImg from '../assets/amaraNew.png'
 import tuscanyImg from '../assets/TuscanyNew.png'
 import ninetySixImg from '../assets/96TWO.png'
 import { useLiveFeeds } from '../lib/feed'
-import { useStore } from '../store'
 import type { CityEvent } from '../types'
+
+const BMS_EXPLORE = 'https://in.bookmyshow.com/explore/events-hyderabad'
 
 const moods = [
   { to: '/dine', label: 'Dining', icon: '🍽', img: moodDine },
@@ -57,14 +58,11 @@ const slideshowVenues = [
 ]
 
 export function Home() {
-  const { cms } = useStore()
-  const { cityEvents } = useLiveFeeds()
+  const { cityEvents, ready } = useLiveFeeds()
   const [nowModal, setNowModal] = useState<NowModal | null>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
-  const featured = cms.events.filter((e) => e.featured).slice(0, 4)
-  const liveCity = cityEvents?.[0]
-  const cityNow = liveCity ?? featured[0] ?? cms.events[0]
-  const cityList = cityEvents?.length ? cityEvents : featured
+  const cityList = cityEvents ?? []
+  const cityNow = cityList[0]
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -118,28 +116,37 @@ export function Home() {
 
       <section className="now-section">
         <div className="now-grid now-grid--single">
-          <Link
-            to={liveCity ? cityNow.url || '/explore' : '/explore'}
-            className="now-card now-card-city"
-            onClick={(e) => {
-              e.preventDefault()
-              openCityModal(cityNow)
-            }}
-          >
-            <p className="now-kicker">BookMyShow · Hyderabad</p>
-            {cityNow ? (
+          {cityNow ? (
+            <button
+              type="button"
+              className="now-card now-card-city"
+              onClick={() => openCityModal(cityNow)}
+            >
+              <p className="now-kicker">BookMyShow · Hyderabad</p>
               <div className="now-card-body">
                 <h2>{cityNow.title}</h2>
                 <p>{cityNow.editorial || cityNow.description}</p>
                 <p className="now-meta">{eventMeta(cityNow)}</p>
               </div>
-            ) : (
+            </button>
+          ) : (
+            <a
+              className="now-card now-card-city"
+              href={BMS_EXPLORE}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <p className="now-kicker">BookMyShow · Hyderabad</p>
               <div className="now-card-body">
-                <h2>Nothing we would send you to</h2>
-                <p>The better evening may be under this roof. Ask the desk if you would like us to look again.</p>
+                <h2>{ready ? "What's on in the city" : 'Hyderabad tonight'}</h2>
+                <p>
+                  {ready
+                    ? 'See live events, comedy, and concerts in Hyderabad — we will refresh this desk as soon as tickets land.'
+                    : 'Looking up what is on in the city.'}
+                </p>
               </div>
-            )}
-          </Link>
+            </a>
+          )}
         </div>
       </section>
 
@@ -201,39 +208,41 @@ export function Home() {
           <p>Live picks from BookMyShow — refreshed every few hours.</p>
         </div>
         <div className="event-grid event-grid--city" style={{ maxWidth: 1280, margin: '0 auto' }}>
-          {cityList.map((event) =>
-            event.url ? (
-              <a
-                href={event.url}
-                target="_blank"
-                rel="noreferrer"
-                className="event-card"
-                style={{ background: '#2a2219', color: '#faf6f0' }}
-                key={event.id}
-              >
-                <p className="eyebrow">{formatEventWhen(event.time) || 'BookMyShow'}</p>
-                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
-                  {event.title}
-                </h3>
-                <p className="muted">{event.venue || 'Hyderabad'}</p>
-                <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
-              </a>
-            ) : (
-              <Link
-                to="/explore"
-                className="event-card"
-                style={{ background: '#2a2219', color: '#faf6f0' }}
-                key={event.id}
-              >
-                <p className="eyebrow">{formatEventWhen(event.time) || 'BookMyShow'}</p>
-                <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
-                  {event.title}
-                </h3>
-                <p className="muted">{event.venue || 'Hyderabad'}</p>
-                <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
-              </Link>
-            ),
-          )}
+          {cityList.length
+            ? cityList.map((event) => (
+                <a
+                  href={event.url || BMS_EXPLORE}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="event-card event-card--city"
+                  key={event.id}
+                >
+                  {event.image ? (
+                    <img className="event-card-img" src={event.image} alt="" />
+                  ) : null}
+                  <p className="eyebrow">{formatEventWhen(event.time) || 'BookMyShow'}</p>
+                  <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                    {event.title}
+                  </h3>
+                  <p className="muted">{event.venue || 'Hyderabad'}</p>
+                  <p style={{ marginTop: 12 }}>{event.editorial || event.description}</p>
+                </a>
+              ))
+            : ready && (
+                <a
+                  href={BMS_EXPLORE}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="event-card event-card--city"
+                >
+                  <p className="eyebrow">BookMyShow</p>
+                  <h3 style={{ fontFamily: 'var(--serif)', fontSize: 32, margin: '10px 0' }}>
+                    Browse Hyderabad events
+                  </h3>
+                  <p className="muted">in.bookmyshow.com</p>
+                  <p style={{ marginTop: 12 }}>Open BookMyShow for the latest tickets in the city.</p>
+                </a>
+              )}
         </div>
       </section>
 

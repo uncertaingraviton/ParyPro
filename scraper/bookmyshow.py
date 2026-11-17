@@ -333,6 +333,18 @@ def get_city_events(limit: int = 8, enrich_top: int = 8) -> list[dict]:
                 pass  # unparseable date - keep the event
         e["editorial"] = _editorialise(e)
         final.append({k: v for k, v in e.items() if not k.startswith("_")})
+
+    def _start_key(event: dict) -> datetime:
+        raw = event.get("time") or ""
+        try:
+            start = datetime.fromisoformat(raw)
+            if start.tzinfo is None:
+                start = start.replace(tzinfo=timezone.utc)
+            return start
+        except ValueError:
+            return datetime.max.replace(tzinfo=timezone.utc)
+
+    final.sort(key=_start_key)
     return final[:limit]
 
 

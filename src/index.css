@@ -181,6 +181,13 @@ button {
   grid-template-columns: minmax(0, 460px);
 }
 
+button.now-card {
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 .now-card {
   position: relative;
   isolation: isolate;
@@ -786,6 +793,23 @@ h3,
 .panel,
 .form-card {
   background: var(--paper);
+}
+
+.event-card--city {
+  display: flex;
+  flex-direction: column;
+  color: #faf6f0;
+  background: #2a2219;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.event-card-img {
+  width: calc(100% + 56px);
+  margin: -28px -28px 18px;
+  height: 160px;
+  object-fit: cover;
+  display: block;
 }
 
 .place-card {

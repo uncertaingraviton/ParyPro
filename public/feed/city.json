@@ -1,28 +1,50 @@
 {
-  "fetchedAt": "2026-09-29T06:31:29.831447+00:00",
+  "fetchedAt": "2026-11-17T16:14:04.072549+00:00",
   "source": "bookmyshow/hyderabad-events",
   "events": [
     {
-      "id": "bms--mahotsav/ET00514995",
-      "title": "Bhajan Mahotsav",
+      "id": "bms-ET00525796",
+      "title": "Mehfil-E-Ghazal: A Tribute to Jagjit Singh",
       "category": "culture",
-      "time": "2026-10-02T18:30:00",
-      "venue": "Ravindra Bharathi: Hyderabad",
-      "description": "",
-      "editorial": "We would happily send you to Bhajan Mahotsav at Ravindra Bharathi — book ahead, seats go fast.",
-      "url": "https://in.bookmyshow.com/events/bhajan-mahotsav/ET00514995",
-      "image": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-1440,h-288,bg-CCCCCC/et00514995-weknhvnvyf-landscape.jpg"
+      "time": "2026-11-22T17:00:00+05:30",
+      "venue": "Akan: Hyderabad",
+      "description": "Book online tickets for Mehfil-E-Ghazal: A Tribute to Jagjit Singh in Hyderabad on BookMyShow which is a music-shows event",
+      "editorial": "We would happily send you to Mehfil-E-Ghazal: A Tribute to Jagjit Singh at Akan — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/mehfil-e-ghazal-a-tribute-to-jagjit-singh/ET00525796",
+      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-mehfil-e-ghazal-a-tribute-to-jagjit-singh-0-2026-11-9-t-9-13-3.jpg"
     },
     {
-      "id": "bms-ET00440117",
-      "title": "Roobaru",
+      "id": "bms-ET00526034",
+      "title": "LITJAM Hyderabad - The Sufi Jam",
       "category": "culture",
-      "time": "2026-10-03T19:00:00+05:30",
-      "venue": "Locale Cafe and Bistro: Hyderabad",
-      "description": "Roobaru – Where conversations come alive at Milaap! 🎤✨ A heartfelt gathering to share stories, exchange ideas, and build meaningful connections. Whether it’s about life, travel, career, or passions, every conversation adds a new chapter to your journey. Come, be part of an evening filled with warmth",
-      "editorial": "Roobaru – Where conversations come alive at Milaap! 🎤✨ A heartfelt gathering to share stories, exchange ideas, and build meaningful connections.",
-      "url": "https://in.bookmyshow.com/events/roobaru/ET00440117",
-      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-roobaru-0-2026-6-12-t-2-48-45.jpg"
+      "time": "2026-11-29T18:00:00+05:30",
+      "venue": "Raasta: Hyderabad",
+      "description": "Book online tickets for LITJAM Hyderabad - The Sufi Jam in Hyderabad on BookMyShow which is a music-shows event",
+      "editorial": "We would happily send you to LITJAM Hyderabad - The Sufi Jam at Raasta — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/litjam-hyderabad-the-sufi-jam/ET00526034",
+      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-litjam-hyderabad-the-sufi-jam-0-2026-11-11-t-10-58-26.jpg"
+    },
+    {
+      "id": "bms-ET00525642",
+      "title": "Marham Poetry and Music",
+      "category": "culture",
+      "time": "2026-12-06T19:00:00+05:30",
+      "venue": "Cess Auditorium: Hyderabad",
+      "description": "Book online tickets for Marham Poetry and Music in Hyderabad on BookMyShow which is a music-shows event",
+      "editorial": "We would happily send you to Marham Poetry and Music at Cess Auditorium — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/marham-poetry-and-music/ET00525642",
+      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-marham-poetry-and-music-0-2026-11-6-t-14-4-29.jpg"
+    },
+    {
+      "id": "bms-ET00522610",
+      "title": "TCS Ruhaniyat - Hyderabad",
+      "category": "culture",
+      "time": "2027-01-24T18:00:00+05:30",
+      "venue": "Taramati Baradari: Hyderabad",
+      "description": "Book online tickets for TCS Ruhaniyat - Hyderabad in Hyderabad on BookMyShow which is a music-shows event",
+      "editorial": "We would happily send you to TCS Ruhaniyat - Hyderabad at Taramati Baradari — book ahead, seats go fast.",
+      "url": "https://in.bookmyshow.com/events/tcs-ruhaniyat-hyderabad/ET00522610",
+      "image": "https://assets-in.bmscdn.com/nmcms/events/banner/desktop/media-desktop-tcs-ruhaniyat-hyderabad-0-2026-10-16-t-17-50-23.jpg"
     }
   ]
 }
