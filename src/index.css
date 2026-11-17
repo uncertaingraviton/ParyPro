@@ -623,6 +623,20 @@ h3,
   margin-top: 16px;
 }
 
+.place-site {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  text-decoration: none;
+}
+
+.place-site:hover {
+  text-decoration: underline;
+}
+
 /* Inline note shown on a venue page that doesn't take reservations
    (e.g. Ninety Six) - a calm, framed line in place of the "Reserve" button. */
 .walk-in {

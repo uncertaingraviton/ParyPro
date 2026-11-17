@@ -70,6 +70,8 @@ export type CityPlace = {
   directions: string
   /** Query used for the embedded Google Maps snippet. */
   mapQuery: string
+  /** Optional official site for the place. */
+  url?: string
 }
 
 export type CityEvent = {

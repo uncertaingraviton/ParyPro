@@ -51,6 +51,17 @@ export function Explore() {
               <p className="eyebrow">{p.area} · {p.minutes} min</p>
               <h3>{p.name}</h3>
               <p>{p.why}</p>
+              {p.url ? (
+                <a
+                  className="place-site"
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Official site →
+                </a>
+              ) : null}
               <p className="quote">Tap for the story & how to get there →</p>
             </div>
           </article>
@@ -74,8 +85,13 @@ export function Explore() {
               src={`https://www.google.com/maps?q=${encodeURIComponent(active.mapQuery)}&output=embed`}
             />
             <div className="now-modal-actions">
+              {active.url ? (
+                <a className="btn gold" href={active.url} target="_blank" rel="noreferrer">
+                  Visit website
+                </a>
+              ) : null}
               <a
-                className="btn gold"
+                className={active.url ? 'btn ghost' : 'btn gold'}
                 target="_blank"
                 rel="noreferrer"
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(active.mapQuery)}`}

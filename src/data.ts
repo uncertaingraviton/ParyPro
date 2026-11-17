@@ -682,6 +682,7 @@ export const places: CityPlace[] = [
     directions:
       'Ten minutes by car, next door in Madhapur. Livelier on weekends, when folk performances fill the amphitheatre.',
     mapQuery: 'Shilparamam, Madhapur, Hyderabad',
+    url: 'https://shilparamam.in/home/',
   },
   {
     id: 'necklace',
